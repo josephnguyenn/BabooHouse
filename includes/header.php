@@ -8,7 +8,7 @@
 <body>
 <header class="header-container">
     <div class="logo-container">
-        <img class="logo-img" src="../Upload/Img/logo.png" alt="Company Logo">
+        <a href="../templates/home.php"><img class="logo-img" src="../Upload/Img/logo.png" alt="Company Logo"></a>
     </div>
     <div class="user-dropdown">
     <?php if (isset($_SESSION['username'])): ?>
