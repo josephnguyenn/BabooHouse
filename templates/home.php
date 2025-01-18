@@ -9,5 +9,7 @@ if (!isset($_SESSION['user_id'])) {
 
 // Include the header
 include '../includes/header.php';
+// Incllude the sidebar
+include '../includes/sidebar.php'
 ?>
 

@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: ../templates/home.php");
             exit();
         } else {
-            $error = 'Login failed! Username or password is incorrect.';
+            $error = 'Đăng nhập thất bại, mật khẩu sai';
         }
         $stmt->close();
     } else {
@@ -43,20 +43,24 @@ if ($_SERVER["REQUEST_METHOD"] != "POST" || !empty($error)) :
 </head>
 <body class ="login">
     <div class="login-container">
-        <h2>Login to Your Account</h2>
+        <div class="login-logo-container">
+        <img class="logo-img" src="../Upload/Img/logo.png" alt="Company Logo">
+        </div>
+        <h2>Baboo House</h2>
+        <h3>Đăng nhập</h3>
         <?php if (!empty($error)): ?>
             <p class="error"><?php echo $error; ?></p>
         <?php endif; ?>
         <form action="./login.php" method="POST">
             <div class="form-group">
-                <label for="username">Username:</label>
+                <label for="username">Tên đăng nhập:</label>
                 <input type="text" id="username" name="username" required>
             </div>
             <div class="form-group">
-                <label for="password">Password:</label>
+                <label for="password">Mật Khẩu:</label>
                 <input type="password" id="password" name="password" required>
             </div>
-            <button type="submit">Login</button>
+            <button type="submit">Đăng nhập</button>
         </form>
     </div>
 </body>
