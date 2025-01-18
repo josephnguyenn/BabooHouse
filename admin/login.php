@@ -2,9 +2,11 @@
 session_start();
 require '../config/database.php';
 
+$error = '';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $username = trim($_POST['username']);
+    $password = trim($_POST['password']);
 
     if ($conn !== null && !$conn->connect_error) {
         $stmt = $conn->prepare("SELECT user_id, username, password FROM users WHERE username = ?");
@@ -13,18 +15,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $result = $stmt->get_result();
         $user = $result->fetch_assoc();
 
-        if ($user && $password === $user['password']) {  // Check for plain text password match
+        if ($user && $user['password'] === $password) {  // Check for plain text password match
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['username'] = $user['username'];
-            header("Location: dashboard.php");
+            header("Location: ../templates/home.php");
             exit();
         } else {
-            echo '<div class="error">Login failed! Username or password is incorrect.</div>';
+            $error = 'Login failed! Username or password is incorrect.';
         }
         $stmt->close();
     } else {
-        echo '<div class="error">Database connection is not available.</div>';
+        $error = 'Database connection is not available.';
     }
     $conn->close();
 }
+
+// Only show the login form if POST hasn't been submitted or it failed
+if ($_SERVER["REQUEST_METHOD"] != "POST" || !empty($error)) :
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body class ="login">
+    <div class="login-container">
+        <h2>Login to Your Account</h2>
+        <?php if (!empty($error)): ?>
+            <p class="error"><?php echo $error; ?></p>
+        <?php endif; ?>
+        <form action="./login.php" method="POST">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</body>
+</html>
+<?php endif; ?>
