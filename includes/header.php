@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="../assets/js/script.js"></script>
 </head>
 <body>
 <header class="header-container">
@@ -21,4 +21,4 @@
         </div>
     </div>
 </header>
-<script src="../assets/js/script.js"></script>
+</body>

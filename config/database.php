@@ -13,3 +13,4 @@ if ($conn->connect_error) {
 }
 // Connection is now open for use in other scripts
 // Do not close it here
+?>
