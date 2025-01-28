@@ -59,14 +59,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chỉnh Sửa Người Dùng</title>
+    <title>Chỉnh Sửa Toà Nhà</title>
 </head>
 <body>
     <?php include '../includes/header.php'; ?> <!-- Bao gồm tiêu đề -->
 
     <div class="head-container">
         <div class="main-content" id="edit-building">
-            <h1>Chỉnh Sửa Người Dùng</h1>
+            <h1>Chỉnh Sửa Toà Nhà</h1>
             <form action="edit_building.php?building_id=<?php echo $building_id; ?>" method="post">
                 <div class="form-group">
                     <label for="name">Tên toà nhà:</label>

@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $role = $_POST['role'];
 
     // Prepare SQL statement to update data
-    $sql = "UPDATE users SET name = ?, address = ?, hometown = ?, birthdate = ?, phone = ?, email = ?, username = ?, role = ? WHERE user_id = ?";
+    $sql = "UPDATE users SET name = ?, address = ?, hometown = ?, birthdate = ?, phone = ?, email = ?, username = ?, role = ?, last_access = NOW() WHERE user_id = ?";
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
         die('Prepare failed: ' . htmlspecialchars($conn->error));

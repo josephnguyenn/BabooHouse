@@ -5,7 +5,6 @@ require '../admin/getallroom.php';
 
 $building_id = $_GET['building_id'];
 
-// Fetch building details
 $sql = "SELECT * FROM buildings WHERE building_id = ?";
 $stmt = $conn->prepare($sql);
 if ($stmt === false) {
@@ -17,10 +16,8 @@ $result = $stmt->get_result();
 $building = $result->fetch_assoc();
 $stmt->close();
 
-// Fetch rooms for the building
 $rooms = getAllRooms($building_id);
 
-// Handle room update
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
     $room_id = $_POST['room_id'];
     $building_id = $_POST['building_id'];
@@ -71,9 +68,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
                     <p>Tiện nghi: <?php echo htmlspecialchars($building['description']); ?></p>
                 </div>  
             </div>    
-            <hr>
-            <h3>Phòng</h3>
-            <hr>
+            <div class="manage-head">
+                <h3>Phòng</h3>
+                <button class="create" onclick="location.href='create_room.php?building_id=' + <?php echo $building_id ?>">Thêm phòng mới</button>
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -92,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
                         <td><?php echo htmlspecialchars($room['rental_price']); ?></td>
                         <td><?php echo htmlspecialchars($room['area']); ?></td>
                         <td><?php echo htmlspecialchars($room['room_status']); ?></td>
-                        <td>
+                        <td class="crud-btn">
                             <button 
                                 class="button edit" 
                                 data-id="<?php echo $room['room_id']; ?>" 
@@ -100,11 +98,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
                                 data-price="<?php echo htmlspecialchars($room['rental_price']); ?>" 
                                 data-area="<?php echo htmlspecialchars($room['area']); ?>" 
                                 data-status="<?php echo htmlspecialchars($room['room_status']); ?>"
-                                onclick="openLightbox(this);">Chỉnh sửa</button>
+                                onclick="openLightbox(this);"><img src="../assets/icons/edit.svg"></button>
                             <form action="../admin/delete_room.php" method="post" onsubmit="return confirm('Are you sure you want to delete this building?');" style="display:inline;">
                                 <input type="hidden" name="room_id" value="<?php echo $room['room_id']; ?>">
                                 <input type="hidden" name="building_id" value="<?php echo $building_id ?>">
-                                <button class="delete" type="submit">Xoá</button>
+                                <button class="delete" type="submit"><img src="../assets/icons/bin.svg"></button>
                             </form>
                         </td>
                     </tr>
@@ -138,10 +136,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
                     </div>
                     <div class="form-group">
                         <label for="room_status">Tình trạng:</label>
-                        <input type="text" id="room_status" name="room_status" placeholder="Tình trạng">
+                        <select id="room_status" name="room_status">
+                            <option value="Còn trống" selected>Còn trống</option>
+                            <option value="Đã thuê">Đã thuê</option>
+                        </select>
                     </div>
                     <button type="submit">Lưu</button>
-                    <button type="button" class="button" onclick="document.getElementById('lightbox').style.display = 'none';">Hủy</button>
+                    <button type="button" class="cancel-btn" onclick="document.getElementById('lightbox').style.display = 'none';">Hủy</button>
                 </form>
             </div>
         </div>

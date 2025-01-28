@@ -54,11 +54,11 @@ $building_types = getDistinctBuildingTypes();
                             <td class="crud-btn">
                                 <form action="../admin/delete_building.php" method="post" onsubmit="return confirm('Are you sure you want to delete this building?');" style="display:inline;">
                                     <input type="hidden" name="building_id" value="<?php echo $building['building_id']; ?>">
-                                    <button class="delete" type="submit">Xoá</button>
+                                    <button class="delete" type="submit"><img src="../assets/icons/bin.svg"></button>
                                 </form>
                                 <form action="../templates/edit_building.php" method="get" style="display:inline;">
                                     <input type="hidden" name="building_id" value="<?php echo $building['building_id']; ?>">
-                                    <button class="edit" type="submit">Chỉnh sửa</button>
+                                    <button class="edit" type="submit"><img src="../assets/icons/edit.svg"></button>
                                 </form>
                             </td>
                         </tr>
