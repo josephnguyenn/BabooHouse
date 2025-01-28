@@ -1,6 +1,7 @@
 <?php
 session_start();
 include '../admin/getallbuilding.php';  
+include '../admin/getallroom.php';
 
 $min_price = isset($_GET['min_price']) ? (int)$_GET['min_price'] : 0;
 $max_price = isset($_GET['max_price']) ? (int)$_GET['max_price'] : 10000;
@@ -42,14 +43,33 @@ $building_types = getDistinctBuildingTypes();
                     <?php while ($building = $buildings->fetch_assoc()): ?>
                         <?php if ($building['approved']): ?>
                             <tr onclick="location.href='edit_rooms.php?building_id=<?php echo htmlspecialchars($building['building_id']); ?>'" style="cursor: pointer;">
+                                <?php 
+                                $availableRooms = getAllAvailableRooms($building['building_id']);
+                                $rentedCount = $availableRooms["rented_count"];
+                                $totalRooms = $availableRooms["number_rooms"];
+                                ?>
                                 <td><?php echo htmlspecialchars($building['name']); ?></td>
                                 <td><?php echo htmlspecialchars($building['rental_price']); ?></td>
                                 <td><?php echo htmlspecialchars($building['address']); ?></td>
-                                <td>N/A</td>
-                                <td>N/A</td>
-                                <td>N/A</td>
+                                <td>
+                                    <?php if ($rentedCount == 0): ?>
+                                        Hết phòng
+                                    <?php else: ?>
+                                        Còn phòng
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <?php if ($totalRooms == 0): ?>
+                                        N/A
+                                    <?php else: ?>
+                                        <?php echo htmlspecialchars(100 - ($rentedCount / $totalRooms) * 100); ?>%
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <?php echo htmlspecialchars($rentedCount); ?>/<?php echo htmlspecialchars($totalRooms); ?>
+                                </td>
                                 <td><?php echo htmlspecialchars($building['owner_name']); ?></td>
-                                <td><?php echo htmlspecialchars($building['last_modified']); ?></td> <!-- Display the last access time -->
+                                <td><?php echo htmlspecialchars($building['last_modified']); ?></td>     
                             </tr>
                         <?php endif; ?>
                     <?php endwhile; ?>
