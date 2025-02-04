@@ -1,8 +1,9 @@
 <?php
 session_start(); 
+require '../config/database.php';
 include '../admin/getallbuilding.php';  
 $building_types = getDistinctBuildingTypes();
-
+$user_id = $_SESSION['user_id'];
 ?>
 
 <!DOCTYPE html>
@@ -19,6 +20,7 @@ $building_types = getDistinctBuildingTypes();
         <div class="main-content" id="create-building">
             <h1>Thêm Toà Nhà Mới</h1>
             <form action="../admin/process_create_building.php" method="post">
+                <input type="hidden" id="user_id" name="user_id" value="<?php echo $user_id?>"> 
                 <div class="form-group">
                     <label for="name">Tên:</label>
                     <input type="text" id="name" name="name" required>

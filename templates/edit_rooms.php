@@ -70,7 +70,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
             </div>    
             <div class="manage-head">
                 <h3>Phòng</h3>
-                <button class="create" onclick="location.href='create_room.php?building_id=' + <?php echo $building_id ?>">Thêm phòng mới</button>
+                <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin'): ?>
+                    <?php if ($building['approved']): ?> 
+                        <button class="create" onclick="location.href='stop_building.php?building_id=<?php echo $building_id; ?>'">Ngưng toà nhà</button>
+                    <?php else: ?>
+                    <button class="create" onclick="location.href='approve_room.php?building_id=<?php echo $building_id; ?>'">Duyệt toà nhà</button>
+                    <?php endif; ?>
+                <?php else: ?>
+                    <button class="create" onclick="location.href='create_room.php?building_id=<?php echo $building_id; ?>'">Thêm phòng mới</button>
+                <?php endif; ?>    
             </div>
             <table>
                 <thead>
@@ -79,7 +87,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
                         <th>Giá</th>
                         <th>Diện tích</th>
                         <th>Tình trạng</th>
+                        <?php if (isset($_SESSION['role']) && $_SESSION['role'] != 'admin'): ?>
                         <th>Hành động</th>
+                        <?php endif; ?>
                     </tr>
                 </thead>
                 <tbody>
@@ -90,6 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
                         <td><?php echo htmlspecialchars($room['rental_price']); ?></td>
                         <td><?php echo htmlspecialchars($room['area']); ?></td>
                         <td><?php echo htmlspecialchars($room['room_status']); ?></td>
+                        <?php if (isset($_SESSION['role']) && $_SESSION['role'] != 'admin'): ?>
                         <td class="crud-btn">
                             <button 
                                 class="button edit" 
@@ -105,6 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
                                 <button class="delete" type="submit"><img src="../assets/icons/bin.svg"></button>
                             </form>
                         </td>
+                        <?php endif; ?>
                     </tr>
                     <?php endforeach; ?>
                 <?php else: ?>

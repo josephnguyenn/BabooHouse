@@ -77,6 +77,13 @@ input[type="checkbox"], input[type="range"], button {
     align-items: center;
 }
 
+.func-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
 h2 {
     margin-bottom: 20px;
     color: #333333;
@@ -132,6 +139,7 @@ button[type="submit"]:hover {
     background-color: #1b743a;
 }
 
+
 /* Header */
 .header-container {
     display: flex;
@@ -183,6 +191,10 @@ button[type="submit"]:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: none;
     z-index: 1000;
+}
+
+a {
+    cursor: pointer;
 }
 
 .dropdown-menu a {

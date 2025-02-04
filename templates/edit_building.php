@@ -26,29 +26,56 @@ if (isset($_GET['building_id'])) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $address = $_POST['address'];
+    $rental_price = $_POST['rental_price'];
     $owner_phone = $_POST['owner_phone'];
     $owner_name = $_POST['owner_name'];
     $building_type = $_POST['building_type'];
     $electricity_price = $_POST['electricity_price'];
     $water_price = $_POST['water_price'];
     $description = $_POST['description'];
-    $sql = "UPDATE buildings SET name = ?, address = ?, owner_phone = ?, owner_name = ?, building_type = ?, electricity_price = ?, water_price = ?, description = ?, last_modified = NOW() WHERE building_id = ?";
+    $approved = $_POST['approved'];
+    $sql = "UPDATE buildings SET name = ?, address = ?, rental_price = ?, owner_phone = ?, owner_name = ?, building_type = ?, electricity_price = ?, water_price = ?, description = ?, last_modified = NOW(), approved = 0 WHERE building_id = ?";
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
         die('Prepare failed: ' . htmlspecialchars($conn->error));
     }
-    $stmt->bind_param("ssssssssi", $name, $address, $owner_phone, $owner_name, $building_type, $electricity_price, $water_price, $description, $building_id);
+    $stmt->bind_param("sssssssssi", $name, $address, $rental_price, $owner_phone, $owner_name, $building_type, $electricity_price, $water_price, $description, $building_id);
     $stmt->execute();
 
     if ($stmt->affected_rows > 0) {
+        $admin_sql = "SELECT user_id FROM users WHERE role = 'admin'";
+        $admin_result = $conn->query($admin_sql);
+
+        if ($admin_result) {
+            $message = $approved ? "Yêu cầu chỉnh sửa toà nhà '$name' đang chờ duyệt." : "Yêu cầu thêm toà nhà '$name' đang chờ duyệt.";
+            while ($admin = $admin_result->fetch_assoc()) {
+                $admin_id = $admin['user_id'];
+                $notification_sql = "UPDATE notifications SET message = ?, created_at = NOW() WHERE building_id = ?";
+                $notification_stmt = $conn->prepare($notification_sql);
+                
+                if ($notification_stmt) {
+                    $notification_stmt->bind_param("si", $message, $building_id);
+                    $notification_stmt->execute();
+                    
+                    if ($notification_stmt->affected_rows <= 0) {
+                        echo "Failed to insert notification for admin ID $admin_id: " . $notification_stmt->error;
+                    }
+
+                    $notification_stmt->close();
+                } else {
+                    echo "MySQL prepare error for notification: " . $conn->error;
+                }
+            }
+        } else {
+            echo "Error fetching admins: " . $conn->error;
+        }
+
         echo "building updated successfully.";
     } else {
         echo "Error updating building: " . htmlspecialchars($stmt->error);
     }
     $stmt->close();
     $conn->close();
-
-    // Redirect to manage_buildings.php
     header("Location: manage_buildings.php");
     exit();
 }
@@ -77,6 +104,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="text" id="address" name="address" value="<?php echo htmlspecialchars($building['address']); ?>" required>
                 </div>
                 <div class="form-group">
+                    <label for="address">Giá thuê:</label>
+                    <input type="float" id="rental_price" name="rental_price" value="<?php echo htmlspecialchars($building['rental_price']); ?>" required>
+                </div>
+                <div class="form-group">
                     <label for="owner_phone">Số điện thoại chủ nhà:</label>
                     <input type="text" id="owner_phone" name="owner_phone" value="<?php echo htmlspecialchars($building['owner_phone']); ?>" required>
                 </div>
@@ -103,13 +134,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="form-group">
                     <label for="description">Tiện nghi:</label>
-                    <input type="text" id="description" name="description" value="<?php echo htmlspecialchars($building['description']); ?>" required>
+                    <input type="text" id="description" name="description" value="<?php echo htmlspecialchars($building['description']); ?>">
                 </div>
                 <button type="submit">Lưu</button>
                 <button class="cancel-btn" onclick="window.history.back();">Hủy</button>
             </form>
         </div>
-        <?php include '../includes/sidebar.php'; ?> <!-- Bao gồm thanh bên -->
+        <?php include '../includes/sidebar.php'; ?>
     </div>
 </body>
 </html>
