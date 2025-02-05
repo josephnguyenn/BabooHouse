@@ -7,7 +7,7 @@ $min_price = isset($_GET['min_price']) ? (int)$_GET['min_price'] : 0;
 $max_price = isset($_GET['max_price']) ? (int)$_GET['max_price'] : 10000;
 $selected_types = isset($_GET['building_type']) ? $_GET['building_type'] : [];
 
-$buildings = getAllBuildings($min_price, $max_price, $selected_types);
+$buildings = getAllBuildings($min_price, $max_price, $selected_types, $_SESSION['user_id']);
 $building_types = getDistinctBuildingTypes();
 ?>
 
@@ -23,7 +23,7 @@ $building_types = getDistinctBuildingTypes();
 <body>
     <?php include '../includes/header.php'; ?>
     <div class="head-container">
-        <?php include '../includes/filter.php'; ?>
+        <?php include '../includes/filter_buildings.php'; ?>
         <div class="main-content">
             <div class="manage-head">
                 <h1>Quản Lý Toà Nhà</h1>

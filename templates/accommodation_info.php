@@ -23,7 +23,7 @@ $building_types = getDistinctBuildingTypes();
 <body>
     <?php include '../includes/header.php'; ?>
     <div class="head-container">
-        <?php include '../includes/filter.php'; ?>
+        <?php include '../includes/filter_accommodation.php'; ?>
         <div class="main-content">
             <div class="manage-head">
                 <h1>Thông Tin Lưu Trú</h1>

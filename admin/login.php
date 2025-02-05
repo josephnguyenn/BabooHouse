@@ -19,7 +19,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['role'];  // Make sure this line correctly assigns the role from the database
-            
             // Update the last_access column
             $stmt = $conn->prepare("UPDATE users SET last_access = NOW() WHERE user_id = ?");
             $stmt->bind_param("i", $user['user_id']);

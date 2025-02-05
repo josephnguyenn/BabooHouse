@@ -1,6 +1,7 @@
 <?php
 include '../admin/get_notifications.php';
 $notifications = get_notifications($_SESSION['user_id']);
+
 function formatTime($timestamp) {
     date_default_timezone_set('Asia/Ho_Chi_Minh');
     $date = new DateTime($timestamp);
@@ -57,7 +58,9 @@ $notifications->data_seek(0);
                             </form>
                         <?php endwhile; ?>
                     <?php else: ?>
-                        <div class="notification-message">Không có thông báo</div>
+                        <div class="notification-item">
+                            <div class="notification-message">Không có thông báo</div>
+                        </div>
                     <?php endif; ?>
                 </div>
                 <div class="notification-footer">
@@ -79,3 +82,6 @@ $notifications->data_seek(0);
 </header>
 <script src="../assets/js/header.js"></script>
 </body>
+<?php 
+$notifications->data_seek(0);
+?>
