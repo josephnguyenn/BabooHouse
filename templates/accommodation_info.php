@@ -42,7 +42,7 @@ $building_types = getDistinctBuildingTypes();
                 <?php if ($buildings->num_rows > 0): ?>
                     <?php while ($building = $buildings->fetch_assoc()): ?>
                         <?php if ($building['approved']): ?>
-                            <tr onclick="location.href='edit_rooms.php?building_id=<?php echo htmlspecialchars($building['building_id']); ?>'" style="cursor: pointer;">
+                            <tr onclick="location.href='view_building.php?building_id=<?php echo htmlspecialchars($building['building_id']); ?>'" style="cursor: pointer;">
                                 <?php 
                                 $availableRooms = getAllAvailableRooms($building['building_id']);
                                 $rentedCount = $availableRooms["rented_count"];

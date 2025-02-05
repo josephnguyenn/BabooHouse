@@ -32,29 +32,35 @@ $notifications->data_seek(0);
                 <div class="grid-item">
                     <h2>Thông báo hệ thống</h2>
                     <div class="content-grid">
+                        <div class="content-wrap">
                         <?php if ($notifications->num_rows > 0): ?>
                             <?php while ($notification = $notifications->fetch_assoc()): ?>
                                 <form action="../admin/mark_as_read.php" method="POST" class="notification-item <?php echo $notification['is_read'] ? '' : 'unread' ?>">
                                     <input type="hidden" name="id" value="<?php echo $notification['id']; ?>">
                                     <button type="submit" class="notification-message" style="color: #111; background: none; border: none; text-align: left; width: 100%; padding: 0; cursor: pointer;">
-                                    <?php echo htmlspecialchars($notification['message']); ?></button>
-                                    <div class="notification-time" style="font-size: 13px; margin-top: 5px;"><?php echo formatTime($notification['created_at'])?></div>
+                                        <?php echo htmlspecialchars($notification['message']); ?>
+                                        <div class="notification-time" style="font-size: 13px; margin-top: 5px;"><?php echo formatTime($notification['created_at'])?></div>
+                                        </button>
                                 </form>
                             <?php endwhile; ?>
                         <?php else: ?>
                             <div class="notification-message">Không có thông báo</div>
                         <?php endif; ?>
+                        </div>
                     </div>
                 </div>
                 <div class="grid-item">
                     <h2>Xếp hạng</h2>
                     <div class="content-grid">
+                        <div class="content-wrap">
+
+                        </div>
                     </div>  
                 </div>
                 <div class="grid-item">
                     <h2>Các toà đang quản lý</h2>
                     <div class="content-grid">
-                        <div class="table-wrap">
+                        <div class="content-wrap">
                             <table>
                                 <tr>
                                     <th>Tên</th>
@@ -84,7 +90,7 @@ $notifications->data_seek(0);
                 <div class="grid-item">
                     <h2>Thông tin lưu trú</h2>
                     <div class="content-grid">
-                        <div class="table-wrap">
+                        <div class="content-wrap">
                             <table>
                                 <tr>
                                     <th>Tên</th>

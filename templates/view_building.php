@@ -88,8 +88,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
                             <button type="submit" class="create">Duyệt toà nhà</button>
                         </form>
                     <?php endif; ?>
-                <?php else: ?>
-                    <button class="create" onclick="location.href='create_room.php?building_id=<?php echo $building_id; ?>'">Thêm phòng mới</button>
                 <?php endif; ?>    
             </div>
             <table>
@@ -113,20 +111,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
                         <td><?php echo htmlspecialchars($room['area']); ?> m&#178;</td>
                         <td><?php echo htmlspecialchars($room['room_status']); ?></td>
                         <?php if (isset($_SESSION['role']) && $_SESSION['role'] != 'admin'): ?>
-                        <td class="crud-btn">
-                            <button 
-                                class="button edit" 
-                                data-id="<?php echo $room['room_id']; ?>" 
-                                data-name="<?php echo htmlspecialchars($room['room_name']); ?>" 
-                                data-price="<?php echo htmlspecialchars($room['rental_price']); ?>" 
-                                data-area="<?php echo htmlspecialchars($room['area']); ?>" 
-                                data-status="<?php echo htmlspecialchars($room['room_status']); ?>"
-                                onclick="openLightbox(this);"><img src="../assets/icons/edit.svg"></button>
-                            <form action="../admin/delete_room.php" method="post" onsubmit="return confirm('Are you sure you want to delete this building?');" style="display:inline;">
-                                <input type="hidden" name="room_id" value="<?php echo $room['room_id']; ?>">
-                                <input type="hidden" name="building_id" value="<?php echo $building_id ?>">
-                                <button class="delete" type="submit"><img src="../assets/icons/bin.svg"></button>
-                            </form>
+                        <td>
+                        <?php if ($room['room_status'] == 'Còn trống'): ?>
+                            <button class="create" onclick="location.href='book_room.php?room_id=<?php echo $room['room_id']; ?>'">Đặt phòng</button>
+                        <?php endif; ?>
                         </td>
                         <?php endif; ?>
                     </tr>
@@ -155,7 +143,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
                         <input type="text" id="room_price" name="rental_price" placeholder="Giá">
                     </div>
                     <div class="form-group">
-                        <label for="room_area">Diện tích (m&#178;):</label>
+                        <label for="room_area">Diện tích:</label>
                         <input type="text" id="room_area" name="area" placeholder="Diện tích">
                     </div>
                     <div class="form-group">

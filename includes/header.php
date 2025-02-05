@@ -53,8 +53,9 @@ $notifications->data_seek(0);
                             <form action="../admin/mark_as_read.php" method="POST" class="notification-item <?php echo $notification['is_read'] ? '' : 'unread' ?>">
                                 <input type="hidden" name="id" value="<?php echo $notification['id']; ?>">
                                 <button type="submit" class="notification-message" style="color: #111; background: none; border: none; text-align: left; width: 100%; padding: 0; cursor: pointer;">
-                                <?php echo htmlspecialchars($notification['message']); ?></button>
+                                <?php echo htmlspecialchars($notification['message']); ?>
                                 <div class="notification-time" style="font-size: 13px; margin-top: 5px;"><?php echo formatTime($notification['created_at'])?></div>
+                                </button>
                             </form>
                         <?php endwhile; ?>
                     <?php else: ?>

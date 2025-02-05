@@ -120,7 +120,8 @@ select
 }
 
 input[type="float"],
-select {
+select,
+input[type="date"] {
     width: fit-content;
 }
 
@@ -223,7 +224,7 @@ a {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    padding: 0px 20px;
     background-color: #f8f9fa;
     border-bottom: 1px solid #ddd;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);

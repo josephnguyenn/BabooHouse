@@ -16,7 +16,7 @@
     position: relative;
 }
 
-.table-wrap {
+.content-wrap {
     height: 250px;
     overflow-y: scroll;
 }
