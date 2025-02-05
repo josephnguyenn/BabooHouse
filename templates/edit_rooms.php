@@ -72,9 +72,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
                 <h3>Phòng</h3>
                 <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin'): ?>
                     <?php if ($building['approved']): ?> 
-                        <button class="create" onclick="location.href='stop_building.php?building_id=<?php echo $building_id; ?>'">Ngưng toà nhà</button>
+                        <form action="../admin/approve_room.php" method="POST">
+                            <input type="hidden" name="action" value="stop">
+                            <input type="hidden" name="building_id" value="<?php echo $building_id; ?>">
+                            <button type="submit" class="create">Ngưng toà nhà</button>
+                        </form>
                     <?php else: ?>
-                    <button class="create" onclick="location.href='approve_room.php?building_id=<?php echo $building_id; ?>'">Duyệt toà nhà</button>
+                        <form action="../admin/approve_room.php" method="POST">
+                            <input type="hidden" name="action" value="approve">
+                            <input type="hidden" name="building_id" value="<?php echo $building_id; ?>">
+                            <button type="submit" class="create">Duyệt toà nhà</button>
+                        </form>
                     <?php endif; ?>
                 <?php else: ?>
                     <button class="create" onclick="location.href='create_room.php?building_id=<?php echo $building_id; ?>'">Thêm phòng mới</button>
