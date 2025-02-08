@@ -56,5 +56,20 @@ function getDistinctBuildingTypes() {
     }
     return $types;
 }
+
+function getInfoBuilding($building_id) {
+    global $conn;
+    $sql = "SELECT * FROM buildings WHERE building_id = ?"; 
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        die("Prepare failed: " . $conn->error);
+    }
+    $stmt->bind_param('i', $building_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $building_info = $result->fetch_assoc();
+    $stmt->close();
+    return $building_info;
+}
 ?>
 

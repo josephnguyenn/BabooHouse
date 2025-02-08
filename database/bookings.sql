@@ -36,44 +36,14 @@ CREATE TABLE `bookings` (
   `guest_name` varchar(255) DEFAULT NULL,
   `identification_card` varchar(50) DEFAULT NULL,
   `rental_price` decimal(10,2) DEFAULT NULL,
+  `signed_date` date DEFAULT NULL,
   `deposit_term` date DEFAULT NULL,
   `lease_term` varchar(255) DEFAULT NULL,
-  `payment_term` varchar(255) DEFAULT NULL,
+  `payment_term` int(11) DEFAULT NULL,
   `lease_start_date` date DEFAULT NULL,
   `lease_end_date` date DEFAULT NULL,
   `photo_urls` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `bookings`
---
-
-INSERT INTO `bookings` (`booking_id`, `room_id`, `building_id`, `user_id`, `guest_name`, `identification_card`, `rental_price`, `lease_term`, `payment_term`, `lease_start_date`, `lease_end_date`, `photo_urls`) VALUES
-(1, 1, 1, 1, 'Nguyễn Văn A', '123456789', 500.00, '1 tháng', 'Trả trước', '2023-01-01', '2023-01-31', NULL),
-(2, 2, 2, 2, 'Trần Thị B', '987654321', 600.00, '6 tháng', 'Trả hàng tháng', '2023-02-01', '2023-07-31', NULL),
-(3, 3, 3, 3, 'Lê Văn C', '456123789', 700.00, '1 năm', 'Trả hàng năm', '2023-03-01', '2024-02-29', NULL),
-(4, 4, 4, 4, 'Nguyễn Văn D', '321654987', 500.00, '3 tháng', 'Trả trước', '2023-04-01', '2023-06-30', NULL),
-(5, 5, 5, 5, 'Trần Thị E', '654789321', 400.00, '1 tháng', 'Trả trước', '2023-05-01', '2023-05-31', NULL),
-(6, 6, 1, 6, 'Nguyễn Văn F', '789456123', 450.00, '2 tháng', 'Trả hàng tháng', '2023-06-01', '2023-07-31', NULL),
-(7, 7, 2, 7, 'Lê Thị G', '159753486', 600.00, '6 tháng', 'Trả hàng tháng', '2023-07-01', '2023-12-31', NULL),
-(8, 8, 3, 10, 'Nguyễn Văn H', '753159486', 550.00, '1 năm', 'Trả hàng năm', '2023-08-01', '2024-07-31', NULL),
-(9, 9, 4, 11, 'Trần Thị I', '951753486', 480.00, '3 tháng', 'Trả trước', '2023-09-01', '2023-11-30', NULL),
-(10, 10, 5, 13, 'Lê Văn J', '159357486', 700.00, '1 tháng', 'Trả trước', '2023-10-01', '2023-10-31', NULL),
-(11, 11, 1, 15, 'Nguyễn Văn K', '753951486', 800.00, '6 tháng', 'Trả hàng tháng', '2023-11-01', '2024-04-30', NULL),
-(12, 12, 2, 18, 'Trần Thị L', '852147963', 900.00, '1 năm', 'Trả hàng năm', '2023-12-01', '2024-11-30', NULL),
-(13, 13, 3, 20, 'Lê Văn M', '654321789', 750.00, '2 tháng', 'Trả hàng tháng', '2024-01-01', '2024-02-29', NULL),
-(14, 14, 4, 25, 'Nguyễn Thị N', '987123654', 600.00, '1 tháng', 'Trả trước', '2024-02-01', '2024-02-29', NULL),
-(15, 15, 5, 25, 'Trần Văn O', '321789456', 550.00, '3 tháng', 'Trả trước', '2024-03-01', '2024-05-31', NULL),
-(16, 16, 1, 50, 'Lê Thị P', '654789123', 620.00, '6 tháng', 'Trả hàng tháng', '2024-04-01', '2024-09-30', NULL),
-(17, 17, 2, 39, 'Nguyễn Văn Q', '456987123', 580.00, '1 năm', 'Trả hàng năm', '2024-05-01', '2025-04-30', NULL),
-(18, 18, 3, 47, 'Trần Thị R', '789456321', 700.00, '2 tháng', 'Trả hàng tháng', '2024-06-01', '2024-07-31', NULL),
-(19, 19, 4, 28, 'Lê Văn S', '321654789', 650.00, '1 tháng', 'Trả trước', '2024-07-01', '2024-07-31', NULL),
-(20, 20, 5, 33, 'Nguyễn Thị T', '654321456', 720.00, '6 tháng', 'Trả hàng tháng', '2024-08-01', '2025-01-31', NULL),
-(21, 21, 1, 35, 'Trần Văn U', '987654123', 500.00, '1 năm', 'Trả hàng năm', '2024-09-01', '2025-08-31', NULL),
-(22, 22, 2, 36, 'Lê Thị V', '159753456', 600.00, '3 tháng', 'Trả trước', '2024-10-01', '2024-12-31', NULL),
-(23, 23, 3, 39, 'Nguyễn Văn W', '753159123', 700.00, '1 tháng', 'Trả trước', '2024-11-01', '2024-11-30', NULL),
-(24, 24, 4, 41, 'Trần Thị X', '951753123', 780.00, '6 tháng', 'Trả hàng tháng', '2024-12-01', '2025-05-31', NULL),
-(25, 25, 5, 44, 'Lê Văn Y', '159357123', 850.00, '1 năm', 'Trả hàng năm', '2025-01-01', '2025-12-31', NULL);
 
 -- --------------------------------------------------------
 
@@ -127,11 +97,7 @@ INSERT INTO `buildings` (`building_id`, `user_id`, `name`, `address`, `rental_pr
 (22, 48, 'Tòa nhà V', '1717 Nguyễn Huệ, Quận 1', 2600.00, 'Trần Thị V', '0902345670', 'Chung cư', 4.90, 3.90, 'Chung cư sang trọng ở trung tâm.', '2025-01-28 19:28:50', NULL, 1),
 (23, 48, 'Tòa nhà W', '1818 Võ Thị Sáu, Quận 3', 2700.00, 'Lê Văn W', '0903456781', 'Nhà ở', 5.00, 4.00, 'Nhà ở yên tĩnh và thoáng mát.', '2025-01-28 19:28:50', NULL, 1),
 (24, 49, 'Tòa nhà X', '1919 Trần Quốc Toản, Quận 10', 2800.00, 'Nguyễn Thị X', '0904567892', 'Cửa hàng', 5.10, 4.10, 'Cửa hàng có vị trí đắc địa.', '2025-01-28 19:28:50', NULL, 1),
-(25, 49, 'Tòa nhà Y', '2020 Trần Hưng Đạo, Quận 5', 2900.00, 'Phạm Văn Y', '0905678903', 'Văn phòng', 5.20, 4.20, 'Văn phòng hiện đại với trang thiết bị đầy đủ.', '2025-01-28 19:28:50', NULL, 1),
-(26, NULL, 'Toà D Vincom Plaza', '243 Thống Nhất, Dĩ An, Bình Dương, Hồ Chí Minh', 1000.00, 'Lương Văn Mạnh', '0937591256', 'Chung cư', 3500.00, 3000.00, '2 phòng ngủ, 1 bếp, 1 phòng vệ sinh và có ban công. Chưa có nội thất', '2025-01-28 19:45:23', NULL, 2),
-(27, 3, 'Toà nhà F', '273 Phan Chu Trinh, Thành phố Huế', 5700.00, 'Lý Châu Kiệt', '0983746283', 'Chung cư', 3000.00, 2500.00, 'Đầy đủ nội thất, tiện nghi.', '2025-02-04 19:16:09', NULL, 0),
-(28, 3, 'Toà nhà F', '273 Phan Chu Trinh, Thành phố Huế', 2000.00, 'Lý Châu Kiệt', '0983746283', 'Trống', 3000.00, 2500.00, 'Đầy đủ nội thất, tiện nghi.', '2025-02-04 20:26:17', NULL, 0);
-
+(25, 49, 'Tòa nhà Y', '2020 Trần Hưng Đạo, Quận 5', 2900.00, 'Phạm Văn Y', '0905678903', 'Văn phòng', 5.20, 4.20, 'Văn phòng hiện đại với trang thiết bị đầy đủ.', '2025-01-28 19:28:50', NULL, 1);
 -- --------------------------------------------------------
 
 --
@@ -151,18 +117,6 @@ CREATE TABLE `management_income` (
 --
 -- Dumping data for table `management_income`
 --
-
-INSERT INTO `management_income` (`management_income_id`, `user_id`, `booking_id`, `commission`, `received_commission`, `actual_income`, `amount`) VALUES
-(1, 2, 1, 60.00, 60.00, 540.00, 600.00),
-(2, 3, 2, 80.00, 80.00, 720.00, 800.00),
-(3, 4, 3, 70.00, 70.00, 630.00, 700.00),
-(4, 5, 4, 90.00, 90.00, 810.00, 900.00),
-(5, 6, 5, 75.00, 75.00, 675.00, 750.00),
-(6, 7, 6, 95.00, 95.00, 855.00, 950.00),
-(7, 8, 7, 65.00, 65.00, 585.00, 650.00),
-(8, 9, 8, 85.00, 85.00, 765.00, 850.00),
-(9, 10, 9, 90.00, 90.00, 810.00, 900.00),
-(10, 11, 10, 100.00, 100.00, 850.00, 950.00);
 
 -- --------------------------------------------------------
 
@@ -235,9 +189,7 @@ INSERT INTO `rooms` (`room_id`, `building_id`, `room_name`, `area`, `rental_pric
 (47, 20, 'Phòng 2401', 35.00, 600.00, 'Chung cư', 'Còn trống', NULL),
 (48, 21, 'Phòng 2402', 28.00, 550.00, 'Chung cư', 'Còn trống', NULL),
 (49, 22, 'Phòng 2501', 40.00, 700.00, 'Văn phòng', 'Còn trống', NULL),
-(50, 23, 'Phòng 2502', 45.00, 750.00, 'Văn phòng', 'Còn trống', NULL),
-(51, 26, '502', 100.00, 2000.00, NULL, 'Đã thuê', NULL);
-
+(50, 23, 'Phòng 2502', 45.00, 750.00, 'Văn phòng', 'Còn trống', NULL);
 -- --------------------------------------------------------
 
 --
@@ -258,17 +210,6 @@ CREATE TABLE `sale_income` (
 -- Dumping data for table `sale_income`
 --
 
-INSERT INTO `sale_income` (`sale_income_id`, `user_id`, `booking_id`, `commission`, `received_commission`, `actual_income`, `amount`) VALUES
-(1, 2, 1, 30.00, 30.00, 570.00, 600.00),
-(2, 3, 2, 40.00, 40.00, 760.00, 800.00),
-(3, 4, 3, 35.00, 35.00, 665.00, 700.00),
-(4, 5, 4, 45.00, 45.00, 855.00, 900.00),
-(5, 6, 5, 37.50, 37.50, 712.50, 750.00),
-(6, 7, 6, 47.50, 47.50, 902.50, 950.00),
-(7, 8, 7, 32.50, 32.50, 552.50, 650.00),
-(8, 9, 8, 42.50, 42.50, 807.50, 850.00),
-(9, 10, 9, 45.00, 45.00, 855.00, 900.00),
-(10, 11, 10, 50.00, 50.00, 900.00, 950.00);
 
 -- --------------------------------------------------------
 
@@ -352,6 +293,7 @@ CREATE TABLE `notifications` (
     `id` int(11) NOT NULL,
     `user_id` int(11) NOT NULL,
     `building_id` int(11) DEFAULT NULL,
+    `booking_id` int(11) DEFAULT NULL,
     `message` VARCHAR(255) DEFAULT NULL,
     `type` VARCHAR(50) DEFAULT 'general',
     `is_read` BOOLEAN DEFAULT FALSE,
@@ -412,7 +354,8 @@ ALTER TABLE `users`
 ALTER TABLE `notifications` 
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`),
-  ADD KEY `building_id` (`building_id`);
+  ADD KEY `building_id` (`building_id`),
+  ADD KEY `booking_id` (`booking_id`);
 
 
 
@@ -424,40 +367,39 @@ ALTER TABLE `notifications`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `buildings`
 --
 ALTER TABLE `buildings`
-  MODIFY `building_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `building_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `management_income`
 --
 ALTER TABLE `management_income`
-  MODIFY `management_income_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `management_income_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `rooms`
 --
 ALTER TABLE `rooms`
-  MODIFY `room_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
-
+  MODIFY `room_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `sale_income`
 --
 ALTER TABLE `sale_income`
-  MODIFY `sale_income_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `sale_income_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Constraints for dumped tables
 --
@@ -499,7 +441,8 @@ COMMIT;
 
 ALTER TABLE `notifications`
   ADD CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `notifications_ibfk_2` FOREIGN KEY (`building_id`) REFERENCES `buildings` (`building_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `notifications_ibfk_2` FOREIGN KEY (`building_id`) REFERENCES `buildings` (`building_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `notifications_ibfk_3` FOREIGN KEY (`booking_id`) REFERENCES `bookings` (`booking_id`) ON DELETE CASCADE;
 COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

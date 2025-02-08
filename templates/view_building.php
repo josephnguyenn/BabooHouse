@@ -2,6 +2,7 @@
 session_start();
 require '../config/database.php';
 require '../admin/getallroom.php';
+include '../admin/getalluser.php';
 
 $building_id = $_GET['building_id'];
 
@@ -65,6 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
                     <p>Địa chỉ: <?php echo htmlspecialchars($building['address']); ?></p>
                     <p>Số điện thoại chủ nhà: <?php echo htmlspecialchars($building['owner_phone']); ?></p>
                     <p>Tên chủ nhà: <?php echo htmlspecialchars($building['owner_name']); ?></p>
+                    <p>Tên quản lý: <?php echo htmlspecialchars(getUsernameById($building['user_id'])); ?></p>
                     <p>Tiện nghi: <?php echo htmlspecialchars($building['description']); ?></p>
                 </div>  
             </div>    
@@ -113,7 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
                         <?php if (isset($_SESSION['role']) && $_SESSION['role'] != 'admin'): ?>
                         <td>
                         <?php if ($room['room_status'] == 'Còn trống'): ?>
-                            <button class="create" onclick="location.href='book_room.php?room_id=<?php echo $room['room_id']; ?>'">Đặt phòng</button>
+                            <button class="create" onclick="location.href='book_room.php?building_id=<?php echo $room['building_id']; ?>&room_id=<?php echo $room['room_id']; ?>'">Đặt phòng</button>
                         <?php endif; ?>
                         </td>
                         <?php endif; ?>
@@ -127,39 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
                 </tbody>
             </table>
         </div>
-        <div class="lightbox" id="lightbox" style="display:none;">
-            <div class="lightbox-content">
-                <span class="close" onclick="document.getElementById('lightbox').style.display = 'none';">×</span>
-                <h3>Chỉnh sửa phòng</h3>
-                <form action="edit_rooms.php" method="post">
-                    <input type="hidden" id="room_id" name="room_id"> 
-                    <input type="hidden" name="building_id" value="<?php echo $building_id; ?>">
-                    <div class="form-group">
-                        <label for="room_name">Tên phòng:</label>
-                        <input type="text" id="room_name" name="room_name" placeholder="Tên phòng">
-                    </div>
-                    <div class="form-group">
-                        <label for="room_price">Giá:</label>
-                        <input type="text" id="room_price" name="rental_price" placeholder="Giá">
-                    </div>
-                    <div class="form-group">
-                        <label for="room_area">Diện tích:</label>
-                        <input type="text" id="room_area" name="area" placeholder="Diện tích">
-                    </div>
-                    <div class="form-group">
-                        <label for="room_status">Tình trạng:</label>
-                        <select id="room_status" name="room_status">
-                            <option value="Còn trống" selected>Còn trống</option>
-                            <option value="Đã thuê">Đã thuê</option>
-                        </select>
-                    </div>
-                    <button type="submit">Lưu</button>
-                    <button type="button" class="cancel-btn" onclick="document.getElementById('lightbox').style.display = 'none';">Hủy</button>
-                </form>
-            </div>
-        </div>
         <?php include '../includes/sidebar.php'; ?>
     </div>
-    <script src="../assets/js/lightbox.js"></script>
 </body>
 </html>

@@ -99,7 +99,7 @@ $notifications->data_seek(0);
                                 </tr>
                                 <?php if ($buildings->num_rows > 0): ?>
                                     <?php while ($building = $buildings->fetch_assoc()): ?>
-                                        <tr onclick="location.href='edit_rooms.php?building_id=<?php echo htmlspecialchars($building['building_id']); ?>'" style="cursor: pointer;">
+                                        <tr onclick="location.href='view_building.php?building_id=<?php echo htmlspecialchars($building['building_id']); ?>'" style="cursor: pointer;">
                                             <td><?php echo htmlspecialchars($building['name']); ?></td>
                                             <td><?php echo htmlspecialchars($building['rental_price']); ?></td>
                                             <td><?php echo htmlspecialchars($building['address']); ?></td>

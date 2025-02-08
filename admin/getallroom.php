@@ -41,4 +41,19 @@ function getAllAvailableRooms($building_id) {
         'number_rooms' => $number_rooms
     ];
 }
+
+function getInfoRoom($room_id) {
+    global $conn;
+    $sql = "SELECT * FROM rooms WHERE room_id = ?"; 
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        die("Prepare failed: " . $conn->error);
+    }
+    $stmt->bind_param('i', $room_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $room_info = $result->fetch_assoc();
+    $stmt->close();
+    return $room_info;
+}
 ?>

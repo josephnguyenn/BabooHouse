@@ -22,7 +22,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->close();
     $conn->close();
 
-    // Ensure no output before redirection
     ob_start();
     header("Location: ../templates/edit_rooms.php?building_id=". $building_id);
     ob_end_flush();

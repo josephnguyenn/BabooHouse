@@ -2,6 +2,7 @@
 session_start();
 include '../admin/getallbuilding.php';  
 include '../admin/getallroom.php';
+include '../admin/getalluser.php';
 
 $min_price = isset($_GET['min_price']) ? (int)$_GET['min_price'] : 0;
 $max_price = isset($_GET['max_price']) ? (int)$_GET['max_price'] : 10000;
@@ -36,7 +37,7 @@ $building_types = getDistinctBuildingTypes();
                     <th>Tình Trạng</th>
                     <th>Công Suất</th>
                     <th>Số Phòng</th>
-                    <th>Chủ Nhà</th>
+                    <th>Người quản lý</th>
                     <th>Lần Cuối Chỉnh Sửa</th>
                 </tr>
                 <?php if ($buildings->num_rows > 0): ?>
@@ -68,7 +69,7 @@ $building_types = getDistinctBuildingTypes();
                                 <td>
                                     <?php echo htmlspecialchars($rentedCount); ?>/<?php echo htmlspecialchars($totalRooms); ?>
                                 </td>
-                                <td><?php echo htmlspecialchars($building['owner_name']); ?></td>
+                                <td><?php echo htmlspecialchars(getUsernameById($building['user_id'])); ?></td>
                                 <td><?php echo htmlspecialchars($building['last_modified']); ?></td>     
                             </tr>
                         <?php endif; ?>

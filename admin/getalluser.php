@@ -16,4 +16,19 @@ function getAllUsers($search = '') {
     $result = $stmt->get_result();
     return $result;
 }
+function getUsernameById($user_id) {
+    global $conn; // Ensure you have access to the database connection
+    $stmt = $conn->prepare("SELECT username FROM users WHERE user_id = ?");
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        return $row['username'];
+    }
+    
+    return "N/A"; 
+}
 ?>
+

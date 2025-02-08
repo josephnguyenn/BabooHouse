@@ -37,7 +37,6 @@ $building_types = getDistinctBuildingTypes();
                     <th>Tình Trạng</th>
                     <th>Công Suất</th>
                     <th>Số Phòng</th>
-                    <th>Chủ Nhà</th>
                     <th>Lần Cuối Chỉnh Sửa</th>
                     <th>Thao Tác</th>   <!-- Add a new column for the action -->
                 </tr>
@@ -69,7 +68,6 @@ $building_types = getDistinctBuildingTypes();
                             <td>
                                 <?php echo htmlspecialchars($rentedCount); ?>/<?php echo htmlspecialchars($totalRooms); ?>
                             </td>
-                            <td><?php echo htmlspecialchars($building['owner_name']); ?></td>
                             <td><?php echo htmlspecialchars($building['last_modified']); ?></td> 
                             <td class="crud-btn">
                                 <form action="../admin/delete_building.php" method="post" onsubmit="return confirm('Are you sure you want to delete this building?');" style="display:inline;">

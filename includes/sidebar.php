@@ -14,7 +14,7 @@
                 <a href="#">Quản lý</a>
             </div>
         </li>
-        <li><a href="#">Hợp đồng</a></li>
+        <li><a href="../templates/manage_contract.php">Hợp đồng</a></li>
         <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin'): ?>
         <li><a href="../templates/manage_users.php">Quản lý người dùng</a></li>
         <?php endif; ?>

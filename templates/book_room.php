@@ -1,5 +1,23 @@
 <?php
 session_start();
+require '../config/database.php';
+
+if (isset($_GET['room_id'])) {
+    $room_id = $_GET['room_id'];
+    $building_id = $_GET['building_id'];
+    $sql = "SELECT * FROM rooms WHERE room_id = ?";
+    $stmt = $conn->prepare($sql);
+    if ($stmt === false) {
+        die('Prepare failed: ' . htmlspecialchars($conn->error));
+    }
+    $stmt->bind_param("i", $room_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $room = $result->fetch_assoc();
+    $stmt->close();
+} else {
+    die("room ID not provided.");
+}
 ?>
 
 <!DOCTYPE html>
@@ -17,6 +35,8 @@ session_start();
                 <h1>Đặt phòng</h1>
             </div> <br>
             <form action="../admin/process_create_booking.php" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="room_id" id="room_id" value="<?php echo $room_id?>">
+                <input type="hidden" name="building_id" id="building_id" value="<?php echo $building_id?>">
                 <div class="form-group">
                     <label for="guest_name">Tên khách hàng:</label>
                     <input type="text" id="guest_name" name="guest_name" required>
@@ -30,34 +50,30 @@ session_start();
                     <input type="text" id="identification_card" name="identification_card">
                 </div>
                 <div class="form-group">
-                    <label for="deposit_date">Ngày cọc:</label>
-                    <input type="date" id="deposit_date" name="deposit_date">
+                    <label for="deposit_term">Ngày cọc:</label>
+                    <input type="date" id="deposit_term" name="deposit_term">
                 </div>
                 <div class="form-group">
-                    <label for="lease_term">Thời hạn hợp đồng:</label>
-                    <input type="date" id="lease_term" name="lease_term">
+                    <label for="signed_date">Ngày ký</label>
+                    <input type="date" id="signed_date" name="signed_date">
                 </div>
                 <div class="form-group">
-                    <label for="payment_term">Kỳ hạn thanh toán</label>
-                        <select id="payment_term" name="payment_term">
-                            <option value="Trả trước" selected>Trả trước</option>
-                            <option value="Trả hàng tháng">Trả hàng tháng</option>
-                            <option value="Trả hàng năm">Trả hàng năm</option>
-                        </select>
+                    <label for="payment_term">Kỳ hạn thanh toán (tháng)</label>
+                    <input type="number" id="payment_term" name="payment_term">
                 </div>
                 <div class="form-group">
-                    <label for="start_date">Ngày bắt đầu:</label>
-                    <input type="date" id="start_date" name="start_date" required>
+                    <label for="lease_start_date">Ngày bắt đầu:</label>
+                    <input type="date" id="lease_start_date" name="lease_start_date" required>
                 </div>
                 <div class="form-group">
-                    <label for="image">Tải ảnh hợp đồng:</label>
-                    <input type="file" id="image" name="image" accept="image/*" required>
+                    <label for="photo_urls">Tải ảnh hợp đồng:</label>
+                    <input type="file" id="photo_urls" name="photo_urls" accept="image/*" required>
                 </div>
                 <button type="submit">Xác nhận đặt phòng</button>
                 <button class="cancel-btn" onclick="window.history.back();">Hủy</button>
             </form>
         </div>
-        <?php include '../includes/sidebar.php'; ?> <!-- Bao gồm thanh bên -->
+        <?php include '../includes/sidebar.php'; ?> 
     </div>
 </body>
 </html>

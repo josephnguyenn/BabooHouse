@@ -7,8 +7,6 @@ $building_types = getDistinctBuildingTypes();
 
 if (isset($_GET['building_id'])) {
     $building_id = $_GET['building_id'];
-
-    // Fetch building details
     $sql = "SELECT * FROM buildings WHERE building_id = ?";
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
