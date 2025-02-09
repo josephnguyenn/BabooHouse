@@ -100,6 +100,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $notification_stmt->close();
         }
+
+        $message = "Nhận yêu cầu đặt phòng: " . htmlspecialchars($building['name']) . " [" . htmlspecialchars($room['room_name']) . "] thành công";
+        $notification_sql = "INSERT INTO notifications (user_id, booking_id, message, type, created_at) VALUES (?, ?, ?, 'booking', NOW())";
+        $notification_stmt = $conn->prepare($notification_sql);
+
+        if (!$notification_stmt) {
+            echo "Prepare failed for notification: " . $conn->error;
+        } else {
+            $notification_stmt->bind_param("iis", $building['user_id'], $booking_id, $message);
+            
+            if (!$notification_stmt->execute()) {
+                echo "Error creating notification: " . $notification_stmt->error;
+            }
+
+            $notification_stmt->close();
+        }
+
+        $admin_sql = "SELECT user_id FROM users WHERE role = 'admin'";
+        $admin_result = $conn->query($admin_sql);
+
+        if ($admin_result) {
+            $message = "Vừa có một hợp đồng mới từ toà nhà ".$building['name'];
+            while ($admin = $admin_result->fetch_assoc()) {
+                $admin_id = $admin['user_id'];
+                $notification_sql = "INSERT INTO notifications (user_id, booking_id, message, type, created_at) VALUES (?, ?, ?, 'booking', NOW())";
+                $notification_stmt = $conn->prepare($notification_sql);
+                
+                if ($notification_stmt) {
+                    $notification_stmt->bind_param("iis", $admin_id, $booking_id, $message);
+                    $notification_stmt->execute();
+                    
+                    if ($notification_stmt->affected_rows <= 0) {
+                        echo "Failed to insert notification for admin ID $admin_id: " . $notification_stmt->error;
+                    }
+
+                    $notification_stmt->close();
+                } else {
+                    echo "MySQL prepare error for notification: " . $conn->error;
+                }
+            }
+        } else {
+            echo "Error fetching admins: " . $conn->error;
+        }
+
     } else {
         echo "Error creating booking: " . $stmt->error;
     }

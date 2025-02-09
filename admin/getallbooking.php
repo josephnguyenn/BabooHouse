@@ -20,4 +20,13 @@ function getAllBookingsOfUser($user_id) {
     $bookings_result = $stmt->get_result();
     return $bookings_result;
 }
+
+function getAllBookings() {
+    global $conn;
+    $sql = "SELECT * FROM bookings";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $bookings_result = $stmt->get_result();
+    return $bookings_result;
+}
 ?>

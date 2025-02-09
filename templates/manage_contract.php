@@ -4,7 +4,11 @@ include '../admin/getallbooking.php';
 include '../admin/getallbuilding.php';
 include '../admin/getallroom.php';
 
-$bookings = getAllBookingsOfUser($_SESSION['user_id']);
+if ($_SESSION['role'] === 'admin') {
+    $bookings = getAllBookings();
+} else {
+    $bookings = getAllBookingsOfUser($_SESSION['user_id']);
+}
 ?>
 
 <!DOCTYPE html>
