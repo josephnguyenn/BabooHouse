@@ -5,9 +5,11 @@ include '../admin/getallroom.php';
 
 $min_price = isset($_GET['min_price']) ? (int)$_GET['min_price'] : 0;
 $max_price = isset($_GET['max_price']) ? (int)$_GET['max_price'] : 10000;
-$selected_types = isset($_GET['building_type']) ? $_GET['building_type'] : [];
-
-$buildings = getAllBuildings($min_price, $max_price, $selected_types, $_SESSION['user_id']);
+$selected_types = isset($_GET['building_type']) ? $_GET['building_type'] : NULL;
+$status_type = isset($_GET['status_type']) ? $_GET['status_type'] : NULL;
+$city = isset($_GET['city']) ? $_GET['city'] : NULL;
+$district = isset($_GET['district']) ? $_GET['district'] : NULL;
+$buildings = getAllBuildings($min_price, $max_price, $selected_types, $_SESSION['user_id'], $status_type, $city, $district);
 $building_types = getDistinctBuildingTypes();
 ?>
 
@@ -29,6 +31,11 @@ $building_types = getDistinctBuildingTypes();
                 <h1>Quản Lý Toà Nhà</h1>
                 <button class="create" onclick="location.href='create_building.php'">Thêm toà nhà mới</button>
             </div>
+            <div class="icon-container">
+                <a id="filter-icon" aria-haspopup="true" aria-expanded="false" onclick="toggleFilter()"><img src="../assets/icons/filter.svg"></a>
+            </div>
+            <?php include '../includes/filter_exe_address.php' ?>
+            <div style="overflow-x: auto; width: 100%;">
             <table>
                 <tr>
                     <th>Tên</th>
@@ -38,7 +45,7 @@ $building_types = getDistinctBuildingTypes();
                     <th>Công Suất</th>
                     <th>Số Phòng</th>
                     <th>Lần Cuối Chỉnh Sửa</th>
-                    <th>Thao Tác</th>   <!-- Add a new column for the action -->
+                    <th>Thao Tác</th>   
                 </tr>
                 <?php if ($buildings->num_rows > 0): ?>
                     <?php while ($building = $buildings->fetch_assoc()): ?>
@@ -50,7 +57,7 @@ $building_types = getDistinctBuildingTypes();
                             ?>
                             <td><?php echo htmlspecialchars($building['name']); ?></td>
                             <td><?php echo htmlspecialchars($building['rental_price']); ?></td>
-                            <td><?php echo htmlspecialchars($building['address']); ?></td>
+                            <td><?php echo htmlspecialchars($building['district']) . ', ' . htmlspecialchars($building['city']); ?></td>
                             <td>
                                 <?php if ($rentedCount == 0): ?>
                                     Hết phòng
@@ -87,6 +94,7 @@ $building_types = getDistinctBuildingTypes();
                     </tr>
                 <?php endif; ?>
             </table>
+        </div>
         </div>
         <?php include '../includes/sidebar.php'; ?>
     </div>

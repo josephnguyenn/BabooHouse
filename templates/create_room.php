@@ -19,7 +19,7 @@ if (isset($_GET['building_id'])) {
     <div class="head-container">
         <div class="main-content" id="create-room">
             <h1>Thêm Phòng Mới</h1>
-            <form action="../admin/process_create_room.php" method="post">
+            <form action="../admin/process_create_room.php" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="building_id" value="<?php echo $building_id?>">
                 <div class="form-group">
                     <label for="room_name">Tên phòng:</label>
@@ -40,6 +40,10 @@ if (isset($_GET['building_id'])) {
                         <option value="Đã thuê">Đã thuê</option>
                     </select>
                 </div>    
+                <div class="form-group">
+                    <label for="photo_urls">Tải ảnh phòng:</label>
+                    <input type="file" id="photo_urls" name="photo_urls" accept="image/*" required>
+                </div>
                 <button type="submit">Thêm Phòng</button>
             </form>
         </div>

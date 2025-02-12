@@ -73,7 +73,7 @@ $notifications->data_seek(0);
                                         <tr onclick="location.href='edit_rooms.php?building_id=<?php echo htmlspecialchars($building['building_id']); ?>'" style="cursor: pointer;">
                                             <td><?php echo htmlspecialchars($building['name']); ?></td>
                                             <td><?php echo htmlspecialchars($building['rental_price']); ?></td>
-                                            <td><?php echo htmlspecialchars($building['address']); ?></td>
+                                            <td><?php echo htmlspecialchars($building['district']) . ', ' . htmlspecialchars($building['city']); ?></td>
                                             <td><?php echo htmlspecialchars($building['approved'] ? 'Đã duyệt' : 'Chưa duyệt') ?></td> 
                                         </tr>
                                     <?php endwhile; ?>
@@ -102,7 +102,7 @@ $notifications->data_seek(0);
                                         <tr onclick="location.href='view_building.php?building_id=<?php echo htmlspecialchars($building['building_id']); ?>'" style="cursor: pointer;">
                                             <td><?php echo htmlspecialchars($building['name']); ?></td>
                                             <td><?php echo htmlspecialchars($building['rental_price']); ?></td>
-                                            <td><?php echo htmlspecialchars($building['address']); ?></td>
+                                            <td><?php echo htmlspecialchars($building['district']) . ', ' . htmlspecialchars($building['city']); ?></td>
                                         </tr>
                                     <?php endwhile; ?>
                                 <?php else: ?>

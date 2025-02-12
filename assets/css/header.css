@@ -60,3 +60,16 @@
 #markAllReadButton {
     color: #71b288;
 }
+
+#sidebar-icon {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    #sidebar-icon {
+        display: block;
+    }
+    .notification-box {
+        left: 0;
+    }
+}

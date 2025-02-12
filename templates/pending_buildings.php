@@ -10,9 +10,10 @@ $selected_types = isset($_GET['building_type']) ? $_GET['building_type'] : NULL;
 $status_type = isset($_GET['status_type']) ? $_GET['status_type'] : NULL;
 $city = isset($_GET['city']) ? $_GET['city'] : NULL;
 $district = isset($_GET['district']) ? $_GET['district'] : NULL;
-$buildings = getAllBuildings($min_price, $max_price, $selected_types, NULL, $status_type, $city, $district);
+$buildings = getAllBuildings($min_price, $max_price, $selected_types, $_SESSION['user_id'], $status_type, $city, $district);
 $building_types = getDistinctBuildingTypes();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -33,8 +34,8 @@ $building_types = getDistinctBuildingTypes();
             <div class="icon-container">
                 <a id="filter-icon" aria-haspopup="true" aria-expanded="false" onclick="toggleFilter()"><img src="../assets/icons/filter.svg"></a>
             </div>
-            <?php include '../includes/filter_acc_address.php' ?>
-            <div style="overflow-x: auto; width: 100%;">
+            <?php include '../includes/filter_exe_address.php' ?>
+        <div style="overflow-x: auto; width: 100%;">
         <table>
                 <tr>
                     <th>Tên</th>
@@ -48,7 +49,7 @@ $building_types = getDistinctBuildingTypes();
                 </tr>
                 <?php if ($buildings->num_rows > 0): ?>
                     <?php while ($building = $buildings->fetch_assoc()): ?>
-                        <?php if ($building['approved']): ?>
+                        <?php if (!$building['approved']): ?>
                             <tr onclick="location.href='view_building.php?building_id=<?php echo htmlspecialchars($building['building_id']); ?>'" style="cursor: pointer;">
                                 <?php 
                                 $availableRooms = getAllAvailableRooms($building['building_id']);
@@ -57,7 +58,7 @@ $building_types = getDistinctBuildingTypes();
                                 ?>
                                 <td><?php echo htmlspecialchars($building['name']); ?></td>
                                 <td><?php echo htmlspecialchars($building['rental_price']); ?></td>
-                                <td><?php echo htmlspecialchars($building['street']) . ', ' . htmlspecialchars($building['district']) . ', ' . htmlspecialchars($building['city']) ?></td>
+                                <td><?php echo htmlspecialchars($building['district']) . ', ' . htmlspecialchars($building['city']); ?></td>
                                 <td>
                                     <?php if ($rentedCount == 0): ?>
                                         Hết phòng
@@ -91,37 +92,5 @@ $building_types = getDistinctBuildingTypes();
         <?php include '../includes/sidebar.php'; ?>
     </div>
     <script src="../assets/js/filter.js"></script>
-    <script>
-        const districtsData = <?php echo json_encode($data); ?>;
-        const selectedDistrict = '<?php echo htmlspecialchars($building['district']); ?>';
-        const selectedCity = '<?php echo htmlspecialchars($building['city']); ?>'; 
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const citySelect = document.getElementById('city');
-            const districtSelect = document.getElementById('district');
-
-            citySelect.addEventListener('change', function() {
-                districtSelect.innerHTML = '<option value="">Chọn quận</option>';
-                const selectedCity = this.value;
-
-                if (selectedCity && districtsData[selectedCity]) {
-                    districtsData[selectedCity].forEach(function(district) {
-                        const option = document.createElement('option');
-                        option.value = district;
-                        option.textContent = district;
-                        if (district === selectedDistrict) {
-                            option.selected = true; 
-                        }
-                        districtSelect.appendChild(option);
-                    });
-                }
-            });
-
-            if (selectedCity) {
-                citySelect.value = selectedCity;
-                citySelect.dispatchEvent(new Event('change'));
-            }
-        });
-    </script>
 </body>
 </html>

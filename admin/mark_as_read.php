@@ -2,6 +2,7 @@
 session_start();
 require '../config/database.php'; 
 include 'get_notifications.php';
+include 'getallbuilding.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['id']) && isset($_SESSION['user_id'])) {
@@ -34,7 +35,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = $stmt->get_result();
         if ($row = $result->fetch_assoc()) {
             $buildingId = $row['building_id'];
-            header('Location: ../templates/edit_rooms.php?building_id=' . $buildingId); 
+            $building = getInfoBuilding($buildingId);
+            if ($building['user_id'] === $_SESSION['user_id']) {
+                header('Location: ../templates/edit_rooms.php?building_id=' . $buildingId); 
+            } else {
+                header('Location: ../templates/view_building.php?building_id=' . $buildingId); 
+            }
         } else {
             header('Location: ../templates/notifications.php?error=no_building_found');
         }

@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['building_id']) && iss
             echo "MySQL prepare error for notification: " . $conn->error;
         }
     
-        header("Location: ../templates/edit_rooms.php?building_id=" . $building_id);
+        header("Location: ../templates/view_building.php?building_id=" . $building_id);
         exit();
     } else {
         echo "Error updating building status or no changes made: " . htmlspecialchars($stmt->error);

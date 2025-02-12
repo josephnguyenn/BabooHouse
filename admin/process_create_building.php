@@ -5,7 +5,9 @@ require '../config/database.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $user_id = $_POST['user_id'];
-    $address = $_POST['address'];
+    $street = $_POST['street'];
+    $city = $_POST['city'];
+    $district = $_POST['district'];
     $rental_price = $_POST['rental_price'];
     $owner_name = $_POST['owner_name'];
     $owner_phone = $_POST['owner_phone'];
@@ -14,14 +16,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $water_price = $_POST['water_price']; 
     $description = $_POST['description'];
 
-    $sql = "INSERT INTO buildings (user_id, name, address, rental_price, owner_name, owner_phone, building_type, electricity_price, water_price, description, last_modified) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+    
+    $sql = "INSERT INTO buildings (user_id, name, street, city, district, rental_price, owner_name, owner_phone, building_type, electricity_price, water_price, description, last_modified) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
     $stmt = $conn->prepare($sql);
     
     if ($stmt === false) {
         die("MySQL prepare error: " . $conn->error);
     }
 
-    $stmt->bind_param("isssssssss", $user_id, $name, $address, $rental_price, $owner_name, $owner_phone, $building_type, $electricity_price, $water_price, $description);
+    $stmt->bind_param("isssssssssss", $user_id, $name, $street, $city, $district, $rental_price, $owner_name, $owner_phone, $building_type, $electricity_price, $water_price, $description);
     $stmt->execute();
 
     if ($stmt->affected_rows > 0) {

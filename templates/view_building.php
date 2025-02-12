@@ -18,33 +18,6 @@ $building = $result->fetch_assoc();
 $stmt->close();
 
 $rooms = getAllRooms($building_id);
-
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
-    $room_id = $_POST['room_id'];
-    $building_id = $_POST['building_id'];
-    $room_name = $_POST['room_name'];
-    $rental_price = $_POST['rental_price'];
-    $area = $_POST['area'];
-    $room_status = $_POST['room_status'];
-
-    $sql = "UPDATE rooms SET room_name = ?, rental_price = ?, area = ?, room_status = ? WHERE room_id = ?";
-    $stmt = $conn->prepare($sql);
-    if ($stmt === false) {
-        die('Prepare failed: ' . htmlspecialchars($conn->error));
-    }
-    $stmt->bind_param("ssssi", $room_name, $rental_price, $area, $room_status, $room_id);
-    $stmt->execute();
-
-    if ($stmt->affected_rows > 0) {
-        echo "Room updated successfully.";
-    } else {
-        echo "Error updating room: " . htmlspecialchars($stmt->error);
-    }
-    $stmt->close();
-    // Redirect to edit_rooms.php
-    header("Location: edit_rooms.php?building_id=" . $building_id);
-    exit();
-}
 ?>
 
 <!DOCTYPE html>
@@ -63,10 +36,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
                 <img src="">
                 <div>
                     <p>Tên toà nhà: <?php echo htmlspecialchars($building['name']); ?></p>
-                    <p>Địa chỉ: <?php echo htmlspecialchars($building['address']); ?></p>
+                    <p>Địa chỉ: <?php echo htmlspecialchars($building['street']); ?>, <?php echo htmlspecialchars($building['district']); ?>, <?php echo htmlspecialchars($building['city']); ?></p>
                     <p>Số điện thoại chủ nhà: <?php echo htmlspecialchars($building['owner_phone']); ?></p>
                     <p>Tên chủ nhà: <?php echo htmlspecialchars($building['owner_name']); ?></p>
                     <p>Tên quản lý: <?php echo htmlspecialchars(getUsernameById($building['user_id'])); ?></p>
+                    <p>Loại hình: <?php echo htmlspecialchars($building['building_type']); ?></p>
                     <p>Tiện nghi: <?php echo htmlspecialchars($building['description']); ?></p>
                 </div>  
             </div>    
@@ -92,6 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
                     <?php endif; ?>
                 <?php endif; ?>    
             </div>
+            <div style="overflow-x: auto; width: 100%;">
             <table>
                 <thead>
                     <tr>
@@ -107,19 +82,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
                 <tbody>
                 <?php if ($rooms->num_rows > 0): ?>
                     <?php foreach ($rooms as $room): ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($room['room_name']); ?></td>
-                        <td><?php echo htmlspecialchars($room['rental_price']); ?></td>
-                        <td><?php echo htmlspecialchars($room['area']); ?> m&#178;</td>
-                        <td><?php echo htmlspecialchars($room['room_status']); ?></td>
-                        <?php if (isset($_SESSION['role']) && $_SESSION['role'] != 'admin'): ?>
-                        <td>
-                        <?php if ($room['room_status'] == 'Còn trống'): ?>
-                            <button class="create" onclick="location.href='book_room.php?building_id=<?php echo $room['building_id']; ?>&room_id=<?php echo $room['room_id']; ?>'">Đặt phòng</button>
-                        <?php endif; ?>
-                        </td>
-                        <?php endif; ?>
-                    </tr>
+                        <tr onclick="document.getElementById('lightboxview').style.display = 'flex';">
+                            <td><?php echo htmlspecialchars($room['room_name']); ?></td>
+                            <td><?php echo htmlspecialchars($room['rental_price']); ?></td>
+                            <td><?php echo htmlspecialchars($room['area']); ?> m&#178;</td>
+                            <td><?php echo htmlspecialchars($room['room_status']); ?></td>
+                            <?php if (isset($_SESSION['role']) && $_SESSION['role'] != 'admin'): ?>
+                            <td>
+                                <?php if ($room['room_status'] == 'Còn trống'): ?>
+                                    <button class="create" onclick="location.href='book_room.php?building_id=<?php echo $room['building_id']; ?>&room_id=<?php echo $room['room_id']; ?>'">Đặt phòng</button>
+                                <?php endif; ?>
+                            </td>
+                            <?php endif; ?>
+                        </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
@@ -128,6 +103,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
                 <?php endif; ?>
                 </tbody>
             </table>
+        </div>
+        </div>
+        <div class="lightbox" id="lightboxview" style="display:none;">
+            <div class="lightbox-content">
+                <span class="close" onclick="document.getElementById('lightboxview').style.display = 'none';">×</span>
+                <h3>Thông tin phòng</h3>
+                <div class="building-info-container">
+                <img id="lightbox-image" src="<?php echo htmlspecialchars($room['photo_urls']); ?>" alt="room image">
+                <div>
+                    <p><b>Tên phòng</b>: <?php echo htmlspecialchars($room['room_name']); ?></p>
+                    <p><b>Giá</b>: <?php echo htmlspecialchars($room['rental_price']); ?></p>
+                    <p><b>Diện tích</b>: <?php echo htmlspecialchars($room['area']); ?></p>
+                    <p><b>Tình trạng</b>: <?php echo htmlspecialchars($room['room_status']); ?></p>
+                </div>  
+            </div>    
+            </div>
         </div>
         <?php include '../includes/sidebar.php'; ?>
     </div>

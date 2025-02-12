@@ -79,9 +79,11 @@ $notifications->data_seek(0);
                 <a href="../admin/logout.php">Đăng xuất</a>
             </div>
         </div>
+        <a id="sidebar-icon" aria-haspopup="true" aria-expanded="false" onclick="toggleSidebar()"><img src="../assets/icons/grid.svg"></a>
     </div>
 </header>
 <script src="../assets/js/header.js"></script>
+<script src="../assets/js/sidebar.js"></script>
 </body>
 <?php 
 $notifications->data_seek(0);

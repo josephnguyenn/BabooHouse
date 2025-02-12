@@ -26,3 +26,9 @@
     background-color: #ffffff;
     top: -30px;
 }
+
+@media (max-width: 768px) {
+    .grid-template {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}

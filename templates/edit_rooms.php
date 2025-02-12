@@ -40,7 +40,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
         echo "Error updating room: " . htmlspecialchars($stmt->error);
     }
     $stmt->close();
-    // Redirect to edit_rooms.php
     header("Location: edit_rooms.php?building_id=" . $building_id);
     exit();
 }
@@ -62,36 +61,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
                 <img src="">
                 <div>
                     <p>Tên toà nhà: <?php echo htmlspecialchars($building['name']); ?></p>
-                    <p>Địa chỉ: <?php echo htmlspecialchars($building['address']); ?></p>
+                    <p>Địa chỉ: <?php echo htmlspecialchars($building['street']); ?>, <?php echo htmlspecialchars($building['district']); ?>, <?php echo htmlspecialchars($building['city']); ?></p>
                     <p>Số điện thoại chủ nhà: <?php echo htmlspecialchars($building['owner_phone']); ?></p>
                     <p>Tên chủ nhà: <?php echo htmlspecialchars($building['owner_name']); ?></p>
+                    <p>Loại hình: <?php echo htmlspecialchars($building['building_type']); ?></p>
                     <p>Tiện nghi: <?php echo htmlspecialchars($building['description']); ?></p>
                 </div>  
             </div>    
             <div class="manage-head">
                 <h3>Phòng</h3>
-                <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin'): ?>
-                    <?php if ($building['approved']): ?> 
-                        <form action="../admin/approve_room.php" method="POST">
-                            <input type="hidden" name="action" value="stop">
-                            <input type="hidden" name="user_id" value="<?php echo $building['user_id']; ?>">
-                            <input type="hidden" name="name" value="<?php echo $building['name']; ?>">
-                            <input type="hidden" name="building_id" value="<?php echo $building_id; ?>">
-                            <button type="submit" class="create">Ngưng toà nhà</button>
-                        </form>
-                    <?php else: ?>
-                        <form action="../admin/approve_room.php" method="POST">
-                            <input type="hidden" name="action" value="approve">
-                            <input type="hidden" name="user_id" value="<?php echo $building['user_id']; ?>">
-                            <input type="hidden" name="name" value="<?php echo $building['name']; ?>">
-                            <input type="hidden" name="building_id" value="<?php echo $building_id; ?>">
-                            <button type="submit" class="create">Duyệt toà nhà</button>
-                        </form>
-                    <?php endif; ?>
-                <?php else: ?>
-                    <button class="create" onclick="location.href='create_room.php?building_id=<?php echo $building_id; ?>'">Thêm phòng mới</button>
-                <?php endif; ?>    
+                <button class="create" onclick="location.href='create_room.php?building_id=<?php echo $building_id; ?>'">Thêm phòng mới</button>
             </div>
+            <div style="overflow-x: auto; width: 100%;">
             <table>
                 <thead>
                     <tr>
@@ -138,6 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
                 <?php endif; ?>
                 </tbody>
             </table>
+        </div>
         </div>
         <div class="lightbox" id="lightbox" style="display:none;">
             <div class="lightbox-content">

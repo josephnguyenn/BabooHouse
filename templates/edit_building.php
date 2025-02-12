@@ -23,7 +23,9 @@ if (isset($_GET['building_id'])) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
-    $address = $_POST['address'];
+    $street = $_POST['street'];
+    $city = $_POST['city'];
+    $district = $_POST['district'];
     $rental_price = $_POST['rental_price'];
     $owner_phone = $_POST['owner_phone'];
     $owner_name = $_POST['owner_name'];
@@ -32,12 +34,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $water_price = $_POST['water_price'];
     $description = $_POST['description'];
     $approved = $_POST['approved'];
-    $sql = "UPDATE buildings SET name = ?, address = ?, rental_price = ?, owner_phone = ?, owner_name = ?, building_type = ?, electricity_price = ?, water_price = ?, description = ?, last_modified = NOW(), approved = 0 WHERE building_id = ?";
+    $sql = "UPDATE buildings SET name = ?, street = ?, city = ?, district = ?, rental_price = ?, owner_phone = ?, owner_name = ?, building_type = ?, electricity_price = ?, water_price = ?, description = ?, last_modified = NOW(), approved = 0 WHERE building_id = ?";
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
         die('Prepare failed: ' . htmlspecialchars($conn->error));
     }
-    $stmt->bind_param("sssssssssi", $name, $address, $rental_price, $owner_phone, $owner_name, $building_type, $electricity_price, $water_price, $description, $building_id);
+    $stmt->bind_param("sssssssssssi", $name, $street, $city, $district, $rental_price, $owner_phone, $owner_name, $building_type, $electricity_price, $water_price, $description, $building_id);
     $stmt->execute();
 
     if ($stmt->affected_rows > 0) {
@@ -76,7 +78,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn->close();
     header("Location: manage_buildings.php");
     exit();
+
 }
+$data = [
+    'Đà Nẵng' => ['Hải Châu', 'Thanh Khê', 'Sơn Trà', 'Ngũ Hành Sơn', 'Liên Chiểu', 'Cẩm Lệ', 'Hòa Vang'],
+    'Hồ Chí Minh' => ['Quận 1', 'Quận 2', 'Quận 3', 'Quận 4', 'Quận 5', 'Quận 6', 'Quận 7'],
+];
 ?>
 
 <!DOCTYPE html>
@@ -87,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Chỉnh Sửa Toà Nhà</title>
 </head>
 <body>
-    <?php include '../includes/header.php'; ?> <!-- Bao gồm tiêu đề -->
+    <?php include '../includes/header.php'; ?> 
 
     <div class="head-container">
         <div class="main-content" id="edit-building">
@@ -97,12 +104,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="name">Tên toà nhà:</label>
                     <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($building['name']); ?>" required>
                 </div>
-                <div class="form-group">
-                    <label for="address">Địa chỉ:</label>
-                    <input type="text" id="address" name="address" value="<?php echo htmlspecialchars($building['address']); ?>" required>
+                <div class="flex-wrap">
+                    <div class="form-group">
+                        <label for="city">Thành phố:</label>
+                        <select id="city" name="city" required>
+                            <option value="Other">Chọn thành phố</option>
+                            <?php foreach ($data as $city => $districts): ?>
+                                <option value="<?php echo htmlspecialchars($city); ?>"><?php echo htmlspecialchars($city); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="district">Quận:</label>
+                        <select id="district" name="district" required>
+                            <option value="">Chọn quận</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="address">Giá thuê:</label>
+                    <label for="street">Địa chỉ:</label>
+                    <input type="text" id="street" name="street" placeholder="Tên đường, số nhà" value="<?php echo htmlspecialchars($building['street']); ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="rental_price">Giá thuê:</label>
                     <input type="float" id="rental_price" name="rental_price" value="<?php echo htmlspecialchars($building['rental_price']); ?>" required>
                 </div>
                 <div class="form-group">
@@ -140,5 +164,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <?php include '../includes/sidebar.php'; ?>
     </div>
+<script>
+    const districtsData = <?php echo json_encode($data); ?>;
+    const selectedDistrict = '<?php echo htmlspecialchars($building['district']); ?>';
+    const selectedCity = '<?php echo htmlspecialchars($building['city']); ?>'; 
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const citySelect = document.getElementById('city');
+        const districtSelect = document.getElementById('district');
+
+        citySelect.addEventListener('change', function() {
+            districtSelect.innerHTML = '<option value="">Chọn quận</option>';
+            const selectedCity = this.value;
+
+            if (selectedCity && districtsData[selectedCity]) {
+                districtsData[selectedCity].forEach(function(district) {
+                    const option = document.createElement('option');
+                    option.value = district;
+                    option.textContent = district;
+                    if (district === selectedDistrict) {
+                        option.selected = true; 
+                    }
+                    districtSelect.appendChild(option);
+                });
+            }
+        });
+
+        if (selectedCity) {
+            citySelect.value = selectedCity;
+            citySelect.dispatchEvent(new Event('change'));
+        }
+    });
+</script>
 </body>
 </html>

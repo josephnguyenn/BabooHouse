@@ -21,7 +21,7 @@ header p{
 .price-input{
   width: 100%;
   display: flex;
-  margin: 30px 0 35px;
+  margin: 20px 0 20px;
 }
 .price-input .field{
   width: 100%;
@@ -79,9 +79,6 @@ input[type="number"]::-webkit-inner-spin-button {
   -moz-appearance: none;
 }
 
-.slider-container {
-    margin: 0 0 30% 0;
-}
 
 input[type="range"]::-webkit-slider-thumb{
   height: 17px;

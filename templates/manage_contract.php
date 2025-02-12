@@ -26,6 +26,7 @@ if ($_SESSION['role'] === 'admin') {
             <div class="manage-head">
                 <h1>Quản Lý Hợp Đồng</h1>
             </div>
+            <div style="overflow-x: auto; width: 100%;">
             <table>
                 <tr>
                     <th>Số hợp đồng</th>
@@ -59,6 +60,7 @@ if ($_SESSION['role'] === 'admin') {
                     </tr>
                 <?php endif; ?>
             </table>
+        </div>
         </div>
         <?php include '../includes/sidebar.php'; ?>
     </div>

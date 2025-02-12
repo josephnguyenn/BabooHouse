@@ -25,6 +25,7 @@ $users = getAllUsers($search);
                 </form>
                 <button class="create" onclick="location.href='create_user.php'">Tạo người dùng mới</button>
             </div>
+            <div style="overflow-x: auto; width: 100%;">
             <table>
                 <tr>
                     <th>ID</th>
@@ -70,6 +71,7 @@ $users = getAllUsers($search);
                     </tr>
                 <?php endif; ?>
             </table>
+        </div>
         </div>
         <?php include '../includes/sidebar.php'; ?>
     </div>

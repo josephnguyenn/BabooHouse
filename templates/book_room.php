@@ -59,11 +59,22 @@ if (isset($_GET['room_id'])) {
                 </div>
                 <div class="form-group">
                     <label for="payment_term">Kỳ hạn thanh toán (tháng)</label>
-                    <input type="number" id="payment_term" name="payment_term">
+                    <select id="payment_term" name="payment_term">
+                        <option value="Trống" selected>Trống</option>
+                        <option value="3 tháng 1">3 tháng 1</option>
+                        <option value="4 tháng 1">4 tháng 1</option>
+                        <option value="6 tháng 1">6 tháng 1</option>
+                        <option value="1 năm">1 năm</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="lease_start_date">Ngày bắt đầu:</label>
                     <input type="date" id="lease_start_date" name="lease_start_date" required>
+                </div>
+                </div>
+                <div class="form-group">
+                    <label for="lease_end_date">Ngày kết thúc:</label>
+                    <input type="date" id="lease_end_date" name="lease_end_date" required>
                 </div>
                 <div class="form-group">
                     <label for="photo_urls">Tải ảnh hợp đồng:</label>

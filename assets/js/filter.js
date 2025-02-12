@@ -8,8 +8,8 @@ function get_url(name) {
     const url = new URLSearchParams(window.location.search);
     return url.get(name);
 }
-const getmin = get_url('min_price') || 2500; 
-const getmax = get_url('max_price') || 7500; 
+const getmin = get_url('min_price') || 0; 
+const getmax = get_url('max_price') || 10000; 
 
 data_price[0].value = getmin;
 data_price[1].value = getmax;
@@ -57,15 +57,20 @@ price_range.forEach(input => {
     });
 });
 
-function toggleAll(checkbox) {
-    const checkboxes = document.querySelectorAll('.building-type-checkbox');
-        checkboxes.forEach((item) => {
-        item.checked = checkbox.checked; 
+function setupcheckbox(checkboxname) {
+    const checkAll = document.querySelector(".checkAll"+checkboxname);
+    const checkItems = document.querySelectorAll("."+checkboxname);
+    checkAll.checked = true;
+    checkItems.forEach(item => item.checked = checkAll.checked);
+    
+    checkAll.addEventListener("change", function () {
+        checkItems.forEach(item => item.checked = checkAll.checked);
+    });
+
+    checkItems.forEach(item => {
+        item.addEventListener("change", function () {
+            checkAll.checked = [...checkItems].every(i => i.checked);
+        });
     });
 }
-
-function updateAllCheckbox() {
-    const allCheckbox = document.getElementById('All');
-    const checkboxes = document.querySelectorAll('.building-type-checkbox');
-    allCheckbox.checked = Array.from(checkboxes).every((item) => item.checked);
-}
+setupcheckbox('building-type-checkbox');

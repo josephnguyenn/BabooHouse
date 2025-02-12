@@ -4,6 +4,10 @@ require '../config/database.php';
 include '../admin/getallbuilding.php';  
 $building_types = getDistinctBuildingTypes();
 $user_id = $_SESSION['user_id'];
+$data = [
+    'Đà Nẵng' => ['Hải Châu', 'Thanh Khê', 'Sơn Trà', 'Ngũ Hành Sơn', 'Liên Chiểu', 'Cẩm Lệ', 'Hòa Vang'],
+    'Hồ Chí Minh' => ['Quận 1', 'Quận 2', 'Quận 3', 'Quận 4', 'Quận 5', 'Quận 6', 'Quận 7'],
+];
 ?>
 
 <!DOCTYPE html>
@@ -25,9 +29,26 @@ $user_id = $_SESSION['user_id'];
                     <label for="name">Tên:</label>
                     <input type="text" id="name" name="name" required>
                 </div>
+                <div class="flex-wrap">
                 <div class="form-group">
-                    <label for="address">Địa chỉ:</label>
-                    <input type="text" id="address" name="address" required>
+                    <label for="city">Thành phố:</label>
+                    <select id="city" name="city" required>
+                        <option value="">Chọn thành phố</option>
+                        <?php foreach ($data as $city => $districts): ?>
+                            <option value="<?php echo htmlspecialchars($city); ?>"><?php echo htmlspecialchars($city); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="district">Quận:</label>
+                    <select id="district" name="district" required>
+                        <option value="">Chọn quận</option>
+                    </select>
+                </div>
+                </div>
+                <div class="form-group">
+                    <label for="street">Địa chỉ:</label>
+                    <input type="text" id="street" name="street" placeholder="Tên đường, số nhà" required>
                 </div>
                 <div class="form-group">
                     <label for="rental_price">Giá thuê:</label>
@@ -67,5 +88,25 @@ $user_id = $_SESSION['user_id'];
         </div>
         <?php include '../includes/sidebar.php'; ?> <!-- Bao gồm thanh bên -->
     </div>
+    
+    <script>
+        const districtsData = <?php echo json_encode($data); ?>;
+        document.addEventListener('DOMContentLoaded', function() {
+            const citySelect = document.getElementById('city');
+            const districtSelect = document.getElementById('district');
+            citySelect.addEventListener('change', function() {
+                districtSelect.innerHTML = '<option value="">Chọn quận</option>';
+                const selectedCity = this.value;
+                if (selectedCity && districtsData[selectedCity]) {
+                    districtsData[selectedCity].forEach(function(district) {
+                        const option = document.createElement('option');
+                        option.value = district;
+                        option.textContent = district;
+                        districtSelect.appendChild(option);
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>

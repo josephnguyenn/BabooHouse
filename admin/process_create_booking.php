@@ -14,18 +14,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $identification_card = $_POST["identification_card"] ?? '';
     $deposit_term = $_POST["deposit_term"] ?? '';
     $signed_date = $_POST["signed_date"] ?? ''; 
-    $payment_term = $_POST["payment_term"] ?? 0;
+    $payment_term = $_POST["payment_term"] ?? '';
     $lease_start_date = $_POST["lease_start_date"] ?? '';   
+    $lease_end_date = $_POST["lease_end_date"] ?? '';   
     $photo_urls = '';
 
-    if (!empty($lease_start_date) && is_numeric($payment_term)) {
-        $start_date = new DateTime($lease_start_date);
-        $start_date->modify("+$payment_term months");
-        $lease_end_date = $start_date->format('Y-m-d');
-    } else {
-        echo "Invalid lease_start_date or payment_term.";
-        exit();
-    }
 
     if (isset($_FILES["photo_urls"]) && $_FILES["photo_urls"]["error"] == UPLOAD_ERR_OK) {
         $target_dir = "../uploads/contracts/";
