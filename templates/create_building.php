@@ -51,7 +51,7 @@ $data = [
                     <input type="text" id="street" name="street" placeholder="Tên đường, số nhà" required>
                 </div>
                 <div class="form-group">
-                    <label for="rental_price">Giá thuê:</label>
+                    <label for="rental_price">Giá thuê (triệu/tháng):</label>
                     <input type="text" id="rental_price" name="rental_price">
                 </div>
                 <div class="form-group">

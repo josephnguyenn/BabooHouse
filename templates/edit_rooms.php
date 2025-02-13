@@ -90,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
                     <?php foreach ($rooms as $room): ?>
                     <tr>
                         <td><?php echo htmlspecialchars($room['room_name']); ?></td>
-                        <td><?php echo htmlspecialchars($room['rental_price']); ?></td>
+                        <td><?php echo htmlspecialchars($room['rental_price']); ?> triệu/tháng</td>
                         <td><?php echo htmlspecialchars($room['area']); ?> m&#178;</td>
                         <td><?php echo htmlspecialchars($room['room_status']); ?></td>
                         <?php if (isset($_SESSION['role']) && $_SESSION['role'] != 'admin'): ?>
@@ -133,7 +133,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
                         <input type="text" id="room_name" name="room_name" placeholder="Tên phòng">
                     </div>
                     <div class="form-group">
-                        <label for="room_price">Giá:</label>
+                        <label for="room_price">Giá (triệu/tháng):</label>
                         <input type="text" id="room_price" name="rental_price" placeholder="Giá">
                     </div>
                     <div class="form-group">

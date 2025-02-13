@@ -9,7 +9,7 @@ function get_url(name) {
     return url.get(name);
 }
 const getmin = get_url('min_price') || 0; 
-const getmax = get_url('max_price') || 10000; 
+const getmax = get_url('max_price') || 100000; 
 
 data_price[0].value = getmin;
 data_price[1].value = getmax;
@@ -57,20 +57,20 @@ price_range.forEach(input => {
     });
 });
 
-function setupcheckbox(checkboxname) {
-    const checkAll = document.querySelector(".checkAll"+checkboxname);
-    const checkItems = document.querySelectorAll("."+checkboxname);
-    checkAll.checked = true;
-    checkItems.forEach(item => item.checked = checkAll.checked);
+// function setupcheckbox(checkboxname) {
+//     const checkAll = document.querySelector(".checkAll"+checkboxname);
+//     const checkItems = document.querySelectorAll("."+checkboxname);
+//     checkAll.checked = true;
+//     checkItems.forEach(item => item.checked = checkAll.checked);
     
-    checkAll.addEventListener("change", function () {
-        checkItems.forEach(item => item.checked = checkAll.checked);
-    });
+//     checkAll.addEventListener("change", function () {
+//         checkItems.forEach(item => item.checked = checkAll.checked);
+//     });
 
-    checkItems.forEach(item => {
-        item.addEventListener("change", function () {
-            checkAll.checked = [...checkItems].every(i => i.checked);
-        });
-    });
-}
-setupcheckbox('building-type-checkbox');
+//     checkItems.forEach(item => {
+//         item.addEventListener("change", function () {
+//             checkAll.checked = [...checkItems].every(i => i.checked);
+//         });
+//     });
+// }
+// setupcheckbox('building-type-checkbox');

@@ -4,17 +4,17 @@
         <h1>Bộ lọc</h1>
     </div>
     <div class="filter-container">
-        <label for="price-range">Mức giá (nghìn đồng):</label>
+        <label for="price-range">Mức giá (triệu đồng):</label>
         <form class="filter-form" method="get" action="manage_buildings.php">
         <div class="price-input">
                 <div class="field">
                 <span>Tối thiểu</span>
-                <input type="number" name="min_price" class="input-min" value="<?php echo htmlspecialchars($min_price); ?>">
+                <input type="number" name="min_price" class="input-min" value="<?php echo htmlspecialchars($min_price); ?>" min="<?php echo getMaxAndMinPrice()['min']; ?>">
                 </div>
                 <div class="separator">-</div>
                 <div class="field">
                 <span>Tối đa</span>
-                <input type="number" name="max_price" class="input-max" value="<?php echo htmlspecialchars($max_price); ?>">
+                <input type="number" name="max_price" class="input-max" value="<?php echo htmlspecialchars($max_price); ?>" max="<?php echo getMaxAndMinPrice()['max']; ?>">
                 </div>
             </div>
             <div class="slider-container">
@@ -22,14 +22,15 @@
                     <div class="progress"></div>
                 </div>
                 <div class="range-input">
-                    <input type="range" class="range-min" min="0" max="10000" value="<?php echo htmlspecialchars($min_price); ?>" step="1">
-                    <input type="range" class="range-max" min="0" max="10000" value="<?php echo htmlspecialchars($max_price); ?>" step="1">
+                    <input type="range" class="range-min" min="<?php echo getMaxAndMinPrice()['min']; ?>" max="<?php echo getMaxAndMinPrice()['max']; ?>" value="<?php echo htmlspecialchars($min_price); ?>" step="1">
+                    <input type="range" class="range-max" min="<?php echo getMaxAndMinPrice()['min']; ?>" max="<?php echo getMaxAndMinPrice()['max']; ?>" value="<?php echo htmlspecialchars($max_price); ?>" step="1">
                 </div>
             </div>
             <br><br><hr>
             <h3>Tình trạng</h3>
             <select id="building_type" name="status_type">
-                <option value="Còn phòng" selected>Còn phòng</option>
+                <option value="Tất cả" selected>Tất cả</option> 
+                <option value="Còn phòng">Còn phòng</option>
                 <option value="Hết phòng">Hết phòng</option>
             </select>
             <br><br>

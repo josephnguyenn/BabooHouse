@@ -4,8 +4,8 @@ include '../admin/getallbuilding.php';
 include '../admin/getallroom.php';
 include '../admin/getalluser.php';
 
-$min_price = isset($_GET['min_price']) ? (int)$_GET['min_price'] : 0;
-$max_price = isset($_GET['max_price']) ? (int)$_GET['max_price'] : 10000;
+$min_price = isset($_GET['min_price']) ? (int)$_GET['min_price'] : getMaxAndMinPrice()['min'];
+$max_price = isset($_GET['max_price']) ? (int)$_GET['max_price'] : getMaxAndMinPrice()['max'];
 $selected_types = isset($_GET['building_type']) ? $_GET['building_type'] : NULL;
 $status_type = isset($_GET['status_type']) ? $_GET['status_type'] : NULL;
 $city = isset($_GET['city']) ? $_GET['city'] : NULL;
@@ -56,7 +56,7 @@ $building_types = getDistinctBuildingTypes();
                                 $totalRooms = $availableRooms["number_rooms"];
                                 ?>
                                 <td><?php echo htmlspecialchars($building['name']); ?></td>
-                                <td><?php echo htmlspecialchars($building['rental_price']); ?></td>
+                                <td><?php echo htmlspecialchars($building['rental_price']); ?> triệu/tháng</td>
                                 <td><?php echo htmlspecialchars($building['street']) . ', ' . htmlspecialchars($building['district']) . ', ' . htmlspecialchars($building['city']) ?></td>
                                 <td>
                                     <?php if ($rentedCount == 0): ?>

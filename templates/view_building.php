@@ -84,7 +84,7 @@ $rooms = getAllRooms($building_id);
                     <?php foreach ($rooms as $room): ?>
                         <tr onclick="document.getElementById('lightboxview').style.display = 'flex';">
                             <td><?php echo htmlspecialchars($room['room_name']); ?></td>
-                            <td><?php echo htmlspecialchars($room['rental_price']); ?></td>
+                            <td><?php echo htmlspecialchars($room['rental_price']); ?> triệu/tháng</td>
                             <td><?php echo htmlspecialchars($room['area']); ?> m&#178;</td>
                             <td><?php echo htmlspecialchars($room['room_status']); ?></td>
                             <?php if (isset($_SESSION['role']) && $_SESSION['role'] != 'admin'): ?>
@@ -113,7 +113,7 @@ $rooms = getAllRooms($building_id);
                 <img id="lightbox-image" src="<?php echo htmlspecialchars($room['photo_urls']); ?>" alt="room image">
                 <div>
                     <p><b>Tên phòng</b>: <?php echo htmlspecialchars($room['room_name']); ?></p>
-                    <p><b>Giá</b>: <?php echo htmlspecialchars($room['rental_price']); ?></p>
+                    <p><b>Giá</b>: <?php echo htmlspecialchars($room['rental_price']); ?> triệu/tháng</p>
                     <p><b>Diện tích</b>: <?php echo htmlspecialchars($room['area']); ?></p>
                     <p><b>Tình trạng</b>: <?php echo htmlspecialchars($room['room_status']); ?></p>
                 </div>  

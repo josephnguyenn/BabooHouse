@@ -1,7 +1,7 @@
 <?php
 require '../config/database.php';
 
-function getAllBuildings($min_price = 0, $max_price = 10000, $selected_type = NULL, $user_id = NULL, $status_type = NULL, $city = NULL, $district = NULL) {
+function getAllBuildings($min_price = 0, $max_price = 100000, $selected_type = NULL, $user_id = NULL, $status_type = NULL, $city = NULL, $district = NULL) {
     global $conn;
     
     $sql = "SELECT * FROM buildings b WHERE b.rental_price BETWEEN ? AND ?";
@@ -20,12 +20,13 @@ function getAllBuildings($min_price = 0, $max_price = 10000, $selected_type = NU
         $params[] = $selected_type;
         $binding_types .= "s";
     }
+    
     if ($user_id !== NULL) {
         $sql .= " AND b.user_id = ?";
         $params[] = $user_id;
         $binding_types .= "i";
     }
-    if (!empty($status_type)) {
+    if ($status_type !== NULL || $status_type != "Tất cả") {
         if ($status_type === "Hết phòng") {
             $sql .= " AND NOT EXISTS (
                         SELECT 1 
@@ -98,5 +99,16 @@ function getInfoBuilding($building_id) {
     $building_info = $result->fetch_assoc();
     $stmt->close();
     return $building_info;
+}
+function getMaxAndMinPrice() {
+    return [
+        'min' => 0,
+        'max' => 100000
+    ];
+    // Chỉnh thêm file assets/js/filter.js
+
+    //const getmin = get_url('min_price') || 0 <- Chỉnh giá trị min; 
+    //const getmax = get_url('max_price') || 100000 <- Chỉnh giá trị max; 
+
 }
 ?>

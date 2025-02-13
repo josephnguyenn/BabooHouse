@@ -72,7 +72,7 @@ $notifications->data_seek(0);
                                     <?php while ($building = $your_buildings->fetch_assoc()): ?>
                                         <tr onclick="location.href='edit_rooms.php?building_id=<?php echo htmlspecialchars($building['building_id']); ?>'" style="cursor: pointer;">
                                             <td><?php echo htmlspecialchars($building['name']); ?></td>
-                                            <td><?php echo htmlspecialchars($building['rental_price']); ?></td>
+                                            <td><?php echo htmlspecialchars($building['rental_price']); ?> triệu/ tháng</td>
                                             <td><?php echo htmlspecialchars($building['district']) . ', ' . htmlspecialchars($building['city']); ?></td>
                                             <td><?php echo htmlspecialchars($building['approved'] ? 'Đã duyệt' : 'Chưa duyệt') ?></td> 
                                         </tr>
@@ -99,11 +99,13 @@ $notifications->data_seek(0);
                                 </tr>
                                 <?php if ($buildings->num_rows > 0): ?>
                                     <?php while ($building = $buildings->fetch_assoc()): ?>
-                                        <tr onclick="location.href='view_building.php?building_id=<?php echo htmlspecialchars($building['building_id']); ?>'" style="cursor: pointer;">
-                                            <td><?php echo htmlspecialchars($building['name']); ?></td>
-                                            <td><?php echo htmlspecialchars($building['rental_price']); ?></td>
-                                            <td><?php echo htmlspecialchars($building['district']) . ', ' . htmlspecialchars($building['city']); ?></td>
-                                        </tr>
+                                        <?php if ($building['approved']): ?>
+                                            <tr onclick="location.href='view_building.php?building_id=<?php echo htmlspecialchars($building['building_id']); ?>'" style="cursor: pointer;">
+                                                <td><?php echo htmlspecialchars($building['name']); ?></td>
+                                                <td><?php echo htmlspecialchars($building['rental_price']); ?> triệu/tháng</td>
+                                                <td><?php echo htmlspecialchars($building['district']) . ', ' . htmlspecialchars($building['city']); ?></td>
+                                            </tr>
+                                        <?php endif; ?>
                                     <?php endwhile; ?>
                                 <?php else: ?>
                                     <tr>

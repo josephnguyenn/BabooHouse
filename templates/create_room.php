@@ -26,7 +26,7 @@ if (isset($_GET['building_id'])) {
                     <input type="text" id="room_name" name="room_name" placeholder="Tên phòng">
                 </div>
                 <div class="form-group">
-                    <label for="room_price">Giá:</label>
+                    <label for="room_price">Giá (triệu/thángg):</label>
                     <input type="text" id="room_price" name="rental_price" placeholder="Giá">
                 </div>
                 <div class="form-group">

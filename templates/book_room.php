@@ -71,7 +71,6 @@ if (isset($_GET['room_id'])) {
                     <label for="lease_start_date">Ngày bắt đầu:</label>
                     <input type="date" id="lease_start_date" name="lease_start_date" required>
                 </div>
-                </div>
                 <div class="form-group">
                     <label for="lease_end_date">Ngày kết thúc:</label>
                     <input type="date" id="lease_end_date" name="lease_end_date" required>

@@ -126,7 +126,7 @@ $data = [
                     <input type="text" id="street" name="street" placeholder="Tên đường, số nhà" value="<?php echo htmlspecialchars($building['street']); ?>" required>
                 </div>
                 <div class="form-group">
-                    <label for="rental_price">Giá thuê:</label>
+                    <label for="rental_price">Giá thuê (triệu/tháng):</label>
                     <input type="float" id="rental_price" name="rental_price" value="<?php echo htmlspecialchars($building['rental_price']); ?>" required>
                 </div>
                 <div class="form-group">
@@ -147,11 +147,11 @@ $data = [
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="electricity_price">Tiền điện:</label>
+                    <label for="electricity_price">Tiền điện (đồng):</label>
                     <input type="float" id="electricity_price" name="electricity_price" value="<?php echo htmlspecialchars($building['electricity_price']); ?>" required>
                 </div>
                 <div class="form-group">
-                    <label for="water_price">Tiền nước:</label>
+                    <label for="water_price">Tiền nước (đồng):</label>
                     <input type="float" id="water_price" name="water_price" value="<?php echo htmlspecialchars($building['water_price']); ?>" required>
                 </div>
                 <div class="form-group">
