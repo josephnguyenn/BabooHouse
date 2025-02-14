@@ -17,6 +17,23 @@ $building = $result->fetch_assoc();
 $stmt->close();
 
 $rooms = getAllRooms($building_id);
+/**
+ * Convert Google Drive URL to direct link
+ * @param string $photo_url
+ * @return string|false
+ */
+function getDirectGoogleDriveImage($photo_url) {
+    if (preg_match('/id=([a-zA-Z0-9_-]+)/', $photo_url, $matches) || 
+        preg_match('/\/d\/([a-zA-Z0-9_-]+)/', $photo_url, $matches)) {
+        $file_id = $matches[1];
+        return "https://lh3.googleusercontent.com/d/$file_id";
+    }
+    return false;
+}
+
+// Get the stored photo URL and convert it to a direct link
+$photo_url = $building['photo_urls']; 
+$direct_image_url = getDirectGoogleDriveImage($photo_url);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
     $room_id = $_POST['room_id'];
@@ -53,12 +70,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
     <title>Quản Lý Toà Nhà</title>
     <link rel="stylesheet" href="../assets/css/rooms.css">
 </head>
+<style>
+    .building-image {
+    width: 300px; /* Adjust to desired square size */
+    height: 300px; /* Makes sure the image remains square */
+    object-fit: cover; /* Crops automatically while keeping the aspect ratio */
+
+}
+
+</style>
+
 <body>
     <?php include '../includes/header.php'; ?>
     <div class="head-container">
         <div class="main-content">
             <div class="building-info-container">
-                <img src="">
+            <img src="<?php echo $direct_image_url ? $direct_image_url : 'default_image.jpg'; ?>" alt="Building Image" class="building-image">
                 <div>
                     <p>Tên toà nhà: <?php echo htmlspecialchars($building['name']); ?></p>
                     <p>Địa chỉ: <?php echo htmlspecialchars($building['street']); ?>, <?php echo htmlspecialchars($building['district']); ?>, <?php echo htmlspecialchars($building['city']); ?></p>

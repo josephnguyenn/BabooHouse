@@ -18,6 +18,21 @@ $building = $result->fetch_assoc();
 $stmt->close();
 
 $rooms = getAllRooms($building_id);
+
+/**
+ * Converts Google Drive links to direct image links
+ */
+function getDirectGoogleDriveImage($photo_url) {
+    if (preg_match('/id=([a-zA-Z0-9_-]+)/', $photo_url, $matches) || 
+        preg_match('/\/d\/([a-zA-Z0-9_-]+)/', $photo_url, $matches)) {
+        $file_id = $matches[1];
+        return "https://lh3.googleusercontent.com/d/$file_id";
+    }
+    return $photo_url; // Return original URL if it's not a Google Drive link
+}
+
+// ✅ Convert stored building photo URL
+$building_photo_url = isset($building['photo_urls']) ? getDirectGoogleDriveImage($building['photo_urls']) : 'default_image.jpg';
 ?>
 
 <!DOCTYPE html>
@@ -33,8 +48,8 @@ $rooms = getAllRooms($building_id);
     <div class="head-container">
         <div class="main-content">
             <div class="building-info-container">
-                <img src="">
-                <div>
+            <img src="<?php echo htmlspecialchars($building_photo_url); ?>" alt="Building Image" class="building-image">
+            <div>
                     <p>Tên toà nhà: <?php echo htmlspecialchars($building['name']); ?></p>
                     <p>Địa chỉ: <?php echo htmlspecialchars($building['street']); ?>, <?php echo htmlspecialchars($building['district']); ?>, <?php echo htmlspecialchars($building['city']); ?></p>
                     <p>Số điện thoại chủ nhà: <?php echo htmlspecialchars($building['owner_phone']); ?></p>
@@ -110,8 +125,11 @@ $rooms = getAllRooms($building_id);
                 <span class="close" onclick="document.getElementById('lightboxview').style.display = 'none';">×</span>
                 <h3>Thông tin phòng</h3>
                 <div class="building-info-container">
-                <img id="lightbox-image" src="<?php echo htmlspecialchars($room['photo_urls']); ?>" alt="room image">
-                <div>
+                <?php
+            // ✅ Convert stored room photo URL
+            $room_photo_url = isset($room['photo_urls']) ? getDirectGoogleDriveImage($room['photo_urls']) : 'default_room.jpg';
+            ?>
+            <img id="lightbox-image" src="<?php echo htmlspecialchars($room_photo_url); ?>" alt="Room Image">                <div>
                     <p><b>Tên phòng</b>: <?php echo htmlspecialchars($room['room_name']); ?></p>
                     <p><b>Giá</b>: <?php echo htmlspecialchars($room['rental_price']); ?> triệu/tháng</p>
                     <p><b>Diện tích</b>: <?php echo htmlspecialchars($room['area']); ?></p>

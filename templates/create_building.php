@@ -23,11 +23,16 @@ $data = [
     <div class="head-container">
         <div class="main-content" id="create-building">
             <h1>Thêm Toà Nhà Mới</h1>
-            <form action="../admin/process_create_building.php" method="post">
+            <form action="../admin/process_create_building.php" method="post" enctype="multipart/form-data"> <!-- ✅ Added enctype -->
                 <input type="hidden" id="user_id" name="user_id" value="<?php echo $user_id?>"> 
                 <div class="form-group">
                     <label for="name">Tên:</label>
                     <input type="text" id="name" name="name" required>
+                </div>
+                <!-- ✅ Added file upload input -->
+                <div class="form-group">
+                    <label for="building_image">Ảnh tòa nhà:</label>
+                    <input type="file" id="building_image" name="building_image" accept="image/*">
                 </div>
                 <div class="flex-wrap">
                 <div class="form-group">

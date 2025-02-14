@@ -2,7 +2,9 @@
 session_start();
 require '../config/database.php';
 include '../admin/getallbuilding.php';  
+require '../config/google_drive.php'; // Include Google Drive service
 
+$driveService = new GoogleDriveService($conn); // Initialize Google Drive service
 $building_types = getDistinctBuildingTypes();
 
 if (isset($_GET['building_id'])) {
@@ -33,13 +35,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $electricity_price = $_POST['electricity_price'];
     $water_price = $_POST['water_price'];
     $description = $_POST['description'];
-    $approved = $_POST['approved'];
-    $sql = "UPDATE buildings SET name = ?, street = ?, city = ?, district = ?, rental_price = ?, owner_phone = ?, owner_name = ?, building_type = ?, electricity_price = ?, water_price = ?, description = ?, last_modified = NOW(), approved = 0 WHERE building_id = ?";
+    $approved = isset($_POST['approved']) ? $_POST['approved'] : 0; // ✅ Prevent warning
+
+    // Keep existing image if no new file uploaded
+    $file_url = $building['photo_urls'];
+
+     if (!empty($_FILES["building_image"]["tmp_name"])) {
+        $uploaded_file_url = $driveService->uploadFileAndSave($_FILES["building_image"], $building_id);
+        if ($uploaded_file_url) {
+            $file_url = $uploaded_file_url;
+        } else {
+            die("❌ File upload failed. Check Google Drive API settings.");
+        }
+    } else {
+        echo "⚠ No file uploaded.";
+    }
+    
+    // ✅ Fixed SQL query
+    $sql = "UPDATE buildings SET 
+    name = ?, street = ?, city = ?, district = ?, rental_price = ?, 
+    owner_phone = ?, owner_name = ?, building_type = ?, electricity_price = ?, 
+    water_price = ?, description = ?, last_modified = NOW(), 
+    approved = ? WHERE building_id = ?";
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
         die('Prepare failed: ' . htmlspecialchars($conn->error));
     }
-    $stmt->bind_param("sssssssssssi", $name, $street, $city, $district, $rental_price, $owner_phone, $owner_name, $building_type, $electricity_price, $water_price, $description, $building_id);
+    // ✅ Fixed `bind_param` to match placeholders
+    $stmt->bind_param("sssssssssssii", $name, $street, $city, $district, $rental_price, $owner_phone, $owner_name, $building_type, $electricity_price, $water_price, $description,$file_url, $building_id);
     $stmt->execute();
 
     if ($stmt->affected_rows > 0) {
@@ -99,10 +122,22 @@ $data = [
     <div class="head-container">
         <div class="main-content" id="edit-building">
             <h1>Chỉnh Sửa Toà Nhà</h1>
-            <form action="edit_building.php?building_id=<?php echo $building_id; ?>" method="post">
+            <form action="edit_building.php?building_id=<?php echo $building_id; ?>" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="name">Tên toà nhà:</label>
                     <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($building['name']); ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="building_image">Hình ảnh tòa nhà:</label>
+                    <input type="file" id="building_image" name="building_image" accept="image/*">
+                    <?php 
+                    if (!empty($building['photo_urls'])): 
+                        // Convert Google Drive URL to direct displayable image
+                        $direct_image_url = $driveService->getDirectGoogleDriveImage($building['photo_urls']);
+                    ?>
+                        <p>Hình ảnh hiện tại:</p>
+                        <img src="<?php echo $direct_image_url; ?>" alt="Building Image" style="width: 300px; height: 300px; object-fit: cover; display: block; margin: auto;">
+                    <?php endif; ?>
                 </div>
                 <div class="flex-wrap">
                     <div class="form-group">
