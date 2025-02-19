@@ -11,7 +11,7 @@ if (!isset($_SESSION['user_id'])) {
 
 include '../includes/header.php';
 $notifications->data_seek(0);
-
+$notifications_admin->data_seek(0);
 ?>
 
 <!DOCTYPE html>
@@ -35,6 +35,7 @@ $notifications->data_seek(0);
                         <div class="content-wrap">
                         <?php if ($notifications->num_rows > 0): ?>
                             <?php while ($notification = $notifications->fetch_assoc()): ?>
+                                <?php if ($notification['type'] != 'admin'): ?>
                                 <form action="../admin/mark_as_read.php" method="POST" class="notification-item <?php echo $notification['is_read'] ? '' : 'unread' ?>">
                                     <input type="hidden" name="id" value="<?php echo $notification['id']; ?>">
                                     <button type="submit" class="notification-message" style="color: #111; background: none; border: none; text-align: left; width: 100%; padding: 0; cursor: pointer;">
@@ -42,6 +43,7 @@ $notifications->data_seek(0);
                                         <div class="notification-time" style="font-size: 13px; margin-top: 5px;"><?php echo formatTime($notification['created_at'])?></div>
                                         </button>
                                 </form>
+                                <?php endif; ?>
                             <?php endwhile; ?>
                         <?php else: ?>
                             <div class="notification-message">Không có thông báo</div>
@@ -87,7 +89,7 @@ $notifications->data_seek(0);
                         <button class="create" onclick="location.href='manage_buildings.php'">Xem thêm</button>
                     </div>  
                 </div>
-                <div class="grid-item">
+                <!-- <div class="grid-item">
                     <h2>Thông tin lưu trú</h2>
                     <div class="content-grid">
                         <div class="content-wrap">
@@ -116,6 +118,25 @@ $notifications->data_seek(0);
                         </div>
                         <button class="create" onclick="location.href='accommodation_info.php'">Xem thêm</button>
                     </div>  
+                </div> -->
+                <div class="grid-item">
+                    <h2>Thông báo nội bộ</h2>
+                    <div class="content-grid">
+                        <div class="content-wrap">
+                            <?php if ($notifications_admin->num_rows > 0): ?>
+                                <?php while ($notification = $notifications_admin->fetch_assoc()): ?>
+                                    <div id="notif-<?php echo $notification['id']; ?>" 
+                                        class="notification-item <?php echo $notification['is_read'] ? '' : 'unread'; ?>" 
+                                        onclick="markAsRead(<?php echo $notification['id']; ?>, `<?php echo htmlspecialchars($notification['message']); ?>`, '<?php echo $notification['created_at']; ?>')">
+                                        <div class="notification-message"><?php echo htmlspecialchars($notification['message']); ?></div>
+                                        <div class="notification-time"><?php echo formatTime($notification['created_at']); ?></div>
+                                    </div>    
+                                <?php endwhile; ?>
+                            <?php else: ?>
+                                <div class="notification-message">Không có thông báo</div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -123,3 +144,8 @@ $notifications->data_seek(0);
     </div>
 </body>
 </html>
+
+<?php 
+$notifications->data_seek(0);
+$notifications_admin->data_seek(0);
+?>

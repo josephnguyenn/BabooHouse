@@ -27,9 +27,15 @@ $building_types = getDistinctBuildingTypes();
     <div class="head-container">
         <?php include '../includes/filter_buildings.php'; ?>
         <div class="main-content">
-            <div class="manage-head">
-                <h1>Quản Lý Toà Nhà</h1>
-                <button class="create" onclick="location.href='create_building.php'">Thêm toà nhà mới</button>
+            <div class="manage-head"><h1><?php if (isset($_SESSION['role']) && in_array($_SESSION['role'], ['manager', 'admin'])): ?>
+                    Quản Lý Toà Nhà
+                    <?php else: ?>
+                    Toà nhà của tôi
+                    <?php endif; ?>
+                </h1>
+                <?php if (isset($_SESSION['role']) && $_SESSION['role'] != 'manager' && $_SESSION['role'] != 'admin'): ?>
+                    <button class="create" onclick="location.href='create_building.php'">Thêm toà nhà mới</button>
+                <?php endif; ?>
             </div>
             <div class="icon-container">
                 <a id="filter-icon" aria-haspopup="true" aria-expanded="false" onclick="toggleFilter()"><img src="../assets/icons/filter.svg"></a>
@@ -44,6 +50,9 @@ $building_types = getDistinctBuildingTypes();
                     <th>Tình Trạng</th>
                     <th>Công Suất</th>
                     <th>Số Phòng</th>
+                    <?php if (isset($_SESSION['role']) && in_array($_SESSION['role'], ['manager','admin'])): ?>
+                    <th>Người quản lý</th>
+                    <?php endif; ?>
                     <th>Lần Cuối Chỉnh Sửa</th>
                     <th>Thao Tác</th>   
                 </tr>
@@ -75,6 +84,9 @@ $building_types = getDistinctBuildingTypes();
                             <td>
                                 <?php echo htmlspecialchars($rentedCount); ?>/<?php echo htmlspecialchars($totalRooms); ?>
                             </td>
+                            <?php if (isset($_SESSION['role']) && in_array($_SESSION['role'], ['manager','admin'])): ?>
+                            <td><?php echo htmlspecialchars(getUsernameById($building['user_id'])); ?></td>
+                            <?php endif; ?>
                             <td><?php echo htmlspecialchars($building['last_modified']); ?></td> 
                             <td class="crud-btn">
                                 <form action="../admin/delete_building.php" method="post" onsubmit="return confirm('Are you sure you want to delete this building?');" style="display:inline;">

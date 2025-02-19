@@ -100,6 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="role">Vai trò:</label>
                     <select id="role" name="role">
                         <option value="admin" <?php echo ($user['role'] == 'admin') ? 'selected' : ''; ?>>Quản trị viên</option>
+                        <option value="manager" <?php echo ($user['role'] == 'manager') ? 'selected' : ''; ?>>Quản lý</option>
                         <option value="user" <?php echo ($user['role'] == 'user') ? 'selected' : ''; ?>>Người dùng</option>
                     </select>
                 </div>

@@ -384,6 +384,9 @@ table tr:hover {
     width: 20px;
     height: 20px;
 }
+#editor {
+    height: 50vh;
+}
 #close-btn, #filter-icon{
     display: none;
 }

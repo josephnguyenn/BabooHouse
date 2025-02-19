@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['building_id']) && iss
     $stmt->execute();
 
     if ($stmt->affected_rows > 0) {
-        $message = $action === 'approve' ? "Yêu cầu thêm/chỉnh sửa toà nhà '$name' đã được duyệt." : "Toà nhà '$name' đã bị tạm ngưng, liên hệ admin để được giải quyết.";
+        $message = $action === 'approve' ? "Toà nhà '$name' đã được duyệt." : "Toà nhà '$name' đã bị tạm ngưng, liên hệ admin để được giải quyết.";
         $notification_sql = "INSERT INTO notifications (user_id, building_id, message, type, created_at) VALUES (?, ?, ?, 'status', NOW())";
         $notification_stmt = $conn->prepare($notification_sql);
         

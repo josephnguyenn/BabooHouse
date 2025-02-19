@@ -19,7 +19,7 @@ $building_types = getDistinctBuildingTypes();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thông tin lưu trú</title>
+    <title>Tìm kiếm lưu trú</title>
     <link href="../assets/css/filter.css" rel="stylesheet"> 
 </head>
 <body>
@@ -28,7 +28,7 @@ $building_types = getDistinctBuildingTypes();
         <?php include '../includes/filter_accommodation.php'; ?>
         <div class="main-content">
             <div class="manage-head">
-                <h1>Thông Tin Lưu Trú</h1>
+                <h1>Tìm Kiếm Lưu Trú</h1>
             </div>
             <div class="icon-container">
                 <a id="filter-icon" aria-haspopup="true" aria-expanded="false" onclick="toggleFilter()"><img src="../assets/icons/filter.svg"></a>

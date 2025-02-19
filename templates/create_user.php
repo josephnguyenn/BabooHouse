@@ -52,6 +52,7 @@ session_start(); // Start the session
                     <label for="role">Vai trò:</label>
                     <select id="role" name="role">
                         <option value="admin">Quản trị viên</option>
+                        <option value="manager">Quản lý</option>
                         <option value="user">Người dùng</option>
                     </select>
                 </div>
