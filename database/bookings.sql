@@ -64,6 +64,7 @@ CREATE TABLE `buildings` (
   `building_type` varchar(50) DEFAULT NULL,
   `electricity_price` decimal(10,2) DEFAULT NULL,
   `water_price` decimal(10,2) DEFAULT NULL,
+  `service_price` text DEFAULT NULL,
   `description` text DEFAULT NULL,
   `last_modified` datetime DEFAULT NULL,
   `photo_urls` text DEFAULT NULL,
@@ -201,7 +202,8 @@ CREATE TABLE `notifications` (
     `user_id` int(11) NOT NULL,
     `building_id` int(11) DEFAULT NULL,
     `booking_id` int(11) DEFAULT NULL,
-    `message` VARCHAR(255) DEFAULT NULL,
+    `title` VARCHAR(255) DEFAULT NULL,
+    `message` LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
     `type` VARCHAR(50) DEFAULT 'general',
     `is_read` BOOLEAN DEFAULT FALSE,
     `created_at` datetime DEFAULT NOW()

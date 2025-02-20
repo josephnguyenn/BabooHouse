@@ -93,6 +93,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
                     <p>Tên chủ nhà: <?php echo htmlspecialchars($building['owner_name']); ?></p>
                     <p>Loại hình: <?php echo htmlspecialchars($building['building_type']); ?></p>
                     <p>Tiện nghi: <?php echo htmlspecialchars($building['description']); ?></p>
+                    <p>Tiền điện: <?php echo htmlspecialchars($building['electricity_price']); ?></p>
+                    <p>Tiền nước: <?php echo htmlspecialchars($building['water_price']); ?></p>
+                    <p>Tiền dịch vụ: <?php echo htmlspecialchars($building['service_price']); ?></p>
                 </div>  
             </div>    
             <div class="manage-head">

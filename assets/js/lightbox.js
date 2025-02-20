@@ -10,9 +10,8 @@ function openLightbox(button) {
     document.getElementById('room_price').value = price;
     document.getElementById('room_area').value = area;
     document.getElementById('room_status').value = status;
-    document.getElementById('lightbox').style.display = 'flex';
+    document.getElementById('lightboxroom').style.display = 'flex';
 }
-
 
 function markAsRead(notificationId, message, createdAt) {
     fetch('../admin/mark_as_read.php', {
@@ -22,22 +21,25 @@ function markAsRead(notificationId, message, createdAt) {
     }).then(response => response.json())
     .then(data => {
         if (data.success) {
-            document.getElementById('lightboxview').style.display = 'block';
-            document.getElementById('notif-message').innerText = message;
+            let lightbox = document.getElementById('lightboxview');
+            lightbox.style.display = 'flex';
+
+            // Set formatted HTML content
+            document.getElementById('notif-message').innerHTML = message;
             document.getElementById('notif-time').innerText = createdAt;
             document.getElementById('notif-' + notificationId).classList.remove('unread');
-            document.getElementById('lightboxview').display = "flex";
+
+            setTimeout(() => {
+                lightbox.style.opacity = "1";
+                document.querySelector(".lightbox-content").style.transform = "scale(1)";
+            }, 10);
+
+            let notifbox = document.getElementById("notification-box");
+            notifbox.style.display = "none";
         }
-        let lightbox = document.getElementById("lightboxview");
-        lightbox.style.display = "flex";
-        setTimeout(() => {
-            lightbox.style.opacity = "1";
-            document.querySelector(".lightbox-content").style.transform = "scale(1)";
-        }, 10);
-        let notifbox = document.getElementById("notification-box");
-        notifbox.style.display = "none";
     });
 }
+
 
 function closeLightbox() {
     let lightbox = document.getElementById("lightboxview");

@@ -10,6 +10,20 @@ $building_types = getDistinctBuildingTypes();
 <form class="filter-form" method="get" action="manage_buildings.php">
     <div class="flex-wrap">
         <div class="form-group">
+            <label for="name">Tìm tên toà nhà:</label>
+            <input type="text" name="name" class="searchbox" placeholder="tìm kiếm bằng tên toà nhà" value="<?php echo htmlspecialchars($name); ?>">
+        </div>
+        <div class="form-group">
+            <label for="price">Giá:</label>
+            <select id="price" name="price">
+                <option value="BETWEEN 1 AND 3">1 - 3 triệu</option>
+                <option value="BETWEEN 3 AND 5">3 - 5 triệu</option>
+                <option value="BETWEEN 5 AND 8">5 - 8 triệu</option>
+                <option value="BETWEEN 8 AND 10">8 - 10 triệu</option>
+                <option value="> 10">trên 10 triệu</option>
+            </select>
+        </div>
+        <div class="form-group">
             <label for="city">Thành phố:</label>
             <select id="city" name="city">
                 <option value="">Chọn thành phố</option>

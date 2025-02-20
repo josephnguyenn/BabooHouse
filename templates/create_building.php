@@ -85,11 +85,17 @@ $data = [
                     <input type="float" id="water_price" name="water_price" value="" required>
                 </div>
                 <div class="form-group">
+                    <label for="service_price">Tiền dịch vụ (đồng):</label>
+                    <input type="text" id="service_price" name="service_price" value="" required>
+                </div>
+                <div class="form-group">
                     <label for="description">Tiện nghi:</label>
                     <input type="text" id="description" name="description" value="" required>
                 </div>
                 <button type="submit">Thêm toà nhà</button>
             </form>
+
+            
         </div>
         <?php include '../includes/sidebar.php'; ?> <!-- Bao gồm thanh bên -->
     </div>

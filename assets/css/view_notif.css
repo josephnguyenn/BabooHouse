@@ -43,8 +43,8 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    width: 80vw;
-    height: 80%;
+    width: 50vw;
+    height: 70%;
     transform: scale(0.8);
     transition: transform 0.3s ease-in-out;
 }
@@ -58,8 +58,13 @@
     color: #111;
 }
 
+.notification-title {
+    font-weight: bold;
+    color: #71b288;
+}
+
 @media (max-width: 768px) {
     .lightbox-content {
-        width: 100%;
+        width: 80%;
     }
 }

@@ -22,7 +22,7 @@ require '../config/database.php';
             <form action="../admin/process_create_post.php" method="post">
                 <div class="form-group">
                     <label for="title">Tiêu đề: </label>
-                    <input type="text" id="title" name="title" required>
+                    <input type="text" maxlength='30' id="title" name="title" required>
                 </div>
                 <div class="form-group">
                     <label for="editor">Nội dung:</label>

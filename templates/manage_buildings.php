@@ -2,14 +2,15 @@
 session_start();
 include '../admin/getallbuilding.php';  
 include '../admin/getallroom.php';
+include '../admin/getalluser.php';
 
-$min_price = isset($_GET['min_price']) ? (int)$_GET['min_price'] : getMaxAndMinPrice()['min'];
-$max_price = isset($_GET['max_price']) ? (int)$_GET['max_price'] : getMaxAndMinPrice()['max'];
+$name = isset($_GET['name']) ? $_GET['name'] : NULL;
+$price = isset($_GET['price']) ? $_GET['price'] : NULL; 
 $selected_types = isset($_GET['building_type']) ? $_GET['building_type'] : NULL;
 $status_type = isset($_GET['status_type']) ? $_GET['status_type'] : NULL;
 $city = isset($_GET['city']) ? $_GET['city'] : NULL;
 $district = isset($_GET['district']) ? $_GET['district'] : NULL;
-$buildings = getAllBuildings($min_price, $max_price, $selected_types, $_SESSION['user_id'], $status_type, $city, $district);
+$buildings = getAllBuildings($name, NULL, $price, $selected_types, $_SESSION['user_id'], $status_type, $city, $district);
 $building_types = getDistinctBuildingTypes();
 ?>
 
@@ -25,7 +26,6 @@ $building_types = getDistinctBuildingTypes();
 <body>
     <?php include '../includes/header.php'; ?>
     <div class="head-container">
-        <?php include '../includes/filter_buildings.php'; ?>
         <div class="main-content">
             <div class="manage-head"><h1><?php if (isset($_SESSION['role']) && in_array($_SESSION['role'], ['manager', 'admin'])): ?>
                     Quản Lý Toà Nhà
@@ -110,6 +110,5 @@ $building_types = getDistinctBuildingTypes();
         </div>
         <?php include '../includes/sidebar.php'; ?>
     </div>
-    <script src="../assets/js/filter.js"></script>
 </body>
 </html>

@@ -56,9 +56,22 @@ $notifications_admin->data_seek(0);
                             <?php if ($notification['type'] === 'admin'): ?>
                                 <div id="notif-<?php echo $notification['id']; ?>" 
                                     class="notification-item <?php echo $notification['is_read'] ? '' : 'unread'; ?>" 
-                                    onclick="markAsRead(<?php echo $notification['id']; ?>, `<?php echo htmlspecialchars($notification['message']); ?>`, '<?php echo $notification['created_at']; ?>')">
-                                    <div class="notification-message"><?php echo htmlspecialchars($notification['message']); ?></div>
-                                    <div class="notification-time"><?php echo formatTime($notification['created_at']); ?></div>
+                                    onclick="markAsRead(<?php echo $notification['id']; ?>, `<?php echo htmlspecialchars_decode($notification['message']); ?>`, '<?php echo $notification['created_at']; ?>')">
+                                    
+                                    <div class="notification-title">
+                                        <?php echo htmlspecialchars_decode($notification['title']); ?>
+                                    </div>
+                                    
+                                    <div class="notification-message">
+                                        <?php 
+                                            $plainTextMessage = strip_tags(html_entity_decode($notification['message']));
+                                            echo mb_strimwidth($plainTextMessage, 0, 60, '...');
+                                        ?>
+                                    </div>
+                                    
+                                    <div class="notification-time" style="font-size: 13px; margin-top: 5px;">
+                                        <?php echo formatTime($notification['created_at']); ?>
+                                    </div>
                                 </div>
                             <?php else: ?>
                                 <form action="../admin/mark_as_read.php" method="POST" class="notification-item <?php echo $notification['is_read'] ? '' : 'unread' ?>">

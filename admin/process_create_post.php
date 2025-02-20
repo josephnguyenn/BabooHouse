@@ -7,11 +7,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title = $_POST['title'];
     $content = $_POST['content']; 
 
-    $message = "[" . $title . "] " . $content;
-
-    $sql = "INSERT INTO notifications (user_id, message, type) VALUES (?, ?, 'admin')";
+    $sql = "INSERT INTO notifications (user_id, title, message, type) VALUES (?, ?, ?, 'admin')";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("is", $user_id, $message);
+    $stmt->bind_param("iss", $user_id, $title, $content);
     $stmt->execute();
 
     if ($stmt->affected_rows > 0) {

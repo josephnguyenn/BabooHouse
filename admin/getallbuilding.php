@@ -1,32 +1,41 @@
 <?php
 require '../config/database.php';
 
-function getAllBuildings($min_price = 0, $max_price = 100000, $selected_type = NULL, $user_id = NULL, $status_type = NULL, $city = NULL, $district = NULL) {
+function getAllBuildings($name = NULL, $exename = NULL, $price = NULL, $selected_type = NULL, $user_id = NULL, $status_type = NULL, $city = NULL, $district = NULL) {
     global $conn;
     
-    $sql = "SELECT * FROM buildings b WHERE b.rental_price BETWEEN ? AND ?";
-    $params = [$min_price, $max_price];
-    $binding_types = "ii";
+    $sql = "SELECT * FROM buildings b WHERE 1=1";
+    $params = [];
+    $binding_types = "";
 
-    // if (!empty($selected_types)) {
-    //     $placeholders = implode(',', array_fill(0, count($selected_types), '?'));
-    //     $sql .= " AND b.building_type IN ($placeholders)";
-    //     $params = array_merge($params, $selected_types);
-    //     $binding_types .= str_repeat('s', count($selected_types));
-    // }
+    // Handle price filter dynamically
+    if ($price !== NULL && $price != '') {
+        if ($price === "BETWEEN 1 AND 3") {
+            $sql .= " AND b.rental_price BETWEEN 1 AND 3";
+        } elseif ($price === "BETWEEN 3 AND 5") {
+            $sql .= " AND b.rental_price BETWEEN 3 AND 5";
+        } elseif ($price === "BETWEEN 5 AND 8") {
+            $sql .= " AND b.rental_price BETWEEN 5 AND 8";
+        } elseif ($price === "BETWEEN 8 AND 10") {
+            $sql .= " AND b.rental_price BETWEEN 8 AND 10";
+        } elseif ($price === "> 10") {
+            $sql .= " AND b.rental_price > 10";
+        }
+    }
 
-    if ($selected_type !== NULL && $selected_type != '') {
+    if (!empty($selected_type)) {
         $sql .= " AND b.building_type = ?";
         $params[] = $selected_type;
         $binding_types .= "s";
     }
-    
+
     if ($user_id !== NULL) {
         $sql .= " AND b.user_id = ?";
         $params[] = $user_id;
         $binding_types .= "i";
     }
-    if ($status_type !== NULL || $status_type != "Tất cả") {
+
+    if ($status_type !== NULL && $status_type != "Tất cả") {
         if ($status_type === "Hết phòng") {
             $sql .= " AND NOT EXISTS (
                         SELECT 1 
@@ -43,25 +52,42 @@ function getAllBuildings($min_price = 0, $max_price = 100000, $selected_type = N
                      )";
         }
     }
-    if ($city !== NULL && $city != '') {
+
+    if (!empty($city)) {
         $sql .= " AND b.city = ?";
         $params[] = $city;
         $binding_types .= "s";
     }
-    if ($district !== NULL && $district != '') {
+
+    if (!empty($district)) {
         $sql .= " AND b.district = ?";
         $params[] = $district;
         $binding_types .= "s";
     }
-    $stmt = $conn->prepare($sql);
 
+    if (!empty($name)) {
+        $sql .= " AND b.name LIKE ?";
+        $params[] = "%{$name}%";
+        $binding_types .= "s";
+    }
+
+    if (!empty($exename)) {
+        $sql .= " AND b.user_id IN (
+                     SELECT u.user_id FROM users u 
+                     WHERE u.name LIKE ?
+                 )";
+        $params[] = "%{$exename}%";
+        $binding_types .= "s";
+    }
+
+    $stmt = $conn->prepare($sql);
+    
     if (!empty($params)) {
         $stmt->bind_param($binding_types, ...$params);
     }
 
     $stmt->execute();
-    $result = $stmt->get_result();
-    return $result;
+    return $stmt->get_result();
 }
 
 function getAllBuildingsOfUser($user_id) {
@@ -99,16 +125,4 @@ function getInfoBuilding($building_id) {
     $building_info = $result->fetch_assoc();
     $stmt->close();
     return $building_info;
-}
-function getMaxAndMinPrice() {
-    return [
-        'min' => 0,
-        'max' => 100000
-    ];
-    // Chỉnh thêm file assets/js/filter.js
-
-    //const getmin = get_url('min_price') || 0 <- Chỉnh giá trị min; 
-    //const getmax = get_url('max_price') || 100000 <- Chỉnh giá trị max; 
-
-}
-?>
+}?>

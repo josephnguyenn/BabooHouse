@@ -4,13 +4,14 @@ include '../admin/getallbuilding.php';
 include '../admin/getallroom.php';
 include '../admin/getalluser.php';
 
-$min_price = isset($_GET['min_price']) ? (int)$_GET['min_price'] : getMaxAndMinPrice()['min'];
-$max_price = isset($_GET['max_price']) ? (int)$_GET['max_price'] : getMaxAndMinPrice()['max'];
+$name = isset($_GET['name']) ? $_GET['name'] : NULL;
+$exename = isset($_GET['exename']) ? $_GET['exename'] : NULL;
+$price = isset($_GET['price']) ? $_GET['price'] : NULL;
 $selected_types = isset($_GET['building_type']) ? $_GET['building_type'] : NULL;
 $status_type = isset($_GET['status_type']) ? $_GET['status_type'] : NULL;
 $city = isset($_GET['city']) ? $_GET['city'] : NULL;
 $district = isset($_GET['district']) ? $_GET['district'] : NULL;
-$buildings = getAllBuildings($min_price, $max_price, $selected_types, NULL, $status_type, $city, $district);
+$buildings = getAllBuildings($name, $exename, $price, $selected_types, NULL , $status_type, $city, $district);
 $building_types = getDistinctBuildingTypes();
 ?>
 
@@ -25,7 +26,6 @@ $building_types = getDistinctBuildingTypes();
 <body>
     <?php include '../includes/header.php'; ?>
     <div class="head-container">
-        <?php include '../includes/filter_accommodation.php'; ?>
         <div class="main-content">
             <div class="manage-head">
                 <h1>Tìm Kiếm Lưu Trú</h1>

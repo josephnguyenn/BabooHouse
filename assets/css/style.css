@@ -114,7 +114,7 @@ input[type="text"],
 input[type="float"],
 select
 {
-    width: 100%;
+    /* width: 100%; */
     padding: 10px;
     border: 1px solid #cccccc;
     border-radius: 4px;

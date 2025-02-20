@@ -57,6 +57,9 @@ $building_photo_url = isset($building['photo_urls']) ? getDirectGoogleDriveImage
                     <p>Tên quản lý: <?php echo htmlspecialchars(getUsernameById($building['user_id'])); ?></p>
                     <p>Loại hình: <?php echo htmlspecialchars($building['building_type']); ?></p>
                     <p>Tiện nghi: <?php echo htmlspecialchars($building['description']); ?></p>
+                    <p>Tiền điện: <?php echo htmlspecialchars($building['electricity_price']); ?></p>
+                    <p>Tiền nước: <?php echo htmlspecialchars($building['water_price']); ?></p>
+                    <p>Tiền dịch vụ: <?php echo htmlspecialchars($building['service_price']); ?></p>
                 </div>  
             </div>    
             <div class="manage-head">
@@ -82,43 +85,43 @@ $building_photo_url = isset($building['photo_urls']) ? getDirectGoogleDriveImage
                 <?php endif; ?>    
             </div>
             <div style="overflow-x: auto; width: 100%;">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Tên</th>
-                        <th>Giá</th>
-                        <th>Diện tích</th>
-                        <th>Tình trạng</th>
-                        <?php if (isset($_SESSION['role']) && $_SESSION['role'] != 'admin'): ?>
-                        <th>Hành động</th>
-                        <?php endif; ?>
-                    </tr>
-                </thead>
-                <tbody>
-                <?php if ($rooms->num_rows > 0): ?>
-                    <?php foreach ($rooms as $room): ?>
-                        <tr onclick="document.getElementById('lightboxview').style.display = 'flex';">
-                            <td><?php echo htmlspecialchars($room['room_name']); ?></td>
-                            <td><?php echo htmlspecialchars($room['rental_price']); ?> triệu/tháng</td>
-                            <td><?php echo htmlspecialchars($room['area']); ?> m&#178;</td>
-                            <td><?php echo htmlspecialchars($room['room_status']); ?></td>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tên</th>
+                            <th>Giá</th>
+                            <th>Diện tích</th>
+                            <th>Tình trạng</th>
                             <?php if (isset($_SESSION['role']) && $_SESSION['role'] != 'admin'): ?>
-                            <td>
-                                <?php if ($room['room_status'] == 'Còn trống'): ?>
-                                    <button class="create" onclick="location.href='book_room.php?building_id=<?php echo $room['building_id']; ?>&room_id=<?php echo $room['room_id']; ?>'">Đặt phòng</button>
-                                <?php endif; ?>
-                            </td>
+                            <th>Hành động</th>
                             <?php endif; ?>
                         </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <tr>
-                        <td colspan="5">Không tìm thấy phòng</td>
-                    </tr>
-                <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                    <?php if ($rooms->num_rows > 0): ?>
+                        <?php foreach ($rooms as $room): ?>
+                            <tr onclick="document.getElementById('lightboxview').style.display = 'flex';">
+                                <td><?php echo htmlspecialchars($room['room_name']); ?></td>
+                                <td><?php echo htmlspecialchars($room['rental_price']); ?> triệu/tháng</td>
+                                <td><?php echo htmlspecialchars($room['area']); ?> m&#178;</td>
+                                <td><?php echo htmlspecialchars($room['room_status']); ?></td>
+                                <?php if (isset($_SESSION['role']) && $_SESSION['role'] != 'admin'): ?>
+                                <td>
+                                    <?php if ($room['room_status'] == 'Còn trống'): ?>
+                                        <button class="create" onclick="location.href='book_room.php?building_id=<?php echo $room['building_id']; ?>&room_id=<?php echo $room['room_id']; ?>'">Đặt phòng</button>
+                                    <?php endif; ?>
+                                </td>
+                                <?php endif; ?>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="5">Không tìm thấy phòng</td>
+                        </tr>
+                    <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div class="lightbox" id="lightboxview" style="display:none;">
             <div class="lightbox-content">

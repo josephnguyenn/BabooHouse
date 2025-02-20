@@ -34,10 +34,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $building_type = $_POST['building_type'];
     $electricity_price = $_POST['electricity_price'];
     $water_price = $_POST['water_price'];
+    $service_price = $_POST['service_price'];
     $description = $_POST['description'];
-    $approved = isset($_POST['approved']) ? $_POST['approved'] : 0; // ✅ Prevent warning
-
-    // Keep existing image if no new file uploaded
+    
     $file_url = $building['photo_urls'];
 
      if (!empty($_FILES["building_image"]["tmp_name"])) {
@@ -55,48 +54,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "UPDATE buildings SET 
     name = ?, street = ?, city = ?, district = ?, rental_price = ?, 
     owner_phone = ?, owner_name = ?, building_type = ?, electricity_price = ?, 
-    water_price = ?, description = ?, last_modified = NOW(), 
-    approved = ? WHERE building_id = ?";
+    water_price = ?, service_price = ?, description = ?, last_modified = NOW(), photo_urls = ? WHERE building_id = ?";
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
         die('Prepare failed: ' . htmlspecialchars($conn->error));
     }
     // ✅ Fixed `bind_param` to match placeholders
-    $stmt->bind_param("sssssssssssii", $name, $street, $city, $district, $rental_price, $owner_phone, $owner_name, $building_type, $electricity_price, $water_price, $description,$file_url, $building_id);
+    $stmt->bind_param("sssssssssssssi", $name, $street, $city, $district, $rental_price, $owner_phone, $owner_name, $building_type, $electricity_price, $water_price, $service_price, $description, $file_url, $building_id);
     $stmt->execute();
-
-    if ($stmt->affected_rows > 0) {
-        $admin_sql = "SELECT user_id FROM users WHERE role = 'admin'";
-        $admin_result = $conn->query($admin_sql);
-
-        if ($admin_result) {
-            $message = $approved ? "Yêu cầu chỉnh sửa toà nhà '$name' đang chờ duyệt." : "Yêu cầu thêm toà nhà '$name' đang chờ duyệt.";
-            while ($admin = $admin_result->fetch_assoc()) {
-                $admin_id = $admin['user_id'];
-                $notification_sql = "UPDATE notifications SET message = ?, created_at = NOW() WHERE building_id = ?";
-                $notification_stmt = $conn->prepare($notification_sql);
-                
-                if ($notification_stmt) {
-                    $notification_stmt->bind_param("si", $message, $building_id);
-                    $notification_stmt->execute();
-                    
-                    if ($notification_stmt->affected_rows <= 0) {
-                        echo "Failed to insert notification for admin ID $admin_id: " . $notification_stmt->error;
-                    }
-
-                    $notification_stmt->close();
-                } else {
-                    echo "MySQL prepare error for notification: " . $conn->error;
-                }
-            }
-        } else {
-            echo "Error fetching admins: " . $conn->error;
-        }
-
-        echo "building updated successfully.";
-    } else {
-        echo "Error updating building: " . htmlspecialchars($stmt->error);
-    }
     $stmt->close();
     $conn->close();
     header("Location: manage_buildings.php");
@@ -188,6 +153,10 @@ $data = [
                 <div class="form-group">
                     <label for="water_price">Tiền nước (đồng):</label>
                     <input type="float" id="water_price" name="water_price" value="<?php echo htmlspecialchars($building['water_price']); ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="service_price">Tiền dịch vụ (đồng):</label>
+                    <input type="text" id="service_price" name="service_price" value="<?php echo htmlspecialchars($building['service_price']); ?>" required>
                 </div>
                 <div class="form-group">
                     <label for="description">Tiện nghi:</label>

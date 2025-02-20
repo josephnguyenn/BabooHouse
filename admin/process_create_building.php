@@ -24,13 +24,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $building_type = $_POST['building_type'];
     $electricity_price = $_POST['electricity_price'];
     $water_price = $_POST['water_price'];
+    $service_price = $_POST['service_price'];
     $description = $_POST['description'];
 
     logMessage("✔ Received form data: Name - $name, User ID - $user_id");
 
     // ✅ Insert building data (WITHOUT the photo first)
-    $sql = "INSERT INTO buildings (user_id, name, street, city, district, rental_price, owner_name, owner_phone, building_type, electricity_price, water_price, description, last_modified)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+    $sql = "INSERT INTO buildings (user_id, name, street, city, district, rental_price, owner_name, owner_phone, building_type, electricity_price, water_price, service_price, description, last_modified)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
 
     $stmt = $conn->prepare($sql);
     
@@ -39,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("MySQL prepare error: " . $conn->error);
     }
 
-    $stmt->bind_param("isssssssssss", $user_id, $name, $street, $city, $district, $rental_price, $owner_name, $owner_phone, $building_type, $electricity_price, $water_price, $description);
+    $stmt->bind_param("issssssssssss", $user_id, $name, $street, $city, $district, $rental_price, $owner_name, $owner_phone, $building_type, $electricity_price, $water_price, $service_price, $description);
     $stmt->execute();
 
     if ($stmt->affected_rows > 0) {
@@ -75,30 +76,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         } else {
             logMessage("⚠️ No image uploaded or file error.");
-        }
-
-        // ✅ Notify admins
-        $admin_sql = "SELECT user_id FROM users WHERE role = 'admin'";
-        $admin_result = $conn->query($admin_sql);
-        if ($admin_result) {
-            $message = "Yêu cầu toà nhà '$name' đang chờ duyệt.";
-            while ($admin = $admin_result->fetch_assoc()) {
-                $admin_id = $admin['user_id'];
-                $notification_sql = "INSERT INTO notifications (user_id, building_id, message, type, created_at) VALUES (?, ?, ?, 'building', NOW())";
-                $notification_stmt = $conn->prepare($notification_sql);
-                
-                if ($notification_stmt) {
-                    $notification_stmt->bind_param("iis", $admin_id, $building_id, $message);
-                    if (!$notification_stmt->execute()) {
-                        logMessage("⚠️ Failed to insert notification for admin ID $admin_id: " . $notification_stmt->error);
-                    }
-                    $notification_stmt->close();
-                } else {
-                    logMessage("⚠️ MySQL prepare error for notification: " . $conn->error);
-                }
-            }
-        } else {
-            logMessage("⚠️ Error fetching admins: " . $conn->error);
         }
 
         logMessage("✅ New building creation process completed successfully.");
