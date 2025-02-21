@@ -6,14 +6,14 @@ function toggleSidebar() {
 }
 
 function toggleFilter() {
-    var sidebar = document.querySelector('.right-sidebar');
+    var filter_form = document.querySelector('.filter-form');
     var button = document.getElementById('filter-icon');
     var clsbutton = document.getElementById('close-btn');
 
-    sidebar.classList.toggle('active');
+    filter_form.classList.toggle('active');
 
-    button.setAttribute('aria-expanded', sidebar.classList.contains('active'));
+    button.setAttribute('aria-expanded', filter_form.classList.contains('active'));
 
-    button.classList.toggle('hidden', sidebar.classList.contains('active'));
-    clsbutton.classList.toggle('hidden', !sidebar.classList.contains('active'));
+    button.classList.toggle('hidden', filter_form.classList.contains('active'));
+    clsbutton.classList.toggle('hidden', !filter_form.classList.contains('active'));
 }

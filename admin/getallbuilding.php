@@ -1,7 +1,7 @@
 <?php
 require '../config/database.php';
 
-function getAllBuildings($name = NULL, $exename = NULL, $price = NULL, $selected_type = NULL, $user_id = NULL, $status_type = NULL, $city = NULL, $district = NULL) {
+function getAllBuildings($name = NULL, $exename = NULL, $price = NULL, $selected_type = NULL, $user_id = NULL, $status_type = NULL, $city = NULL, $district = NULL, $room_type = NULL) {
     global $conn;
     
     $sql = "SELECT * FROM buildings b WHERE 1=1";
@@ -10,15 +10,15 @@ function getAllBuildings($name = NULL, $exename = NULL, $price = NULL, $selected
 
     // Handle price filter dynamically
     if ($price !== NULL && $price != '') {
-        if ($price === "BETWEEN 1 AND 3") {
+        if ($price === "1-3") {
             $sql .= " AND b.rental_price BETWEEN 1 AND 3";
-        } elseif ($price === "BETWEEN 3 AND 5") {
+        } elseif ($price === "3-5") {
             $sql .= " AND b.rental_price BETWEEN 3 AND 5";
-        } elseif ($price === "BETWEEN 5 AND 8") {
+        } elseif ($price === "5-8") {
             $sql .= " AND b.rental_price BETWEEN 5 AND 8";
-        } elseif ($price === "BETWEEN 8 AND 10") {
+        } elseif ($price === "8-10") {
             $sql .= " AND b.rental_price BETWEEN 8 AND 10";
-        } elseif ($price === "> 10") {
+        } elseif ($price === "above_10") {
             $sql .= " AND b.rental_price > 10";
         }
     }
@@ -80,6 +80,16 @@ function getAllBuildings($name = NULL, $exename = NULL, $price = NULL, $selected
         $binding_types .= "s";
     }
 
+    if (!empty($room_type)) {
+        $sql .= " AND EXISTS (
+            SELECT 1 FROM rooms r 
+            WHERE b.building_id = r.building_id 
+            AND r.room_type = ?
+        )";
+        $params[] = $room_type;
+        $binding_types .= "s";
+    }
+    
     $stmt = $conn->prepare($sql);
     
     if (!empty($params)) {

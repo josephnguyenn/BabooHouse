@@ -10,7 +10,8 @@ $selected_types = isset($_GET['building_type']) ? $_GET['building_type'] : NULL;
 $status_type = isset($_GET['status_type']) ? $_GET['status_type'] : NULL;
 $city = isset($_GET['city']) ? $_GET['city'] : NULL;
 $district = isset($_GET['district']) ? $_GET['district'] : NULL;
-$buildings = getAllBuildings($name, NULL, $price, $selected_types, $_SESSION['user_id'], $status_type, $city, $district);
+$room_type = isset($_GET['room_type']) ? $_GET['room_type'] : NULL;
+$buildings = getAllBuildings($name, NULL, $price, $selected_types, $_SESSION['user_id'], $status_type, $city, $district, $room_type);
 $building_types = getDistinctBuildingTypes();
 ?>
 

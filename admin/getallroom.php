@@ -56,4 +56,9 @@ function getInfoRoom($room_id) {
     $stmt->close();
     return $room_info;
 }
+
+function getDistinctRoomTypes() {
+    // return ['1 phòng đơn','1 phòng đôi','2 phòng đơn','2 phòng đôi'];
+    return ['Phòng đơn','Phòng đôi','Phòng VIP'];
+}
 ?>

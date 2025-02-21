@@ -6,8 +6,10 @@ $data = [
     'Hồ Chí Minh' => ['Quận 1', 'Quận 2', 'Quận 3', 'Quận 4', 'Quận 5', 'Quận 6', 'Quận 7'],
 ];
 $building_types = getDistinctBuildingTypes();
+$room_types = getDistinctRoomTypes();
 ?>
-<form class="filter-form" method="get" action="manage_buildings.php">
+<form id="filter-section" class="filter-form" method="get" action="manage_buildings.php">
+    <span id="close-btn" onclick="toggleFilter()">&times;</span>
     <div class="flex-wrap">
         <div class="form-group">
             <label for="name">Tìm tên toà nhà:</label>
@@ -16,11 +18,21 @@ $building_types = getDistinctBuildingTypes();
         <div class="form-group">
             <label for="price">Giá:</label>
             <select id="price" name="price">
-                <option value="BETWEEN 1 AND 3">1 - 3 triệu</option>
-                <option value="BETWEEN 3 AND 5">3 - 5 triệu</option>
-                <option value="BETWEEN 5 AND 8">5 - 8 triệu</option>
-                <option value="BETWEEN 8 AND 10">8 - 10 triệu</option>
-                <option value="> 10">trên 10 triệu</option>
+                <option value="" selected>Tất cả</option>
+                <option value="1-3">1 - 3 triệu</option>
+                <option value="3-5">3 - 5 triệu</option>
+                <option value="5-8">5 - 8 triệu</option>
+                <option value="8-10">8 - 10 triệu</option>
+                <option value="above_10">Trên 10 triệu</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="room_type">Loại phòng:</label>
+            <select id="room_type" name="room_type">
+                <option value="" selected>Tất cả</option>
+                <?php foreach ($room_types as $type): ?>
+                    <option value="<?php echo htmlspecialchars($type); ?>" ><?php echo htmlspecialchars($type); ?></option>
+                <?php endforeach; ?>
             </select>
         </div>
         <div class="form-group">
@@ -71,9 +83,6 @@ $building_types = getDistinctBuildingTypes();
                     const option = document.createElement('option');
                     option.value = district;
                     option.textContent = district;
-                    if (district === selectedDistrict) {
-                        option.selected = true; 
-                    }
                     districtSelect.appendChild(option);
                 });
             }
@@ -83,5 +92,13 @@ $building_types = getDistinctBuildingTypes();
             citySelect.value = selectedCity;
             citySelect.dispatchEvent(new Event('change'));
         }
+        document.getElementById("filter-section").addEventListener("submit", function(event) {
+            const inputs = this.querySelectorAll("input, select");
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    input.removeAttribute("name"); 
+                }
+            });
+        });
     });
 </script>

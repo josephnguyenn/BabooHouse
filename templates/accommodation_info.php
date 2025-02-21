@@ -11,7 +11,8 @@ $selected_types = isset($_GET['building_type']) ? $_GET['building_type'] : NULL;
 $status_type = isset($_GET['status_type']) ? $_GET['status_type'] : NULL;
 $city = isset($_GET['city']) ? $_GET['city'] : NULL;
 $district = isset($_GET['district']) ? $_GET['district'] : NULL;
-$buildings = getAllBuildings($name, $exename, $price, $selected_types, NULL , $status_type, $city, $district);
+$room_type = isset($_GET['room_type']) ? $_GET['room_type'] : NULL;
+$buildings = getAllBuildings($name, $exename, $price, $selected_types, NULL , $status_type, $city, $district, $room_type);
 $building_types = getDistinctBuildingTypes();
 ?>
 
@@ -90,38 +91,5 @@ $building_types = getDistinctBuildingTypes();
         </div>
         <?php include '../includes/sidebar.php'; ?>
     </div>
-    <script src="../assets/js/filter.js"></script>
-    <script>
-        const districtsData = <?php echo json_encode($data); ?>;
-        const selectedDistrict = '<?php echo htmlspecialchars($building['district']); ?>';
-        const selectedCity = '<?php echo htmlspecialchars($building['city']); ?>'; 
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const citySelect = document.getElementById('city');
-            const districtSelect = document.getElementById('district');
-
-            citySelect.addEventListener('change', function() {
-                districtSelect.innerHTML = '<option value="">Chọn quận</option>';
-                const selectedCity = this.value;
-
-                if (selectedCity && districtsData[selectedCity]) {
-                    districtsData[selectedCity].forEach(function(district) {
-                        const option = document.createElement('option');
-                        option.value = district;
-                        option.textContent = district;
-                        if (district === selectedDistrict) {
-                            option.selected = true; 
-                        }
-                        districtSelect.appendChild(option);
-                    });
-                }
-            });
-
-            if (selectedCity) {
-                citySelect.value = selectedCity;
-                citySelect.dispatchEvent(new Event('change'));
-            }
-        });
-    </script>
 </body>
 </html>
