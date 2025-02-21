@@ -3,6 +3,7 @@ session_start();
 require '../config/database.php';
 require '../admin/getallroom.php';
 
+
 $building_id = $_GET['building_id'];
 
 $sql = "SELECT * FROM buildings WHERE building_id = ?";
@@ -17,6 +18,7 @@ $building = $result->fetch_assoc();
 $stmt->close();
 
 $rooms = getAllRooms($building_id);
+$room_types = getDistinctRoomTypes();
 /**
  * Convert Google Drive URL to direct link
  * @param string $photo_url
@@ -37,18 +39,18 @@ $direct_image_url = getDirectGoogleDriveImage($photo_url);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
     $room_id = $_POST['room_id'];
-    $building_id = $_POST['building_id'];
     $room_name = $_POST['room_name'];
     $rental_price = $_POST['rental_price'];
+    $room_type = $_POST['room_type'];
     $area = $_POST['area'];
     $room_status = $_POST['room_status'];
 
-    $sql = "UPDATE rooms SET room_name = ?, rental_price = ?, area = ?, room_status = ? WHERE room_id = ?";
+    $sql = "UPDATE rooms SET room_name = ?, rental_price = ?, area = ?, room_status = ?, room_type = ? WHERE room_id = ?";
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
         die('Prepare failed: ' . htmlspecialchars($conn->error));
     }
-    $stmt->bind_param("ssssi", $room_name, $rental_price, $area, $room_status, $room_id);
+    $stmt->bind_param("sssssi", $room_name, $rental_price, $area, $room_status, $room_type, $room_id);
     $stmt->execute();
 
     if ($stmt->affected_rows > 0) {
@@ -132,6 +134,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
                                 data-price="<?php echo htmlspecialchars($room['rental_price']); ?>" 
                                 data-area="<?php echo htmlspecialchars($room['area']); ?>" 
                                 data-status="<?php echo htmlspecialchars($room['room_status']); ?>"
+                                data-type="<?php echo htmlspecialchars($room['room_type']); ?>"
                                 onclick="openLightbox(this);"><img src="../assets/icons/edit.svg"></button>
                             <form action="../admin/delete_room.php" method="post" onsubmit="return confirm('Are you sure you want to delete this building?');" style="display:inline;">
                                 <input type="hidden" name="room_id" value="<?php echo $room['room_id']; ?>">
@@ -151,11 +154,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
             </table>
         </div>
         </div>
-        <div class="lightbox" id="lightbox" style="display:none;">
+        <div class="lightbox" id="lightboxroom" style="display:none;">
             <div class="lightbox-content">
-                <span class="close" onclick="document.getElementById('lightbox').style.display = 'none';">×</span>
-                <h3>Chỉnh sửa phòng</h3>
-                <form action="edit_rooms.php" method="post">
+            <span class="close" onclick="closeLightbox()">&times;</span>
+            <h3>Chỉnh sửa phòng</h3>
+                <form action="edit_rooms.php?building_id=<?php echo $building_id; ?>" method="post">
                     <input type="hidden" id="room_id" name="room_id"> 
                     <input type="hidden" name="building_id" value="<?php echo $building_id; ?>">
                     <div class="form-group">
@@ -171,6 +174,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
                         <input type="text" id="room_area" name="area" placeholder="Diện tích">
                     </div>
                     <div class="form-group">
+                        <label for="room_type">Loại phòng</label>
+                        <select id="room_type" name="room_type">
+                            <option value="" selected>Trống</option>
+                            <?php foreach ($room_types as $type): ?>
+                                <option value="<?php echo htmlspecialchars($type); ?>" <?php echo ($room['room_type'] == $type) ? 'selected' : ''; ?>><?php echo htmlspecialchars($type); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="room_status">Tình trạng:</label>
                         <select id="room_status" name="room_status">
                             <option value="Còn trống" selected>Còn trống</option>
@@ -178,7 +190,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
                         </select>
                     </div>
                     <button type="submit">Lưu</button>
-                    <button type="button" class="cancel-btn" onclick="document.getElementById('lightbox').style.display = 'none';">Hủy</button>
                 </form>
             </div>
         </div>

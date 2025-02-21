@@ -22,15 +22,16 @@ require '../config/database.php';
             <form action="../admin/process_create_post.php" method="post">
                 <div class="form-group">
                     <label for="title">Tiêu đề: </label>
-                    <input type="text" maxlength='30' id="title" name="title" required>
+                    <input type="text" maxlength="30" id="title" name="title" required>
                 </div>
                 <div class="form-group">
                     <label for="editor">Nội dung:</label>
                     <div id="editor"></div>
                     <input type="hidden" id="content" name="content">
                 </div>  
-                <button type="submit">Đăng</button>
+                <button type="submit" onclick='document.getElementById("content").value = quill.root.innerHTML;'>Đăng</button>
             </form>
+
         </div>
         <?php include '../includes/sidebar.php'; ?> 
     </div>
@@ -48,10 +49,6 @@ require '../config/database.php';
                 ]
             }
         });
-
-        document.querySelector("form").onsubmit = function() {
-            document.getElementById("content").value = quill.root.innerHTML;
-        };
     </script>
 </body>
 </html>

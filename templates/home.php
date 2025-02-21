@@ -135,7 +135,6 @@ $notifications_admin->data_seek(0);
                                         
                                         <div class="notification-message">
                                             <?php 
-                                                // Decode HTML entities, strip tags, and limit text length
                                                 $plainTextMessage = strip_tags(html_entity_decode($notification['message'], ENT_QUOTES, 'UTF-8'));
                                                 echo mb_strimwidth($plainTextMessage, 0, 60, '...');
                                             ?>

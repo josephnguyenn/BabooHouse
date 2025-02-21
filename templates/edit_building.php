@@ -28,7 +28,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $street = $_POST['street'];
     $city = $_POST['city'];
     $district = $_POST['district'];
-    $rental_price = $_POST['rental_price'];
     $owner_phone = $_POST['owner_phone'];
     $owner_name = $_POST['owner_name'];
     $building_type = $_POST['building_type'];
@@ -52,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // ✅ Fixed SQL query
     $sql = "UPDATE buildings SET 
-    name = ?, street = ?, city = ?, district = ?, rental_price = ?, 
+    name = ?, street = ?, city = ?, district = ?,
     owner_phone = ?, owner_name = ?, building_type = ?, electricity_price = ?, 
     water_price = ?, service_price = ?, description = ?, last_modified = NOW(), photo_urls = ? WHERE building_id = ?";
     $stmt = $conn->prepare($sql);
@@ -60,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die('Prepare failed: ' . htmlspecialchars($conn->error));
     }
     // ✅ Fixed `bind_param` to match placeholders
-    $stmt->bind_param("sssssssssssssi", $name, $street, $city, $district, $rental_price, $owner_phone, $owner_name, $building_type, $electricity_price, $water_price, $service_price, $description, $file_url, $building_id);
+    $stmt->bind_param("ssssssssssssi", $name, $street, $city, $district, $owner_phone, $owner_name, $building_type, $electricity_price, $water_price, $service_price, $description, $file_url, $building_id);
     $stmt->execute();
     $stmt->close();
     $conn->close();
@@ -124,10 +123,6 @@ $data = [
                 <div class="form-group">
                     <label for="street">Địa chỉ:</label>
                     <input type="text" id="street" name="street" placeholder="Tên đường, số nhà" value="<?php echo htmlspecialchars($building['street']); ?>" required>
-                </div>
-                <div class="form-group">
-                    <label for="rental_price">Giá thuê (triệu/tháng):</label>
-                    <input type="float" id="rental_price" name="rental_price" value="<?php echo htmlspecialchars($building['rental_price']); ?>" required>
                 </div>
                 <div class="form-group">
                     <label for="owner_phone">Số điện thoại chủ nhà:</label>

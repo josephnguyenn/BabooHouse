@@ -33,7 +33,7 @@ $notifications_admin->data_seek(0);
                             <?php while ($notification = $notifications_admin->fetch_assoc()): ?>
                                 <div id="notif-<?php echo $notification['id']; ?>" 
                                     class="notification-item <?php echo $notification['is_read'] ? '' : 'unread'; ?>" 
-                                    onclick="markAsRead(<?php echo $notification['id']; ?>, `<?php echo htmlspecialchars_decode($notification['message']); ?>`, '<?php echo $notification['created_at']; ?>')">
+                                    onclick="markAsRead(<?php echo $notification['id']; ?>, <?php echo json_encode($notification['message']); ?>, '<?php echo $notification['created_at']; ?>')">
                                     
                                     <div class="notification-title">
                                         <?php echo htmlspecialchars_decode($notification['title']); ?>
@@ -41,7 +41,6 @@ $notifications_admin->data_seek(0);
                                     
                                     <div class="notification-message">
                                         <?php 
-                                            // Decode HTML entities, strip tags, and limit text length
                                             $plainTextMessage = strip_tags(html_entity_decode($notification['message'], ENT_QUOTES, 'UTF-8'));
                                             echo mb_strimwidth($plainTextMessage, 0, 60, '...');
                                         ?>

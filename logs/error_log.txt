@@ -1,0 +1,75 @@
+2025-02-21 13:58:44 - 🚀 Starting room creation...
+2025-02-21 13:58:44 - ✔ Received form data: Room - Phòng rẻ nhất, Building ID - 11
+2025-02-21 13:58:44 - ✅ New room created with ID: 16
+2025-02-21 13:58:44 - ⚠️ No image uploaded or file error.
+2025-02-21 13:58:44 - 🔄 Updating building rental price...
+2025-02-21 13:58:44 - ✅ Cập nhật giá tòa nhà: 200.00 - 200.00
+2025-02-21 13:58:44 - ✅ New room creation process completed successfully.
+2025-02-21 13:58:44 - ✅ Redirecting to edit rooms page.
+2025-02-21 13:59:07 - 🚀 Starting room creation...
+2025-02-21 13:59:07 - ✔ Received form data: Room - Phòng cao nhất, Building ID - 11
+2025-02-21 13:59:07 - ✅ New room created with ID: 17
+2025-02-21 13:59:07 - ⚠️ No image uploaded or file error.
+2025-02-21 13:59:07 - 🔄 Updating building rental price...
+2025-02-21 13:59:07 - ✅ Cập nhật giá tòa nhà: 6.00 - 200.00
+2025-02-21 13:59:07 - ✅ New room creation process completed successfully.
+2025-02-21 13:59:07 - ✅ Redirecting to edit rooms page.
+2025-02-21 15:27:07 - 🚀 Starting room creation...
+2025-02-21 15:27:07 - ✔ Received form data: Room - Phòng cao nhất, Building ID - 1
+2025-02-21 15:27:07 - ✅ New room created with ID: 18
+2025-02-21 15:27:07 - ⚠️ No image uploaded or file error.
+2025-02-21 15:27:07 - 🔄 Updating building rental price...
+2025-02-21 15:27:07 - ✅ Cập nhật giá tòa nhà: 7.00 - 4000000.00
+2025-02-21 15:27:07 - ✅ New room creation process completed successfully.
+2025-02-21 15:27:07 - ✅ Redirecting to edit rooms page.
+2025-02-21 15:33:19 - 🚀 Starting room creation...
+2025-02-21 15:33:19 - ✔ Received form data: Room - Phòng cao nhất, Building ID - 11
+2025-02-21 15:33:19 - ✅ New room created with ID: 19
+2025-02-21 15:33:19 - ⚠️ No image uploaded or file error.
+2025-02-21 15:33:19 - 🔄 Updating building rental price...
+2025-02-21 15:33:19 - ✅ Cập nhật giá tòa nhà: 6.00 - 200.00
+2025-02-21 15:33:19 - ✅ New room creation process completed successfully.
+2025-02-21 15:33:19 - ✅ Redirecting to edit rooms page.
+2025-02-21 15:35:36 - 🚀 Starting room creation...
+2025-02-21 15:35:36 - ✔ Received form data: Room - Phòng rẻ nhất, Building ID - 11
+2025-02-21 15:35:51 - 🚀 Starting room creation...
+2025-02-21 15:35:51 - ✔ Received form data: Room - Phòng rẻ nhất, Building ID - 11
+2025-02-21 15:35:51 - ✅ New room created with ID: 20
+2025-02-21 15:35:51 - ⚠️ No image uploaded or file error.
+2025-02-21 15:35:51 - 🔄 Updating building rental price...
+2025-02-21 15:35:51 - ✅ Cập nhật giá tòa nhà: 2.00 - 2.00
+2025-02-21 15:35:51 - ✅ New room creation process completed successfully.
+2025-02-21 15:35:51 - ✅ Redirecting to edit rooms page.
+2025-02-21 15:39:23 - 🚀 Starting room creation...
+2025-02-21 15:39:23 - ✔ Received form data: Room - Phòng cao nhất, Building ID - 11
+2025-02-21 15:39:23 - ✅ New room created with ID: 21
+2025-02-21 15:39:23 - ⚠️ No image uploaded or file error.
+2025-02-21 15:39:23 - 🔄 Updating building rental price...
+2025-02-21 15:39:23 - ✅ Cập nhật giá tòa nhà: 2.00 - 5.00
+2025-02-21 15:39:23 - ✅ New room creation process completed successfully.
+2025-02-21 15:39:23 - ✅ Redirecting to edit rooms page.
+2025-02-21 15:40:37 - 🚀 Starting room creation...
+2025-02-21 15:43:13 - 🚀 Starting room creation...
+2025-02-21 15:43:13 - ✔ Received form data: Room - Phòng cao nhất, Building ID - 11
+2025-02-21 15:43:13 - ✅ New room created with ID: 22
+2025-02-21 15:43:13 - ⚠️ No image uploaded or file error.
+2025-02-21 15:43:13 - 🔄 Updating building rental price...
+2025-02-21 15:43:13 - ✅ Cập nhật giá tòa nhà: 2 - 5
+2025-02-21 15:43:13 - ✅ New room creation process completed successfully.
+2025-02-21 15:43:13 - ✅ Redirecting to edit rooms page.
+2025-02-21 15:43:25 - 🚀 Starting room creation...
+2025-02-21 15:43:25 - ✔ Received form data: Room - Phòng cao nhất, Building ID - 11
+2025-02-21 15:43:25 - ✅ New room created with ID: 23
+2025-02-21 15:43:25 - ⚠️ No image uploaded or file error.
+2025-02-21 15:43:25 - 🔄 Updating building rental price...
+2025-02-21 15:43:25 - ✅ Cập nhật giá tòa nhà: 2 - 5
+2025-02-21 15:43:25 - ✅ New room creation process completed successfully.
+2025-02-21 15:43:25 - ✅ Redirecting to edit rooms page.
+2025-02-21 15:44:10 - 🚀 Starting room creation...
+2025-02-21 15:44:10 - ✔ Received form data: Room - Phòng cao nhất, Building ID - 11
+2025-02-21 15:44:10 - ✅ New room created with ID: 24
+2025-02-21 15:44:10 - ⚠️ No image uploaded or file error.
+2025-02-21 15:44:10 - 🔄 Updating building rental price...
+2025-02-21 15:44:10 - ✅ Cập nhật giá tòa nhà: 2 - 5
+2025-02-21 15:44:10 - ✅ New room creation process completed successfully.
+2025-02-21 15:44:10 - ✅ Redirecting to edit rooms page.

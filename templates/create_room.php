@@ -1,9 +1,11 @@
 <?php
+include '../admin/getallroom.php';
 session_start();   
 
 if (isset($_GET['building_id'])) {
     $building_id = $_GET['building_id'];
 }
+$room_types = getDistinctRoomTypes();
 ?>
 
 <!DOCTYPE html>
@@ -34,6 +36,15 @@ if (isset($_GET['building_id'])) {
                     <input type="text" id="room_area" name="area" placeholder="Diện tích">
                 </div>
                 <div class="form-group">
+                    <label for="room_type">Loại phòng</label>
+                    <select id="room_type" name="room_type">
+                        <option value="" selected>Trống</option>
+                        <?php foreach ($room_types as $type): ?>
+                            <option value="<?php echo htmlspecialchars($type); ?>"><?php echo htmlspecialchars($type); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="room_status">Tình trạng:</label>
                     <select id="room_status" name="room_status">
                         <option value="Còn trống" selected>Còn trống</option>
@@ -42,7 +53,7 @@ if (isset($_GET['building_id'])) {
                 </div>    
                 <div class="form-group">
                     <label for="photo_urls">Tải ảnh phòng:</label>
-                    <input type="file" id="photo_urls" name="photo_urls" accept="image/*" required>
+                    <input type="file" id="photo_urls" name="photo_urls" accept="image/*">
                 </div>
                 <button type="submit">Thêm Phòng</button>
             </form>

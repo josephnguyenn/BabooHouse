@@ -58,7 +58,7 @@ CREATE TABLE `buildings` (
   `street` varchar(255) DEFAULT NULL,
   `district` varchar(255) DEFAULT NULL,
   `city` varchar(255) DEFAULT NULL,
-  `rental_price` decimal(10,2) DEFAULT NULL,
+  `rental_price` text DEFAULT NULL,
   `owner_name` varchar(255) DEFAULT NULL,
   `owner_phone` varchar(50) DEFAULT NULL,
   `building_type` varchar(50) DEFAULT NULL,
@@ -203,7 +203,7 @@ CREATE TABLE `notifications` (
     `building_id` int(11) DEFAULT NULL,
     `booking_id` int(11) DEFAULT NULL,
     `title` VARCHAR(255) DEFAULT NULL,
-    `message` LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+    `message` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
     `type` VARCHAR(50) DEFAULT 'general',
     `is_read` BOOLEAN DEFAULT FALSE,
     `created_at` datetime DEFAULT NOW()

@@ -3,14 +3,23 @@ function openLightbox(button) {
     const name = button.getAttribute('data-name');
     const price = button.getAttribute('data-price');
     const area = button.getAttribute('data-area');
+    const type = button.getAttribute('data-type');
     const status = button.getAttribute('data-status');
+
+    let lightbox = document.getElementById('lightboxroom');
+    lightbox.style.display = 'flex';
+
+    setTimeout(() => {
+        lightbox.style.opacity = "1";
+        document.querySelector(".lightbox-content").style.transform = "scale(1)";
+    }, 10);
 
     document.getElementById('room_id').value = id;
     document.getElementById('room_name').value = name;
     document.getElementById('room_price').value = price;
     document.getElementById('room_area').value = area;
     document.getElementById('room_status').value = status;
-    document.getElementById('lightboxroom').style.display = 'flex';
+    document.getElementById('room_type').value = type;
 }
 
 function markAsRead(notificationId, message, createdAt) {
@@ -42,10 +51,16 @@ function markAsRead(notificationId, message, createdAt) {
 
 
 function closeLightbox() {
-    let lightbox = document.getElementById("lightboxview");
-    lightbox.style.opacity = "0";
-    document.querySelector(".lightbox-content").style.transform = "scale(0.8)";
-    setTimeout(() => {
-        lightbox.style.display = "none";
-    }, 300);
+    let lightboxes = document.querySelectorAll(".lightbox");
+    
+    lightboxes.forEach(lightbox => {
+        lightbox.style.opacity = "0";
+        
+        lightbox.querySelectorAll(".lightbox-content").forEach(box => {
+            box.style.transform = "scale(0.8)";
+        });
+        setTimeout(() => {
+            lightbox.style.display = "none";
+        }, 300);
+    });
 }

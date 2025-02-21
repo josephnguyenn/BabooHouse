@@ -18,7 +18,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $street = $_POST['street'];
     $city = $_POST['city'];
     $district = $_POST['district'];
-    $rental_price = $_POST['rental_price'];
     $owner_name = $_POST['owner_name'];
     $owner_phone = $_POST['owner_phone'];
     $building_type = $_POST['building_type'];
@@ -30,8 +29,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     logMessage("✔ Received form data: Name - $name, User ID - $user_id");
 
     // ✅ Insert building data (WITHOUT the photo first)
-    $sql = "INSERT INTO buildings (user_id, name, street, city, district, rental_price, owner_name, owner_phone, building_type, electricity_price, water_price, service_price, description, last_modified)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+    $sql = "INSERT INTO buildings (user_id, name, street, city, district, owner_name, owner_phone, building_type, electricity_price, water_price, service_price, description, last_modified)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
 
     $stmt = $conn->prepare($sql);
     
@@ -40,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("MySQL prepare error: " . $conn->error);
     }
 
-    $stmt->bind_param("issssssssssss", $user_id, $name, $street, $city, $district, $rental_price, $owner_name, $owner_phone, $building_type, $electricity_price, $water_price, $service_price, $description);
+    $stmt->bind_param("isssssssssss", $user_id, $name, $street, $city, $district, $owner_name, $owner_phone, $building_type, $electricity_price, $water_price, $service_price, $description);
     $stmt->execute();
 
     if ($stmt->affected_rows > 0) {

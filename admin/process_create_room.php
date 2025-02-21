@@ -23,11 +23,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $rental_price = $_POST['rental_price'];
     $area = $_POST['area'];
     $room_status = $_POST['room_status'];
+    $room_type = $_POST['room_type'];
 
     logMessage("✔ Received form data: Room - $room_name, Building ID - $building_id");
 
     // ✅ Insert room data (WITHOUT the photo first)
-    $sql = "INSERT INTO rooms (building_id, room_name, area, rental_price, room_status) VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO rooms (building_id, room_name, area, rental_price, room_status, room_type) VALUES (?, ?, ?, ?, ?, ?)";
 
     $stmt = $conn->prepare($sql);
     
@@ -36,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("MySQL prepare error: " . $conn->error);
     }
 
-    $stmt->bind_param("issss", $building_id, $room_name, $area, $rental_price, $room_status);
+    $stmt->bind_param("isssss", $building_id, $room_name, $area, $rental_price, $room_status, $room_type);
     $stmt->execute();
 
     if ($stmt->affected_rows > 0) {
@@ -55,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($photo_url) {
                 logMessage("✅ Google Drive upload successful: $photo_url");
 
-                // ✅ Update room with photo URL (Fix: Use the correct primary key column)
+                // ✅ Update room with photo URL
                 $update_sql = "UPDATE rooms SET photo_urls = ? WHERE room_name = ? AND building_id = ?";
                 $update_stmt = $conn->prepare($update_sql);
 
@@ -72,6 +73,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         } else {
             logMessage("⚠️ No image uploaded or file error.");
+        }
+
+        // ✅ Cập nhật rental_price của buildings
+        logMessage("🔄 Updating building rental price...");
+
+        // ✅ Lấy giá thấp nhất và cao nhất của tất cả các phòng trong tòa nhà
+        $price_sql = "SELECT MIN(rental_price) AS min_price, MAX(rental_price) AS max_price FROM rooms WHERE building_id = ?";
+        $price_stmt = $conn->prepare($price_sql);
+        $price_stmt->bind_param("i", $building_id);
+        $price_stmt->execute();
+        $price_stmt->bind_result($min_price, $max_price);
+        $price_stmt->fetch();
+        $price_stmt->close();
+
+        if ($min_price !== null && $max_price !== null) {
+            $updated_price = number_format($min_price, 0, '.', ',') . " - " . number_format($max_price, 0, '.', ',');
+
+            // ✅ Cập nhật `rental_price` trong bảng `buildings`
+            $update_building_sql = "UPDATE buildings SET rental_price = ? WHERE building_id = ?";
+            $update_building_stmt = $conn->prepare($update_building_sql);
+            $update_building_stmt->bind_param("si", $updated_price, $building_id);
+            $update_building_stmt->execute();
+            $update_building_stmt->close();
+
+            logMessage("✅ Cập nhật giá tòa nhà: $updated_price");
+        } else {
+            logMessage("⚠️ Không có giá phòng hợp lệ để cập nhật.");
         }
 
         logMessage("✅ New room creation process completed successfully.");
