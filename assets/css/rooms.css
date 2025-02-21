@@ -1,10 +1,7 @@
-.close {
-    float: right;
-    cursor: pointer;
-}
-
 .building-info-container {
     display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 50px;
     margin-bottom: 1%;
 }
@@ -17,8 +14,5 @@
 @media (max-width: 768px) {
     .building-info-container {
         display: block;
-    }
-    .lightbox-content {
-        width: 100%;
     }
 }

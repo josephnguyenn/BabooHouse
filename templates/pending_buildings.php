@@ -4,8 +4,6 @@ include '../admin/getallbuilding.php';
 include '../admin/getallroom.php';
 include '../admin/getalluser.php';
 
-$min_price = getMaxAndMinPrice()['min'];
-$max_price = getMaxAndMinPrice()['max'];
 $buildings = getAllBuildings();
 $building_types = getDistinctBuildingTypes();
 ?>

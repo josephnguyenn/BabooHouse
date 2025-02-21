@@ -58,10 +58,6 @@ $data = [
                 </div>
                 </div>
                 <div class="form-group">
-                    <label for="rental_price">Giá thuê (triệu/tháng):</label>
-                    <input type="text" id="rental_price" name="rental_price">
-                </div>
-                <div class="form-group">
                     <label for="owner_name">Tên chủ toà nhà:</label>
                     <input type="text" id="owner_name" name="owner_name">
                 </div>

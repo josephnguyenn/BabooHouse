@@ -5,7 +5,7 @@ function openLightbox(button) {
     const type = button.getAttribute('data-type');
     const status = button.getAttribute('data-status');
 
-    let lightbox = document.getElementById('lightboxroom');
+    let lightbox = document.getElementById('lightboxviewroom') ? document.getElementById('lightboxviewroom') : document.getElementById('lightboxroom');
     lightbox.style.display = 'flex';
 
     setTimeout(() => {

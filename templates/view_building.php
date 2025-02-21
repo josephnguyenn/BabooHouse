@@ -101,7 +101,7 @@ $building_photo_url = isset($building['photo_urls']) ? getDirectGoogleDriveImage
                     <tbody>
                     <?php if ($rooms->num_rows > 0): ?>
                         <?php foreach ($rooms as $room): ?>
-                            <tr onclick="document.getElementById('lightboxview').style.display = 'flex';">
+                            <tr onclick="openLightbox(this)">
                                 <td><?php echo htmlspecialchars($room['room_name']); ?></td>
                                 <td><?php echo htmlspecialchars($room['rental_price']); ?> triệu/tháng</td>
                                 <td><?php echo htmlspecialchars($room['area']); ?> m&#178;</td>
@@ -125,25 +125,26 @@ $building_photo_url = isset($building['photo_urls']) ? getDirectGoogleDriveImage
                 </table>
             </div>
         </div>
-        <div class="lightbox" id="lightboxview" style="display:none;">
-            <div class="lightbox-content">
-                <span class="close" onclick="document.getElementById('lightboxview').style.display = 'none';">×</span>
-                <h3>Thông tin phòng</h3>
-                <div class="building-info-container">
-                <?php
-            // ✅ Convert stored room photo URL
-            $room_photo_url = isset($room['photo_urls']) ? getDirectGoogleDriveImage($room['photo_urls']) : 'default_room.jpg';
-            ?>
-            <img id="lightbox-image" src="<?php echo htmlspecialchars($room_photo_url); ?>" alt="Room Image">                <div>
-                    <p><b>Tên phòng</b>: <?php echo htmlspecialchars($room['room_name']); ?></p>
-                    <p><b>Giá</b>: <?php echo htmlspecialchars($room['rental_price']); ?> triệu/tháng</p>
-                    <p><b>Diện tích</b>: <?php echo htmlspecialchars($room['area']); ?></p>
-                    <p><b>Tình trạng</b>: <?php echo htmlspecialchars($room['room_status']); ?></p>
-                </div>  
-            </div>    
-            </div>
-        </div>
         <?php include '../includes/sidebar.php'; ?>
+    </div>
+    <div class="lightbox" id="lightboxviewroom" style="display:none">
+        <div class="lightbox-content">
+        <span class="close" onclick="closeLightbox()">&times;</span>
+            <h3>Thông tin phòng</h3>
+            <div class="building-info-container">
+            <?php
+        // ✅ Convert stored room photo URL
+        $room_photo_url = isset($room['photo_urls']) ? getDirectGoogleDriveImage($room['photo_urls']) : 'default_room.jpg';
+        ?>
+        <img id="lightbox-image" src="<?php echo htmlspecialchars($room_photo_url); ?>" alt="Room Image">                <div>
+                <p><b>Tên phòng</b>: <?php echo htmlspecialchars($room['room_name']); ?></p>
+                <p><b>Giá</b>: <?php echo htmlspecialchars($room['rental_price']); ?> triệu/tháng</p>
+                <p><b>Diện tích</b>: <?php echo htmlspecialchars($room['area']); ?></p>
+                <p><b>Loại phòng</b>: <?php echo htmlspecialchars($room['room_type']); ?></p>
+                <p><b>Tình trạng</b>: <?php echo htmlspecialchars($room['room_status']); ?></p>
+            </div>  
+        </div>    
+        </div>
     </div>
 </body>
 </html>
