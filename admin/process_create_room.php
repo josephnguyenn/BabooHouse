@@ -75,10 +75,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             logMessage("⚠️ No image uploaded or file error.");
         }
 
-        // ✅ Cập nhật rental_price của buildings
         logMessage("🔄 Updating building rental price...");
 
-        // ✅ Lấy giá thấp nhất và cao nhất của tất cả các phòng trong tòa nhà
         $price_sql = "SELECT MIN(rental_price) AS min_price, MAX(rental_price) AS max_price FROM rooms WHERE building_id = ?";
         $price_stmt = $conn->prepare($price_sql);
         $price_stmt->bind_param("i", $building_id);
@@ -90,7 +88,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($min_price !== null && $max_price !== null) {
             $updated_price = number_format($min_price, 0, '.', ',') . " - " . number_format($max_price, 0, '.', ',');
 
-            // ✅ Cập nhật `rental_price` trong bảng `buildings`
             $update_building_sql = "UPDATE buildings SET rental_price = ? WHERE building_id = ?";
             $update_building_stmt = $conn->prepare($update_building_sql);
             $update_building_stmt->bind_param("si", $updated_price, $building_id);

@@ -54,6 +54,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
     $stmt->execute();
 
     if ($stmt->affected_rows > 0) {
+        $price_sql = "SELECT MIN(rental_price) AS min_price, MAX(rental_price) AS max_price FROM rooms WHERE building_id = ?";
+        $price_stmt = $conn->prepare($price_sql);
+        $price_stmt->bind_param("i", $building_id);
+        $price_stmt->execute();
+        $price_stmt->bind_result($min_price, $max_price);
+        $price_stmt->fetch();
+        $price_stmt->close();
+
+        if ($min_price !== null && $max_price !== null) {
+            $updated_price = number_format($min_price, 0, '.', ',') . " - " . number_format($max_price, 0, '.', ',');
+
+            $update_building_sql = "UPDATE buildings SET rental_price = ? WHERE building_id = ?";
+            $update_building_stmt = $conn->prepare($update_building_sql);
+            $update_building_stmt->bind_param("si", $updated_price, $building_id);
+            $update_building_stmt->execute();
+            $update_building_stmt->close();
+        }
         echo "Room updated successfully.";
     } else {
         echo "Error updating room: " . htmlspecialchars($stmt->error);

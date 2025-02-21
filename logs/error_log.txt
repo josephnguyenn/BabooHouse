@@ -73,3 +73,33 @@
 2025-02-21 15:44:10 - ✅ Cập nhật giá tòa nhà: 2 - 5
 2025-02-21 15:44:10 - ✅ New room creation process completed successfully.
 2025-02-21 15:44:10 - ✅ Redirecting to edit rooms page.
+2025-02-21 15:45:45 - 🚀 Starting building creation...
+2025-02-21 15:45:45 - ✔ Received form data: Name - Toà nhà E4, User ID - 2
+2025-02-21 15:45:45 - ✅ New building created with ID: 12
+2025-02-21 15:45:45 - ⚠️ No image uploaded or file error.
+2025-02-21 15:45:45 - ✅ New building creation process completed successfully.
+2025-02-21 15:45:45 - ✅ Redirecting to manage buildings page.
+2025-02-21 15:45:56 - 🚀 Starting room creation...
+2025-02-21 15:45:56 - ✔ Received form data: Room - Phòng cao nhất, Building ID - 12
+2025-02-21 15:45:56 - ✅ New room created with ID: 25
+2025-02-21 15:45:56 - ⚠️ No image uploaded or file error.
+2025-02-21 15:45:56 - 🔄 Updating building rental price...
+2025-02-21 15:45:56 - ✅ Cập nhật giá tòa nhà: 5 - 5
+2025-02-21 15:45:56 - ✅ New room creation process completed successfully.
+2025-02-21 15:45:56 - ✅ Redirecting to edit rooms page.
+2025-02-21 15:46:09 - 🚀 Starting room creation...
+2025-02-21 15:46:09 - ✔ Received form data: Room - Phòng cao nhất, Building ID - 12
+2025-02-21 15:46:09 - ✅ New room created with ID: 26
+2025-02-21 15:46:09 - ⚠️ No image uploaded or file error.
+2025-02-21 15:46:09 - 🔄 Updating building rental price...
+2025-02-21 15:46:09 - ✅ Cập nhật giá tòa nhà: 5 - 10
+2025-02-21 15:46:09 - ✅ New room creation process completed successfully.
+2025-02-21 15:46:09 - ✅ Redirecting to edit rooms page.
+2025-02-21 15:49:26 - 🚀 Starting room creation...
+2025-02-21 15:49:26 - ✔ Received form data: Room - 302, Building ID - 12
+2025-02-21 15:49:26 - ✅ New room created with ID: 27
+2025-02-21 15:49:26 - ⚠️ No image uploaded or file error.
+2025-02-21 15:49:26 - 🔄 Updating building rental price...
+2025-02-21 15:49:26 - ✅ Cập nhật giá tòa nhà: 2 - 12
+2025-02-21 15:49:26 - ✅ New room creation process completed successfully.
+2025-02-21 15:49:26 - ✅ Redirecting to edit rooms page.
