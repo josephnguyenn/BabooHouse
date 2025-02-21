@@ -119,10 +119,10 @@ $data = [
                             <option value="">Chọn quận</option>
                         </select>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="street">Địa chỉ:</label>
-                    <input type="text" id="street" name="street" placeholder="Tên đường, số nhà" value="<?php echo htmlspecialchars($building['street']); ?>" required>
+                    <div class="form-group">
+                        <label for="street">Địa chỉ:</label>
+                        <input type="text" id="street" name="street" placeholder="Tên đường, số nhà" value="<?php echo htmlspecialchars($building['street']); ?>" required>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="owner_phone">Số điện thoại chủ nhà:</label>

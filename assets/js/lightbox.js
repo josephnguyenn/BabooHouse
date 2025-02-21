@@ -1,5 +1,4 @@
 function openLightbox(button) {
-    const id = button.getAttribute('data-id');
     const name = button.getAttribute('data-name');
     const price = button.getAttribute('data-price');
     const area = button.getAttribute('data-area');
@@ -14,12 +13,13 @@ function openLightbox(button) {
         document.querySelector(".lightbox-content").style.transform = "scale(1)";
     }, 10);
 
-    document.getElementById('room_id').value = id;
-    document.getElementById('room_name').value = name;
-    document.getElementById('room_price').value = price;
-    document.getElementById('room_area').value = area;
-    document.getElementById('room_status').value = status;
-    document.getElementById('room_type').value = type;
+    if (name) {
+        document.getElementById('room_name').value = name;
+        document.getElementById('room_price').value = price;
+        document.getElementById('room_area').value = area;
+        document.getElementById('room_status').value = status;
+        document.getElementById('room_type').value = type;
+    }
 }
 
 function markAsRead(notificationId, message, createdAt) {

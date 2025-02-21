@@ -25,6 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $water_price = $_POST['water_price'];
     $service_price = $_POST['service_price'];
     $description = $_POST['description'];
+    $rooms = $_POST['rooms'];
 
     logMessage("✔ Received form data: Name - $name, User ID - $user_id");
 
@@ -77,7 +78,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             logMessage("⚠️ No image uploaded or file error.");
         }
 
+        if (!empty($_POST['rooms'])) {
+            $rooms = json_decode($_POST['rooms'], true);
+            $stmtRoom = $conn->prepare("INSERT INTO rooms (building_id, room_name, rental_price, area, room_type, room_status) VALUES (?, ?, ?, ?, ?, ?)");
+
+            foreach ($rooms as $room) {
+                $stmtRoom->bind_param("isdsss", $building_id, $room['name'], $room['price'], $room['area'], $room['type'], $room['status']);
+                $stmtRoom->execute();
+            }
+            $stmtRoom->close();
+        }
         logMessage("✅ New building creation process completed successfully.");
+        $price_sql = "SELECT MIN(rental_price) AS min_price, MAX(rental_price) AS max_price FROM rooms WHERE building_id = ?";
+        $price_stmt = $conn->prepare($price_sql);
+        $price_stmt->bind_param("i", $building_id);
+        $price_stmt->execute();
+        $price_stmt->bind_result($min_price, $max_price);
+        $price_stmt->fetch();
+        $price_stmt->close();
+
+        if ($min_price !== null && $max_price !== null) {
+            $updated_price = number_format($min_price, 0, '.', ',') . " - " . number_format($max_price, 0, '.', ',');
+
+            $update_building_sql = "UPDATE buildings SET rental_price = ? WHERE building_id = ?";
+            $update_building_stmt = $conn->prepare($update_building_sql);
+            $update_building_stmt->bind_param("si", $updated_price, $building_id);
+            $update_building_stmt->execute();
+            $update_building_stmt->close();
+        }
     } else {
         logMessage("❌ Failed to insert building.");
         die("❌ Failed to insert building.");

@@ -2,7 +2,9 @@
 session_start(); 
 require '../config/database.php';
 include '../admin/getallbuilding.php';  
+include '../admin/getallroom.php';  
 $building_types = getDistinctBuildingTypes();
+$room_types = getDistinctRoomTypes();
 $user_id = $_SESSION['user_id'];
 $data = [
     'Đà Nẵng' => ['Hải Châu', 'Thanh Khê', 'Sơn Trà', 'Ngũ Hành Sơn', 'Liên Chiểu', 'Cẩm Lệ', 'Hòa Vang'],
@@ -23,7 +25,7 @@ $data = [
     <div class="head-container">
         <div class="main-content" id="create-building">
             <h1>Thêm Toà Nhà Mới</h1>
-            <form action="../admin/process_create_building.php" method="post" enctype="multipart/form-data"> <!-- ✅ Added enctype -->
+            <form id="building-form" action="../admin/process_create_building.php" method="post" enctype="multipart/form-data"> <!-- ✅ Added enctype -->
                 <input type="hidden" id="user_id" name="user_id" value="<?php echo $user_id?>"> 
                 <div class="form-group">
                     <label for="name">Tên:</label>
@@ -50,10 +52,10 @@ $data = [
                         <option value="">Chọn quận</option>
                     </select>
                 </div>
-                </div>
                 <div class="form-group">
                     <label for="street">Địa chỉ:</label>
                     <input type="text" id="street" name="street" placeholder="Tên đường, số nhà" required>
+                </div>
                 </div>
                 <div class="form-group">
                     <label for="rental_price">Giá thuê (triệu/tháng):</label>
@@ -92,9 +94,27 @@ $data = [
                     <label for="description">Tiện nghi:</label>
                     <input type="text" id="description" name="description" value="" required>
                 </div>
+                <div class="form-group">
+                    <div class="manage-head">
+                        <h1>Thêm phòng</h1> 
+                        <button type="button" class="create" onclick="openLightbox(this);">Thêm phòng mới</button>
+                    </div>    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tên</th>
+                                <th>Giá</th>
+                                <th>Diện tích</th>
+                                <th>Tình trạng</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                        </tbody>
+                    </table>
+                </div>
                 <button type="submit">Thêm toà nhà</button>
             </form>
-
             
         </div>
         <?php include '../includes/sidebar.php'; ?> <!-- Bao gồm thanh bên -->
@@ -119,5 +139,48 @@ $data = [
             });
         });
     </script>
+
+    <div class="lightbox" id="lightboxroom" style="display:none;">
+        <div class="lightbox-content">
+        <span class="close" onclick="closeLightbox()">&times;</span>
+        <h1>Thêm Phòng Mới</h1>
+            <form id="dataForm">
+                <div class="form-group">
+                    <label for="room_name">Tên phòng:</label>
+                    <input type="text" id="room_name" name="room_name" placeholder="Tên phòng" required>
+                </div>
+                <div class="form-group">
+                    <label for="room_price">Giá (triệu/thángg):</label>
+                    <input type="text" id="room_price" name="rental_price" placeholder="Giá" required>
+                </div>
+                <div class="form-group">
+                    <label for="room_area">Diện tích:</label>
+                    <input type="text" id="room_area" name="area" placeholder="Diện tích" required>
+                </div>
+                <div class="form-group">
+                    <label for="room_type">Loại phòng</label>
+                    <select id="room_type" name="room_type" required>
+                        <option value="" selected>Trống</option>
+                        <?php foreach ($room_types as $type): ?>
+                            <option value="<?php echo htmlspecialchars($type); ?>"><?php echo htmlspecialchars($type); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="room_status">Tình trạng:</label>
+                    <select id="room_status" name="room_status" required>
+                        <option value="Còn trống" selected>Còn trống</option>
+                        <option value="Đã thuê">Đã thuê</option>
+                    </select>
+                </div>    
+                <div class="form-group">
+                    <label for="photo_urls">Tải ảnh phòng:</label>
+                    <input type="file" id="photo_urls" name="photo_urls" accept="image/*">
+                </div>
+                <button type="submit">Thêm Phòng</button>
+            </form>
+        </div>
+    </div>
+    <script src="../assets/js/submit_room.js"></script>
 </body>
 </html>

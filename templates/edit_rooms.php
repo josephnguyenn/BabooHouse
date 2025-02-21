@@ -128,6 +128,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
                         <th>Tên</th>
                         <th>Giá</th>
                         <th>Diện tích</th>
+                        <th>Loại phòng</th>
                         <th>Tình trạng</th>
                         <?php if (isset($_SESSION['role']) && $_SESSION['role'] != 'admin'): ?>
                         <th>Hành động</th>
@@ -141,6 +142,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['room_id'])) {
                         <td><?php echo htmlspecialchars($room['room_name']); ?></td>
                         <td><?php echo htmlspecialchars($room['rental_price']); ?> triệu/tháng</td>
                         <td><?php echo htmlspecialchars($room['area']); ?> m&#178;</td>
+                        <td><?php echo htmlspecialchars($room['room_type']); ?></td>
                         <td><?php echo htmlspecialchars($room['room_status']); ?></td>
                         <?php if (isset($_SESSION['role']) && $_SESSION['role'] != 'admin'): ?>
                         <td class="crud-btn">
