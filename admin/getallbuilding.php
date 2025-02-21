@@ -11,18 +11,22 @@ function getAllBuildings($name = NULL, $exename = NULL, $price = NULL, $selected
     // Handle price filter dynamically
     if ($price !== NULL && $price != '') {
         if ($price === "1-3") {
-            $sql .= " AND b.rental_price BETWEEN 1 AND 3";
+            $sql .= " AND CAST(SUBSTRING_INDEX(b.rental_price, ' - ', 1) AS UNSIGNED) <= 3
+                      AND CAST(SUBSTRING_INDEX(b.rental_price, ' - ', -1) AS UNSIGNED) >= 1";
         } elseif ($price === "3-5") {
-            $sql .= " AND b.rental_price BETWEEN 3 AND 5";
+            $sql .= " AND CAST(SUBSTRING_INDEX(b.rental_price, ' - ', 1) AS UNSIGNED) <= 5
+                      AND CAST(SUBSTRING_INDEX(b.rental_price, ' - ', -1) AS UNSIGNED) >= 3";
         } elseif ($price === "5-8") {
-            $sql .= " AND b.rental_price BETWEEN 5 AND 8";
+            $sql .= " AND CAST(SUBSTRING_INDEX(b.rental_price, ' - ', 1) AS UNSIGNED) <= 8
+                      AND CAST(SUBSTRING_INDEX(b.rental_price, ' - ', -1) AS UNSIGNED) >= 5";
         } elseif ($price === "8-10") {
-            $sql .= " AND b.rental_price BETWEEN 8 AND 10";
+            $sql .= " AND CAST(SUBSTRING_INDEX(b.rental_price, ' - ', 1) AS UNSIGNED) <= 10
+                      AND CAST(SUBSTRING_INDEX(b.rental_price, ' - ', -1) AS UNSIGNED) >= 8";
         } elseif ($price === "above_10") {
-            $sql .= " AND b.rental_price > 10";
+            $sql .= " AND CAST(SUBSTRING_INDEX(b.rental_price, ' - ', -1) AS UNSIGNED) > 10";
         }
     }
-
+    
     if (!empty($selected_type)) {
         $sql .= " AND b.building_type = ?";
         $params[] = $selected_type;
