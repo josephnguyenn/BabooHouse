@@ -147,11 +147,11 @@ $data = [
                 </div>
                 <div class="form-group">
                     <label for="water_price">Tiền nước (đồng):</label>
-                    <input type="float" id="water_price" name="water_price" value="<?php echo htmlspecialchars($building['water_price']); ?>" required>
+                    <input type="float" id="water_price" name="water_price" value="<?php echo htmlspecialchars($building['water_price'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
                 </div>
                 <div class="form-group">
                     <label for="service_price">Tiền dịch vụ (đồng):</label>
-                    <input type="text" id="service_price" name="service_price" value="<?php echo htmlspecialchars($building['service_price']); ?>" required>
+                    <input type="text" id="service_price" name="service_price" value="<?php echo htmlspecialchars($building['service_price'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
                 </div>
                 <div class="form-group">
                     <label for="description">Tiện nghi:</label>

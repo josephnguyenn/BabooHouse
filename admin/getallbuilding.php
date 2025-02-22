@@ -1,7 +1,7 @@
 <?php
 require '../config/database.php';
 
-function getAllBuildings($name = NULL, $exename = NULL, $price = NULL, $selected_type = NULL, $user_id = NULL, $status_type = NULL, $city = NULL, $district = NULL, $room_type = NULL) {
+function getAllBuildings($name = NULL, $exename = NULL, $price = NULL, $selected_type = NULL, $user_id = NULL, $status_type = NULL, $city = NULL, $district = NULL, $room_type = NULL, $approved = NULL) {
     global $conn;
     
     $sql = "SELECT * FROM buildings b WHERE 1=1";
@@ -92,6 +92,12 @@ function getAllBuildings($name = NULL, $exename = NULL, $price = NULL, $selected
         )";
         $params[] = $room_type;
         $binding_types .= "s";
+    }
+
+    if (!empty($approved)) {
+        $sql .= " AND b.approved = ?";
+        $params[] = $approved;
+        $binding_types .= "i";
     }
     
     $stmt = $conn->prepare($sql);

@@ -16,10 +16,6 @@ $room_types = getDistinctRoomTypes();
             <input type="text" name="name" class="searchbox" placeholder="tìm kiếm bằng tên toà nhà" value="<?php echo htmlspecialchars($name); ?>">
         </div>
         <div class="form-group">
-            <label for="exename">Tìm tên quản lý:</label>
-            <input type="text" name="exename" class="searchbox" placeholder="tìm kiếm bằng tên quản lý" value="<?php echo htmlspecialchars($exename); ?>">
-        </div>
-        <div class="form-group">
             <label for="price">Giá:</label>
             <select id="price" name="price">
                 <option value="" selected>Tất cả</option>

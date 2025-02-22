@@ -5,13 +5,17 @@ include '../admin/getallroom.php';
 include '../admin/getalluser.php';
 
 $name = isset($_GET['name']) ? $_GET['name'] : NULL;
+$exename = isset($_GET['exename']) ? $_GET['exename'] : NULL;
 $price = isset($_GET['price']) ? $_GET['price'] : NULL; 
 $selected_types = isset($_GET['building_type']) ? $_GET['building_type'] : NULL;
 $status_type = isset($_GET['status_type']) ? $_GET['status_type'] : NULL;
 $city = isset($_GET['city']) ? $_GET['city'] : NULL;
 $district = isset($_GET['district']) ? $_GET['district'] : NULL;
 $room_type = isset($_GET['room_type']) ? $_GET['room_type'] : NULL;
-$buildings = getAllBuildings($name, NULL, $price, $selected_types, $_SESSION['user_id'], $status_type, $city, $district, $room_type);
+$buildings = getAllBuildings($name, NULL, $price, $selected_types, $_SESSION['user_id'], $status_type, $city, $district, $room_type, NULL);
+if (isset($_SESSION['role']) && in_array($_SESSION['role'], ['manager', 'admin'])) {
+    $buildings = getAllBuildings($name, $exename, $price, $selected_types, NULL, $status_type, $city, $district, $room_type, 1);
+}
 $building_types = getDistinctBuildingTypes();
 ?>
 

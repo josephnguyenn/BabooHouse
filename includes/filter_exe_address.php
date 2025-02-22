@@ -15,6 +15,12 @@ $room_types = getDistinctRoomTypes();
             <label for="name">Tìm tên toà nhà:</label>
             <input type="text" name="name" class="searchbox" placeholder="tìm kiếm bằng tên toà nhà" value="<?php echo htmlspecialchars($name); ?>">
         </div>
+        <?php if (isset($_SESSION['role']) && in_array($_SESSION['role'], ['manager', 'admin'])): ?>
+            <div class="form-group">
+                <label for="exename">Tìm tên quản lý:</label>
+                <input type="text" name="exename" class="searchbox" placeholder="tìm kiếm bằng tên quản lý" value="<?php echo htmlspecialchars($exename); ?>">
+            </div>
+        <?php endif ?>
         <div class="form-group">
             <label for="price">Giá:</label>
             <select id="price" name="price">
